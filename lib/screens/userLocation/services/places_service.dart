@@ -23,4 +23,14 @@ class PlacesService {
     var jsonResult = json['result'] as Map<String, dynamic>;
     return Place.fromJson(jsonResult);
   }
+
+  Future<List<Place>> getPlaces(
+      double lat, double lng, String placeType) async {
+    var url =
+        'https://maps.googleapis.com/maps/api/place/textsearch/json?location=$lat,$lng&type=$placeType&rankby=distance&key=$key';
+    var response = await http.get(url);
+    var json = convert.jsonDecode(response.body);
+    var jsonResults = json['results'] as List;
+    return jsonResults.map((place) => Place.fromJson(place)).toList();
+  }
 }

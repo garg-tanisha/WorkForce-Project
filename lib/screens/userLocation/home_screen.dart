@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Completer<GoogleMapController> _mapController = Completer();
   StreamSubscription locationSubscription;
+  StreamSubscription boundsSubscription;
 
   @override
   void initState() {
@@ -31,6 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
+    boundsSubscription = applicationBloc.bounds.stream.listen((bounds) async {
+      final GoogleMapController controller = await _mapController.future;
+      controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50.0));
+    });
     super.initState();
   }
 
@@ -40,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<ApplicationBloc>(context, listen: false);
 
     applicationBloc.dispose();
+    boundsSubscription.cancel();
     locationSubscription.cancel();
     super.dispose();
   }
@@ -68,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 300,
                         child: GoogleMap(
                           mapType: MapType.normal,
+                          markers: Set<Marker>.of(applicationBloc.markers),
                           myLocationEnabled: true,
                           initialCameraPosition: CameraPosition(
                               target: LatLng(
@@ -109,6 +116,55 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Find Nearest',
+                        style: TextStyle(
+                            fontSize: 25.0, fontWeight: FontWeight.bold)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                      spacing: 8.0,
+                      children: [
+                        FilterChip(
+                          label: Text("Campground"),
+                          onSelected: (val) => applicationBloc.togglePlaceType(
+                              "campground", val),
+                          selected: applicationBloc.placeType == 'campground',
+                          selectedColor: Colors.blue,
+                        ),
+                        FilterChip(
+                          label: Text("Bus Station"),
+                          onSelected: (val) => applicationBloc.togglePlaceType(
+                              "bus_station", val),
+                          selected: applicationBloc.placeType == 'bus_station',
+                          selectedColor: Colors.blue,
+                        ),
+                        FilterChip(
+                          label: Text("ATM"),
+                          onSelected: (val) =>
+                              applicationBloc.togglePlaceType("atm", val),
+                          selected: applicationBloc.placeType == 'atm',
+                          selectedColor: Colors.blue,
+                        ),
+                        FilterChip(
+                          label: Text("Park"),
+                          onSelected: (val) =>
+                              applicationBloc.togglePlaceType("park", val),
+                          selected: applicationBloc.placeType == 'park',
+                          selectedColor: Colors.blue,
+                        ),
+                        FilterChip(
+                          label: Text("Zoo"),
+                          onSelected: (val) =>
+                              applicationBloc.togglePlaceType("zoo", val),
+                          selected: applicationBloc.placeType == 'zoo',
+                          selectedColor: Colors.blue,
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ));
   }
