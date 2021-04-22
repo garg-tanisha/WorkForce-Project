@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Stack(
                     children: [
                       Container(
-                        height: 300,
+                        height: 400,
                         child: GoogleMap(
                           mapType: MapType.hybrid,
                           markers: Set<Marker>.of(applicationBloc.markers),

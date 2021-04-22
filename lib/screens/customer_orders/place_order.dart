@@ -34,9 +34,8 @@ class PlaceOrderState extends State {
 
   set string(String value) => setState(() {
         location = value;
-        addressController.text = value;
       });
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final dateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
   final distanceUnits = ["km", "m", "cm", "inch", "foot", "mm", "miles"];
   String distanceUnit = "km";
@@ -63,7 +62,6 @@ class PlaceOrderState extends State {
   TextEditingController priceController = TextEditingController();
   TextEditingController distanceController = TextEditingController();
   TextEditingController timeWindowController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
   String uid;
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
@@ -79,7 +77,6 @@ class PlaceOrderState extends State {
   @override
   void initState() {
     super.initState();
-    addressController.text = "Click blue button to get your current address";
   }
 
   static final CameraPosition initialLocation = CameraPosition(
@@ -138,8 +135,6 @@ class PlaceOrderState extends State {
                   tilt: 0,
                   zoom: 18.00)));
           updateMarkerAndCircle(newLocalData, imageData);
-          addressController.text =
-              LatLng(newLocalData.latitude, newLocalData.longitude).toString();
           setState(() {});
         }
       });
@@ -475,43 +470,21 @@ class PlaceOrderState extends State {
                           ),
                         ]),
                       ),
+
                       Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          readOnly: true,
-                          style: TextStyle(color: Colors.grey),
-                          controller: addressController,
-                          decoration: InputDecoration(
-                            labelText: "Current Address*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.multiline, minLines: 1,
-                          maxLines: 5,
-                          // The validator receives the text that the user has entered.
-                          validator: (value) {
-                            if (value ==
-                                "Click blue button to get your current address") {
-                              return 'Select address by click blue icon on below google maps';
-                            }
-                            return null;
-                          },
-                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Address(Current Location or Search Location)"),
                       ),
-                      // Card(
-                      //     color: Colors.white,
-                      //     elevation: 2.0,
-                      //     child: ListTile(
-                      //       title:
-                      //           Text("Click blue button to get your current address"),
-                      //     )),
-                      Container(
-                          height: 400,
-                          child: HomeScreen(
-                            tableName: "orders",
-                            callback: (val) => setState(() => location = val),
-                          )),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 400,
+                            child: HomeScreen(
+                              tableName: "orders",
+                              callback: (val) => setState(() => location = val),
+                            )),
+                      ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(2.0),
@@ -625,38 +598,6 @@ class PlaceOrderState extends State {
                               ),
                             ])),
                       ),
-                      // Container(
-                      //   margin: const EdgeInsets.all(15.0),
-                      //   padding: const EdgeInsets.all(2.0),
-                      //   decoration: BoxDecoration(
-                      //     border: Border.all(
-                      //       color: Colors.black,
-                      //     ),
-                      //     borderRadius: BorderRadius.all(Radius.circular(
-                      //             15.0) //                 <--- border radius here
-                      //         ),
-                      //   ),
-                      //   child: Padding(
-                      //       padding: EdgeInsets.all(20.0),
-                      //       child: Column(children: <Widget>[
-                      //         Text('Time window (${timeFormat.pattern})'),
-                      //         DateTimeField(
-                      //           initialValue: DateTime.now(),
-                      //           format: timeFormat,
-                      //           onShowPicker: (context, currentValue) async {
-                      //             final time = await showTimePicker(
-                      //               context: context,
-                      //               initialTime: TimeOfDay.fromDateTime(
-                      //                   currentValue ?? DateTime.now()),
-                      //             );
-                      //             timeWindow = DateFormat.Hms()
-                      //                 .format(DateTimeField.convert(time));
-                      //             setState(() {});
-                      //             return DateTimeField.convert(time);
-                      //           },
-                      //         ),
-                      //       ])),
-                      // ),
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: isLoading

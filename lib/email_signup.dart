@@ -342,29 +342,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               ],
                             )
                           : Container(),
-                      // Padding(
-                      //   padding: EdgeInsets.all(20.0),
-                      //   child: TextFormField(
-                      //     readOnly: true,
-                      //     style: TextStyle(color: Colors.grey),
-                      //     controller: addressController,
-                      //     decoration: InputDecoration(
-                      //       labelText: "Current Address*",
-                      //       enabledBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //       ),
-                      //     ),
-                      //     keyboardType: TextInputType.multiline, minLines: 1,
-                      //     maxLines:
-                      //         5, // The validator receives the text that the user has entered.
-                      //     validator: (value) {
-                      //       if (value == "Current Location is chosen!") {
-                      //         return 'Select address by click blue icon on below google maps';
-                      //       }
-                      //       return null;
-                      //     },
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -404,11 +381,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
         .then((result) {
-      // print("latitude : " +
-      //     location.split('(')[1].split(',')[0].toString() +
-      //     "longitude : " +
-      //     location.split(' ')[1].split(')')[0].toString());
-
       if ("role" != "Customer") {
         Firestore.instance
             .collection("users")
