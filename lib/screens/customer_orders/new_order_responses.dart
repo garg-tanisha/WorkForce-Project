@@ -164,6 +164,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });
@@ -345,6 +347,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });
@@ -526,6 +530,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });
@@ -707,6 +713,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });
@@ -888,6 +896,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });
@@ -1069,6 +1079,8 @@ class OrderResponsesState extends State {
                                                     "price": course["price"],
                                                     "service type":
                                                         course["role"],
+                                                    "distance":
+                                                        course["distance"]
                                                     // "service date and time": course[
                                                     //     "service date and time"]
                                                   });

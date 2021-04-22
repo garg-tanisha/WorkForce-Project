@@ -5,11 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workforce/screens/location_tracking/application_bloc.dart';
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -63,13 +61,10 @@ class PlaceOrderState extends State {
   TextEditingController distanceController = TextEditingController();
   TextEditingController timeWindowController = TextEditingController();
   String uid;
-  StreamSubscription _locationSubscription;
-  Location _locationTracker = Location();
+
   Marker marker;
   Circle circle;
   LocationData newLocalData;
-
-  GoogleMapController _controller;
   PlaceOrderState(String uid) {
     this.uid = uid;
   }
@@ -77,73 +72,6 @@ class PlaceOrderState extends State {
   @override
   void initState() {
     super.initState();
-  }
-
-  static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  Future<Uint8List> getMarker() async {
-    ByteData byteData =
-        await DefaultAssetBundle.of(context).load("images/car.jpg");
-    return byteData.buffer.asUint8List();
-  }
-
-  void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
-    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
-    print(latlng);
-    this.setState(() {
-      marker = Marker(
-          markerId: MarkerId("home"),
-          position: latlng,
-          rotation: newLocalData.heading,
-          draggable: false,
-          zIndex: 2,
-          flat: true,
-          anchor: Offset(0.5, 0.5),
-          icon: BitmapDescriptor.fromBytes(imageData));
-      circle = Circle(
-          circleId: CircleId("car"),
-          radius: newLocalData.accuracy,
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70));
-    });
-  }
-
-  void getCurrentLocation() async {
-    try {
-      Uint8List imageData = await getMarker();
-      var location = await _locationTracker.getLocation();
-
-      updateMarkerAndCircle(location, imageData);
-
-      if (_locationSubscription != null) {
-        _locationSubscription.cancel();
-      }
-
-      _locationSubscription =
-          _locationTracker.onLocationChanged().listen((localData) {
-        newLocalData = localData;
-        if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                  tilt: 0,
-                  zoom: 18.00)));
-          updateMarkerAndCircle(newLocalData, imageData);
-          setState(() {});
-        }
-      });
-    } on PlatformException catch (e) {
-      if (e.code == "PERMISSION DENIED") {
-        debugPrint("Permission Denied");
-        print("Permission Denied");
-      }
-    }
   }
 
   void _showPicker(context) {
