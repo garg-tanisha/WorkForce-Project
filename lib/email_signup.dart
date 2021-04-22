@@ -16,11 +16,21 @@ import 'package:flutter/cupertino.dart';
 class EmailSignUp extends StatefulWidget {
   @override
   _EmailSignUpState createState() => _EmailSignUpState();
+
+  static _EmailSignUpState of(BuildContext context) =>
+      context.findAncestorStateOfType<_EmailSignUpState>();
 }
 
 class _EmailSignUpState extends State<EmailSignUp> {
+  String location = "Not set yet";
+
+  set string(String value) => setState(() {
+        location = value;
+      });
+
   bool isLoading = false;
   final _roles = ['Customer', 'Service Provider', 'Both'];
+  // String location;
   String _role = 'Customer';
   List<String> options = [];
   Map roleChoices = new Map();
@@ -33,14 +43,12 @@ class _EmailSignUpState extends State<EmailSignUp> {
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  // TextEditingController addressController = TextEditingController();
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
   LocationData newLocalData;
-  // StreamSubscription locationSubscription;
-  // StreamSubscription boundsSubscription;
   GoogleMapController _controller;
   bool isNumeric(String s) {
     if (s == null) {
@@ -52,7 +60,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
   @override
   void initState() {
     super.initState();
-    addressController.text = "Current Location is chosen!";
+    // addressController.text = "Current Location is chosen!";
   }
 
   static final CameraPosition initialLocation = CameraPosition(
@@ -111,8 +119,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   tilt: 0,
                   zoom: 18.00)));
           updateMarkerAndCircle(newLocalData, imageData);
-          addressController.text =
-              LatLng(newLocalData.latitude, newLocalData.longitude).toString();
+          // addressController.text =
+          // LatLng(newLocalData.latitude, newLocalData.longitude).toString();
           setState(() {});
         }
       });
@@ -334,32 +342,42 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               ],
                             )
                           : Container(),
+                      // Padding(
+                      //   padding: EdgeInsets.all(20.0),
+                      //   child: TextFormField(
+                      //     readOnly: true,
+                      //     style: TextStyle(color: Colors.grey),
+                      //     controller: addressController,
+                      //     decoration: InputDecoration(
+                      //       labelText: "Current Address*",
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(10.0),
+                      //       ),
+                      //     ),
+                      //     keyboardType: TextInputType.multiline, minLines: 1,
+                      //     maxLines:
+                      //         5, // The validator receives the text that the user has entered.
+                      //     validator: (value) {
+                      //       if (value == "Current Location is chosen!") {
+                      //         return 'Select address by click blue icon on below google maps';
+                      //       }
+                      //       return null;
+                      //     },
+                      //   ),
+                      // ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          readOnly: true,
-                          style: TextStyle(color: Colors.grey),
-                          controller: addressController,
-                          decoration: InputDecoration(
-                            labelText: "Current Address*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.multiline, minLines: 1,
-                          maxLines:
-                              5, // The validator receives the text that the user has entered.
-                          validator: (value) {
-                            if (value == "Current Location is chosen!") {
-                              return 'Select address by click blue icon on below google maps';
-                            }
-                            return null;
-                          },
-                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "Address(Current Location or Search Location)"),
                       ),
-                      Container(
-                        height: 400,
-                        child: HomeScreen(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 400,
+                            child: HomeScreen(
+                              tableName: 'users',
+                              callback: (val) => setState(() => location = val),
+                            )),
                       ),
                       Padding(
                         padding: EdgeInsets.all(20.0),
@@ -386,7 +404,11 @@ class _EmailSignUpState extends State<EmailSignUp> {
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
         .then((result) {
-      //cloud firestore
+      // print("latitude : " +
+      //     location.split('(')[1].split(',')[0].toString() +
+      //     "longitude : " +
+      //     location.split(' ')[1].split(')')[0].toString());
+
       if ("role" != "Customer") {
         Firestore.instance
             .collection("users")
@@ -398,11 +420,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
           "last name": lastNameController.text,
           "role": _role,
           "roles": roleChoices,
-          // "address": addressController.text,
           "date time": DateTime.now(),
           "phone no": int.parse(phoneNoController.text),
-          "latitude": newLocalData.latitude,
-          "longitude": newLocalData.longitude
+          "latitude": double.parse(location.split('(')[1].split(',')[0]),
+          "longitude": double.parse(location.split(' ')[1].split(')')[0])
         }).then((res) {
           isLoading = false;
           setState(() {});
@@ -445,11 +466,11 @@ class _EmailSignUpState extends State<EmailSignUp> {
               "first name": firstNameController.text,
               "last name": lastNameController.text,
               "role": _role,
-              "address": addressController.text,
+              // "address": addressController.text,
               "date time": DateTime.now(),
               "phone no": int.parse(phoneNoController.text),
-              "latitude": newLocalData.latitude,
-              "longitude": newLocalData.longitude
+              "latitude": double.parse(location.split('(')[1].split(',')[0]),
+              "longitude": double.parse(location.split(' ')[1].split(')')[0])
             })
             .then((res) {})
             .then((res) {
@@ -504,7 +525,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     ageController.dispose();
-    addressController.dispose();
+    // addressController.dispose();
     phoneNoController.dispose();
     if (_locationSubscription != null) {
       _locationSubscription.cancel();

@@ -1,3 +1,4 @@
+import 'package:workforce/screens/location_tracking/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,13 +22,20 @@ class PlaceOrder extends StatefulWidget {
   final String uid;
   @override
   State<StatefulWidget> createState() => PlaceOrderState(uid);
+  static PlaceOrderState of(BuildContext context) =>
+      context.findAncestorStateOfType<PlaceOrderState>();
 }
 
 class PlaceOrderState extends State {
   List<File> _images = [];
   String messageTitle = "Empty";
   String notificationAlert = "alert";
+  String location = "Not set yet";
 
+  set string(String value) => setState(() {
+        location = value;
+        addressController.text = value;
+      });
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   final dateTimeFormat = DateFormat("yyyy-MM-dd HH:mm");
   final distanceUnits = ["km", "m", "cm", "inch", "foot", "mm", "miles"];
@@ -499,27 +507,11 @@ class PlaceOrderState extends State {
                       //           Text("Click blue button to get your current address"),
                       //     )),
                       Container(
-                        height: 300,
-                        child: Scaffold(
-                          body: GoogleMap(
-                            mapType: MapType.hybrid,
-                            initialCameraPosition: initialLocation,
-                            markers: Set.of((marker != null) ? [marker] : []),
-                            circles: Set.of((circle != null) ? [circle] : []),
-                            onMapCreated: (GoogleMapController controller) {
-                              _controller = controller;
-                            },
-                          ),
-                          floatingActionButton: FloatingActionButton(
-                            child: Icon(Icons.location_searching),
-                            onPressed: () {
-                              getCurrentLocation();
-                            },
-                          ),
-                          floatingActionButtonLocation:
-                              FloatingActionButtonLocation.centerFloat,
-                        ),
-                      ),
+                          height: 400,
+                          child: HomeScreen(
+                            tableName: "orders",
+                            callback: (val) => setState(() => location = val),
+                          )),
                       Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(2.0),
@@ -699,8 +691,8 @@ class PlaceOrderState extends State {
       "time window": timeWindow,
       "date time": DateTime.now(),
       "status": "New",
-      "latitude": newLocalData.latitude,
-      "longitude": newLocalData.longitude
+      "latitude": double.parse(location.split('(')[1].split(',')[0]),
+      "longitude": double.parse(location.split(' ')[1].split(')')[0])
     }).then((res) {
       print(res.documentID);
       uploadFilesToFirestore(res.documentID).whenComplete(() {

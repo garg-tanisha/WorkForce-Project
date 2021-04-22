@@ -1,15 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'package:location/location.dart';
+import 'package:workforce/email_signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:workforce/screens/location_tracking/models/place.dart';
 import 'package:provider/provider.dart';
+import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'application_bloc.dart';
 
+typedef void StringCallback(String val);
+
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.tableName}) : super(key: key);
+  final StringCallback callback;
+
+  // MyChildClass({this.callback});
+  HomeScreen({Key key, this.tableName, this.callback}) : super(key: key);
   final String tableName;
   @override
   _HomeScreenState createState() => _HomeScreenState(tableName);
@@ -84,8 +90,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   applicationBloc.currentLocation.latitude,
                                   applicationBloc.currentLocation.longitude),
                               zoom: 14),
-                          onMapCreated: (GoogleMapController controller) {
+                          onMapCreated: (GoogleMapController controller) async {
                             _mapController.complete(controller);
+                            Location _locationTracker = Location();
+                            var newLocalData =
+                                await _locationTracker.getLocation();
+                            print(newLocalData.latitude.toString() +
+                                " " +
+                                newLocalData.longitude.toString());
+                            if (tableName == 'users') {
+                              EmailSignUp.of(context).location = LatLng(
+                                      newLocalData.latitude,
+                                      newLocalData.longitude)
+                                  .toString();
+                            } else if (tableName == 'orders') {
+                              PlaceOrder.of(context).location = LatLng(
+                                      newLocalData.latitude,
+                                      newLocalData.longitude)
+                                  .toString();
+                            }
                           },
                         ),
                       ),
@@ -119,50 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                     ],
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Wrap(
-                  //     spacing: 8.0,
-                  //     children: [
-                  //       FilterChip(
-                  //         label: Text("Campground"),
-                  //         onSelected: (val) => applicationBloc.togglePlaceType(
-                  //             "campground", val),
-                  //         selected: applicationBloc.placeType == 'campground',
-                  //         selectedColor: Colors.blue,
-                  //       ),
-                  //       FilterChip(
-                  //         label: Text("Bus Station"),
-                  //         onSelected: (val) => applicationBloc.togglePlaceType(
-                  //             "bus_station", val),
-                  //         selected: applicationBloc.placeType == 'bus_station',
-                  //         selectedColor: Colors.blue,
-                  //       ),
-                  //       FilterChip(
-                  //         label: Text("ATM"),
-                  //         onSelected: (val) =>
-                  //             applicationBloc.togglePlaceType("atm", val),
-                  //         selected: applicationBloc.placeType == 'atm',
-                  //         selectedColor: Colors.blue,
-                  //       ),
-                  //       FilterChip(
-                  //         label: Text("Park"),
-                  //         onSelected: (val) =>
-                  //             applicationBloc.togglePlaceType("park", val),
-                  //         selected: applicationBloc.placeType == 'park',
-                  //         selectedColor: Colors.blue,
-                  //       ),
-                  //       FilterChip(
-                  //         label: Text("Zoo"),
-                  //         onSelected: (val) =>
-                  //             applicationBloc.togglePlaceType("zoo", val),
-                  //         selected: applicationBloc.placeType == 'zoo',
-                  //         selectedColor: Colors.blue,
-                  //       )
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ));
   }
@@ -174,14 +153,15 @@ class _HomeScreenState extends State<HomeScreen> {
         target:
             LatLng(place.geometry.location.lat, place.geometry.location.lng),
         zoom: 14)));
-    setState(() {});
+
     if (tableName == 'users') {
-      FirebaseAuth.instance.currentUser().then((res) {
-        Firestore.instance.collection("users").document(res.uid).updateData({
-          "latitude": place.geometry.location.lat,
-          "longitude": place.geometry.location.lng
-        });
-      });
-    } else if (tableName == 'orders') {}
+      EmailSignUp.of(context).location =
+          LatLng(place.geometry.location.lat, place.geometry.location.lng)
+              .toString();
+    } else if (tableName == 'orders') {
+      PlaceOrder.of(context).location =
+          LatLng(place.geometry.location.lat, place.geometry.location.lng)
+              .toString();
+    }
   }
 }
