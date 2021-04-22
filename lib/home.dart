@@ -49,10 +49,7 @@ class Home extends StatelessWidget {
                       )
                     ],
                   ),
-                  body:
-                      // Expanded(
-                      // child:
-                      ListView(
+                  body: ListView(
                     padding: const EdgeInsets.all(8),
                     children: [
                       Card(
@@ -63,7 +60,6 @@ class Home extends StatelessWidget {
                             onTap: () {
                               Navigator.push(
                                   context,
-                                  //builder of MaterialPageRoute will call TodoDetail class
                                   MaterialPageRoute(
                                     builder: (context) => PlaceOrder(
                                       uid: uid,

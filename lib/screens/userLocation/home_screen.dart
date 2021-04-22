@@ -88,24 +88,25 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.black.withOpacity(.6),
                               backgroundBlendMode: BlendMode.darken),
                         ),
-                      Container(
-                          height: 300,
-                          child: ListView.builder(
-                            itemCount: applicationBloc.searchResults.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                    applicationBloc
-                                        .searchResults[index].description,
-                                    style: TextStyle(color: Colors.white)),
-                                onTap: () {
-                                  applicationBloc.setSelectedLocation(
+                      if (applicationBloc.searchResults != null)
+                        Container(
+                            height: 300,
+                            child: ListView.builder(
+                              itemCount: applicationBloc.searchResults.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(
                                       applicationBloc
-                                          .searchResults[index].placeId);
-                                },
-                              );
-                            },
-                          )),
+                                          .searchResults[index].description,
+                                      style: TextStyle(color: Colors.white)),
+                                  onTap: () {
+                                    applicationBloc.setSelectedLocation(
+                                        applicationBloc
+                                            .searchResults[index].placeId);
+                                  },
+                                );
+                              },
+                            )),
                     ],
                   ),
                 ],
