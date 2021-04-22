@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-import 'package:workforce/screens/userLocation/home_screen.dart';
+import 'package:workforce/screens/location_tracking/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:workforce/screens/customer_orders/customer_order_new.dart';
 import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'package:workforce/screens/customer_orders/customer_cancelled_orders.dart';
 import 'main.dart';
-import 'package:workforce/screens/userLocation/application_bloc.dart';
+import 'package:workforce/screens/location_tracking/application_bloc.dart';
 
 class Home extends StatelessWidget {
   Home({this.uid});
@@ -134,13 +134,13 @@ class Home extends StatelessWidget {
                                   ));
                             },
                           )),
-                      Card(
-                          color: Colors.white,
-                          elevation: 2.0,
-                          child: ListTile(
-                            title: Text(
-                                "Click blue button to get your current address"),
-                          )),
+                      // Card(
+                      //     color: Colors.white,
+                      //     elevation: 2.0,
+                      //     child: ListTile(
+                      //       title: Text(
+                      //           "Click blue button to get your current address"),
+                      //     )),
                       Container(
                         height: 300,
                         child: HomeScreen(),

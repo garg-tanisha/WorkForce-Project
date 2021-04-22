@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:workforce/screens/userLocation/models/place.dart';
-import 'package:workforce/screens/userLocation/models/place_search.dart';
+import 'package:workforce/screens/location_tracking/models/place.dart';
+import 'package:workforce/screens/location_tracking/models/place_search.dart';
 
 class PlacesService {
   final key = 'AIzaSyB5S5-CwfvowRaBgBXQwGQT0LuCgiUWaiw';

@@ -1,4 +1,4 @@
-import 'package:workforce/screens/userLocation/models/geometry.dart';
+import 'package:workforce/screens/location_tracking/models/geometry.dart';
 
 class Place {
   final Geometry geometry;

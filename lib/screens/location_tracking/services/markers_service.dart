@@ -1,5 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:workforce/screens/userLocation/models/place.dart';
+import 'package:workforce/screens/location_tracking/models/place.dart';
 
 class MarkerService {
   LatLngBounds bounds(Set<Marker> markers) {
@@ -29,7 +29,7 @@ class MarkerService {
 
     return Marker(
         markerId: MarkerId(markerId),
-        draggable: false,
+        draggable: true,
         visible: (center) ? false : true,
         infoWindow: InfoWindow(title: place.name, snippet: place.vicinity),
         position:

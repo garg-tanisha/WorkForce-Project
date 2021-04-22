@@ -1,15 +1,14 @@
 import 'dart:async';
-import 'package:workforce/screens/userLocation/models/place.dart';
+import 'package:workforce/screens/location_tracking/models/place.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:workforce/screens/userLocation/models/location.dart';
-
-import 'package:workforce/screens/userLocation/models/geometry.dart';
+import 'package:workforce/screens/location_tracking/models/location.dart';
+import 'package:workforce/screens/location_tracking/models/geometry.dart';
 import 'services/geolocator_service.dart';
-import 'package:workforce/screens/userLocation/models/place_search.dart';
-import 'package:workforce/screens/userLocation/services/places_service.dart';
-import 'package:workforce/screens/userLocation/services/markers_service.dart';
+import 'package:workforce/screens/location_tracking/models/place_search.dart';
+import 'package:workforce/screens/location_tracking/services/places_service.dart';
+import 'package:workforce/screens/location_tracking/services/markers_service.dart';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
@@ -52,6 +51,16 @@ class ApplicationBloc with ChangeNotifier {
     selectedLocation.add(sLocation);
     selectedLocationStatic = sLocation;
     searchResults = null;
+
+    markers = [];
+    var locationMarker =
+        markerService.createMarkerFromPlace(selectedLocationStatic, false);
+    markers.add(locationMarker);
+
+    var _bounds = markerService.bounds(Set<Marker>.of(markers));
+    bounds.add(_bounds);
+    notifyListeners();
+
     notifyListeners();
   }
 
@@ -60,6 +69,7 @@ class ApplicationBloc with ChangeNotifier {
     selectedLocationStatic = null;
     searchResults = null;
     placeType = null;
+
     notifyListeners();
   }
 

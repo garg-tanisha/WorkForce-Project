@@ -1,8 +1,10 @@
-import 'dart:async';
-import 'dart:typed_data';
+import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:workforce/screens/location_tracking/application_bloc.dart';
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -256,408 +258,431 @@ class PlaceOrderState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Place Order")),
-        body: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-                child: Column(children: <Widget>[
-              // Text(
-              //   notificationAlert,
-              // ),
-              // Text(
-              //   messageTitle,
-              //   style: Theme.of(context).textTheme.headline4,
-              // ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: "Enter Title*",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Enter Title';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Container(
-                // margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
-                      ),
-                ),
-                child: Column(children: [
-                  Text("Type of Service Required"),
-                  DropdownButton<String>(
-                    items: _serviceTypes.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    value: _serviceType,
-                    onChanged: (String value) {
-                      _onDropDownChanged(value);
-                    },
-                  ),
-                ]),
-              ),
-              Container(
-                  margin: const EdgeInsets.all(15.0),
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(
-                            15.0) //                 <--- border radius here
-                        ),
-                  ),
-                  child: Column(children: [
-                    Text("Upload at least 2 pictures of the device etc.*"),
-                    Padding(
+    return ChangeNotifierProvider(
+        create: (context) => ApplicationBloc(),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: Scaffold(
+                appBar: AppBar(title: Text("Place Order")),
+                body: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                        child: Column(children: <Widget>[
+                      // Text(
+                      //   notificationAlert,
+                      // ),
+                      // Text(
+                      //   messageTitle,
+                      //   style: Theme.of(context).textTheme.headline4,
+                      // ),
+                      Padding(
                         padding: EdgeInsets.all(20.0),
-                        child: Column(children: [
-                          RawMaterialButton(
-                            fillColor: Theme.of(context).accentColor,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
+                        child: TextFormField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                            labelText: "Enter Title*",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            elevation: 8,
-                            onPressed: () {
-                              _showPicker(context);
-                            },
-                            padding: EdgeInsets.all(15),
-                            shape: CircleBorder(),
                           ),
-                          _images.length != 0
-                              ? Text("Choosen images (" +
-                                  _images.length.toString() +
-                                  ")")
-                              : Container(),
-                          _images.length != 0 ? images() : Container(),
-                        ])),
-                  ])),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  controller: priceController,
-                  decoration: InputDecoration(
-                    labelText: "Price (In Rupees) *",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value.isEmpty && _images.length < 2) {
-                      return 'Please select at least 2 images \nEnter a Price you are willing to pay';
-                    } else if (value.contains('-') && _images.length < 2) {
-                      return 'Please select at least 2 images \nPlease enter a valid price';
-                    } else if (value.isEmpty) {
-                      return 'Enter a Price you are willing to pay';
-                    } else if (value.contains('-')) {
-                      return 'Please enter a valid price';
-                    } else if (_images.length < 2) {
-                      return 'Please select at least 2 images';
-                    }
-
-                    return null;
-                  },
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
-                      ),
-                ),
-                child: Row(children: [
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text("Ratings*"),
-                  )),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: ratings.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        //value property
-                        value: rating,
-                        //without it nothing will be updated
-                        onChanged: (String value) {
-                          _onRatingDropDownChanged(value);
-                        },
-                      ),
-                    ),
-                  ),
-                ]),
-              ),
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
-                      ),
-                ),
-                child: Row(children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: TextFormField(
-                        controller: distanceController,
-                        decoration: InputDecoration(
-                          labelText: "Distance (in km) *",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Enter Title';
+                            }
+                            return null;
+                          },
                         ),
-                        keyboardType: TextInputType.number,
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please select a distance range.';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ),
-                ]),
-              ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: TextFormField(
-                  readOnly: true,
-                  style: TextStyle(color: Colors.grey),
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    labelText: "Current Address*",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  keyboardType: TextInputType.multiline, minLines: 1,
-                  maxLines: 5,
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value ==
-                        "Click blue button to get your current address") {
-                      return 'Select address by click blue icon on below google maps';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              // Card(
-              //     color: Colors.white,
-              //     elevation: 2.0,
-              //     child: ListTile(
-              //       title:
-              //           Text("Click blue button to get your current address"),
-              //     )),
-              Container(
-                height: 300,
-                child: Scaffold(
-                  body: GoogleMap(
-                    mapType: MapType.hybrid,
-                    initialCameraPosition: initialLocation,
-                    markers: Set.of((marker != null) ? [marker] : []),
-                    circles: Set.of((circle != null) ? [circle] : []),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller = controller;
-                    },
-                  ),
-                  floatingActionButton: FloatingActionButton(
-                    child: Icon(Icons.location_searching),
-                    onPressed: () {
-                      getCurrentLocation();
-                    },
-                  ),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.centerFloat,
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
+                      Container(
+                        // margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Column(children: [
+                          Text("Type of Service Required"),
+                          DropdownButton<String>(
+                            items: _serviceTypes.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            value: _serviceType,
+                            onChanged: (String value) {
+                              _onDropDownChanged(value);
+                            },
+                          ),
+                        ]),
                       ),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(children: <Widget>[
-                      Text('Service date and time (${dateTimeFormat.pattern})'),
-                      DateTimeField(
-                        initialValue: DateTime.now(),
-                        format: dateTimeFormat,
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: currentValue ?? DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                  currentValue ?? DateTime.now()),
-                            );
-                            serviceDateTime = DateTimeField.combine(date, time);
-                            setState(() {});
-                            return DateTimeField.combine(date, time);
-                          } else {
-                            return currentValue;
-                          }
-                        },
-                        validator: (val) {
-                          if (val.difference(DateTime.now()).inMinutes <= 0) {
-                            return 'Service Date Time Field should be after current date time.';
-                          } else if (val != null) {
+                      Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                    15.0) //                 <--- border radius here
+                                ),
+                          ),
+                          child: Column(children: [
+                            Text(
+                                "Upload at least 2 pictures of the device etc.*"),
+                            Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Column(children: [
+                                  RawMaterialButton(
+                                    fillColor: Theme.of(context).accentColor,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                    ),
+                                    elevation: 8,
+                                    onPressed: () {
+                                      _showPicker(context);
+                                    },
+                                    padding: EdgeInsets.all(15),
+                                    shape: CircleBorder(),
+                                  ),
+                                  _images.length != 0
+                                      ? Text("Choosen images (" +
+                                          _images.length.toString() +
+                                          ")")
+                                      : Container(),
+                                  _images.length != 0 ? images() : Container(),
+                                ])),
+                          ])),
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: TextFormField(
+                          controller: priceController,
+                          decoration: InputDecoration(
+                            labelText: "Price (In Rupees) *",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          // The validator receives the text that the user has entered.
+                          validator: (value) {
+                            if (value.isEmpty && _images.length < 2) {
+                              return 'Please select at least 2 images \nEnter a Price you are willing to pay';
+                            } else if (value.contains('-') &&
+                                _images.length < 2) {
+                              return 'Please select at least 2 images \nPlease enter a valid price';
+                            } else if (value.isEmpty) {
+                              return 'Enter a Price you are willing to pay';
+                            } else if (value.contains('-')) {
+                              return 'Please enter a valid price';
+                            } else if (_images.length < 2) {
+                              return 'Please select at least 2 images';
+                            }
+
                             return null;
-                          } else {
-                            return 'Date Field is Empty';
-                          }
-                        },
+                          },
+                        ),
                       ),
-                    ])),
-              ),
-              Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Row(children: [
+                          Expanded(
+                              child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text("Ratings*"),
+                          )),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20.0),
+                              child: DropdownButton<String>(
+                                //create an array of strings
+                                items: ratings.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                //value property
+                                value: rating,
+                                //without it nothing will be updated
+                                onChanged: (String value) {
+                                  _onRatingDropDownChanged(value);
+                                },
+                              ),
+                            ),
+                          ),
+                        ]),
                       ),
-                ),
-                child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(children: <Widget>[
-                      Text('Time Window (${dateTimeFormat.pattern})'),
-                      DateTimeField(
-                        initialValue: DateTime.now(),
-                        format: dateTimeFormat,
-                        onShowPicker: (context, currentValue) async {
-                          final date = await showDatePicker(
-                              context: context,
-                              firstDate: DateTime(1900),
-                              initialDate: currentValue ?? DateTime.now(),
-                              lastDate: DateTime(2100));
-                          if (date != null) {
-                            final time = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.fromDateTime(
-                                  currentValue ?? DateTime.now()),
-                            );
-                            timeWindow = DateTimeField.combine(date, time);
-                            setState(() {});
-                            return DateTimeField.combine(date, time);
-                          } else {
-                            return currentValue;
-                          }
-                        },
-                        validator: (val) {
-                          if (val.difference(DateTime.now()).inMinutes <= 0 ||
-                              serviceDateTime.difference(val).inMinutes <= 0) {
-                            return 'Time Window should be earlier than service date and time, and current time';
-                          } else if (val != null) {
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Row(children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: TextFormField(
+                                controller: distanceController,
+                                decoration: InputDecoration(
+                                  labelText: "Distance (in km) *",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please select a distance range.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: TextFormField(
+                          readOnly: true,
+                          style: TextStyle(color: Colors.grey),
+                          controller: addressController,
+                          decoration: InputDecoration(
+                            labelText: "Current Address*",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          keyboardType: TextInputType.multiline, minLines: 1,
+                          maxLines: 5,
+                          // The validator receives the text that the user has entered.
+                          validator: (value) {
+                            if (value ==
+                                "Click blue button to get your current address") {
+                              return 'Select address by click blue icon on below google maps';
+                            }
                             return null;
-                          } else {
-                            return 'Time Window Field is Empty';
-                          }
-                        },
+                          },
+                        ),
                       ),
-                    ])),
-              ),
-              // Container(
-              //   margin: const EdgeInsets.all(15.0),
-              //   padding: const EdgeInsets.all(2.0),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: Colors.black,
-              //     ),
-              //     borderRadius: BorderRadius.all(Radius.circular(
-              //             15.0) //                 <--- border radius here
-              //         ),
-              //   ),
-              //   child: Padding(
-              //       padding: EdgeInsets.all(20.0),
-              //       child: Column(children: <Widget>[
-              //         Text('Time window (${timeFormat.pattern})'),
-              //         DateTimeField(
-              //           initialValue: DateTime.now(),
-              //           format: timeFormat,
-              //           onShowPicker: (context, currentValue) async {
-              //             final time = await showTimePicker(
-              //               context: context,
-              //               initialTime: TimeOfDay.fromDateTime(
-              //                   currentValue ?? DateTime.now()),
-              //             );
-              //             timeWindow = DateFormat.Hms()
-              //                 .format(DateTimeField.convert(time));
-              //             setState(() {});
-              //             return DateTimeField.convert(time);
-              //           },
-              //         ),
-              //       ])),
-              // ),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: isLoading
-                    ? CircularProgressIndicator()
-                    : RaisedButton(
-                        color: Colors.lightBlueAccent,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            placeOrder(uid);
-                          }
-                        },
-                        child: Text('Place Order'),
+                      // Card(
+                      //     color: Colors.white,
+                      //     elevation: 2.0,
+                      //     child: ListTile(
+                      //       title:
+                      //           Text("Click blue button to get your current address"),
+                      //     )),
+                      Container(
+                        height: 300,
+                        child: Scaffold(
+                          body: GoogleMap(
+                            mapType: MapType.hybrid,
+                            initialCameraPosition: initialLocation,
+                            markers: Set.of((marker != null) ? [marker] : []),
+                            circles: Set.of((circle != null) ? [circle] : []),
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller = controller;
+                            },
+                          ),
+                          floatingActionButton: FloatingActionButton(
+                            child: Icon(Icons.location_searching),
+                            onPressed: () {
+                              getCurrentLocation();
+                            },
+                          ),
+                          floatingActionButtonLocation:
+                              FloatingActionButtonLocation.centerFloat,
+                        ),
                       ),
-              ),
-            ]))));
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(children: <Widget>[
+                              Text(
+                                  'Service date and time (${dateTimeFormat.pattern})'),
+                              DateTimeField(
+                                initialValue: DateTime.now(),
+                                format: dateTimeFormat,
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    serviceDateTime =
+                                        DateTimeField.combine(date, time);
+                                    setState(() {});
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                validator: (val) {
+                                  if (val
+                                          .difference(DateTime.now())
+                                          .inMinutes <=
+                                      0) {
+                                    return 'Service Date Time Field should be after current date time.';
+                                  } else if (val != null) {
+                                    return null;
+                                  } else {
+                                    return 'Date Field is Empty';
+                                  }
+                                },
+                              ),
+                            ])),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(children: <Widget>[
+                              Text('Time Window (${dateTimeFormat.pattern})'),
+                              DateTimeField(
+                                initialValue: DateTime.now(),
+                                format: dateTimeFormat,
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    timeWindow =
+                                        DateTimeField.combine(date, time);
+                                    setState(() {});
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                validator: (val) {
+                                  if (val
+                                              .difference(DateTime.now())
+                                              .inMinutes <=
+                                          0 ||
+                                      serviceDateTime
+                                              .difference(val)
+                                              .inMinutes <=
+                                          0) {
+                                    return 'Time Window should be earlier than service date and time, and current time';
+                                  } else if (val != null) {
+                                    return null;
+                                  } else {
+                                    return 'Time Window Field is Empty';
+                                  }
+                                },
+                              ),
+                            ])),
+                      ),
+                      // Container(
+                      //   margin: const EdgeInsets.all(15.0),
+                      //   padding: const EdgeInsets.all(2.0),
+                      //   decoration: BoxDecoration(
+                      //     border: Border.all(
+                      //       color: Colors.black,
+                      //     ),
+                      //     borderRadius: BorderRadius.all(Radius.circular(
+                      //             15.0) //                 <--- border radius here
+                      //         ),
+                      //   ),
+                      //   child: Padding(
+                      //       padding: EdgeInsets.all(20.0),
+                      //       child: Column(children: <Widget>[
+                      //         Text('Time window (${timeFormat.pattern})'),
+                      //         DateTimeField(
+                      //           initialValue: DateTime.now(),
+                      //           format: timeFormat,
+                      //           onShowPicker: (context, currentValue) async {
+                      //             final time = await showTimePicker(
+                      //               context: context,
+                      //               initialTime: TimeOfDay.fromDateTime(
+                      //                   currentValue ?? DateTime.now()),
+                      //             );
+                      //             timeWindow = DateFormat.Hms()
+                      //                 .format(DateTimeField.convert(time));
+                      //             setState(() {});
+                      //             return DateTimeField.convert(time);
+                      //           },
+                      //         ),
+                      //       ])),
+                      // ),
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : RaisedButton(
+                                color: Colors.lightBlueAccent,
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    placeOrder(uid);
+                                  }
+                                },
+                                child: Text('Place Order'),
+                              ),
+                      ),
+                    ]))))));
   }
 
   void placeOrder(String uid) {
