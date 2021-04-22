@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "765865416274",
+    "firebase_url": "https://workforce-project-d3df2.firebaseio.com",
+    "project_id": "workforce-project-d3df2",
+    "storage_bucket": "workforce-project-d3df2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765865416274:android:f16e8d96ef403ad097718b",
+        "android_client_info": {
+          "package_name": "com.example.workforce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765865416274-nlbsrqlm6mjk38rqlqnnqc2tbdak3a7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA71GLfPOyIYrDXgj32wKvZfERorNyhu14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765865416274-nlbsrqlm6mjk38rqlqnnqc2tbdak3a7i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,856 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:workforce/screens/wsp_orders/wsp_in_progress_order_details.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
+import 'package:url_launcher/url_launcher.dart';
+
+class WSPInProgressOrders extends StatefulWidget {
+  WSPInProgressOrders({this.uid, this.role});
+  final String uid;
+  final String role;
+  @override
+  State<StatefulWidget> createState() => WSPInProgressOrdersState(uid, role);
+}
+
+class WSPInProgressOrdersState extends State {
+  // bool isLoading = false;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String uid;
+  String role;
+  final filters = [
+    'No Filter',
+    'Price (Low To High)',
+    'Price (High To Low)',
+  ];
+  String filter = 'No Filter';
+  final List<Map<dynamic, dynamic>> lists = [];
+
+  WSPInProgressOrdersState(String uid, String role) {
+    this.uid = uid;
+    this.role = role;
+  }
+
+  _makingPhoneCall(String phoneNo) async {
+    String url = 'tel:' + phoneNo;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (filter == 'No Filter') {
+      return Scaffold(
+          appBar:
+              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+          body: StreamBuilder(
+              stream: Firestore.instance
+                  .collection('placed orders')
+                  .where("wsp id", isEqualTo: uid)
+                  .where("status", isEqualTo: "In Progress")
+                  .where("service type", isEqualTo: role)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState == ConnectionState.active) {
+                if (!(snapshot.data == null ||
+                    snapshot.data.documents == null)) {
+                  return Column(children: [
+                    Text("Choose Filter"),
+                    Card(
+                      child: DropdownButton<String>(
+                        //create an array of strings
+                        items: filters.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        value: filter,
+                        onChanged: (String value) {
+                          _onDropDownChanged(value);
+                        },
+                      ),
+                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    Expanded(
+                        // height: 200.0,
+                        child: ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return new Text('Error: ${snapshot.error}');
+                              } else {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return CircularProgressIndicator();
+                                  default:
+                                    {
+                                      if (!snapshot.hasData)
+                                        return Text("Loading orders...");
+                                      DocumentSnapshot course =
+                                          snapshot.data.documents[index];
+                                      return Card(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            ListTile(
+                                              title: Text("Order Id: " +
+                                                  course["order id"]),
+                                              subtitle: Text("Price: " +
+                                                  course["price"].toString() +
+                                                  "\n Distance: " +
+                                                  course["distance"]
+                                                      .toString()),
+                                              leading: RaisedButton(
+                                                onPressed: () async {
+                                                  print("Call");
+                                                  print(Firestore.instance
+                                                      .collection('users')
+                                                      .document(
+                                                          course["user id"])
+                                                      .get()
+                                                      .then((value) =>
+                                                          _makingPhoneCall(
+                                                              value["phone no"]
+                                                                  .toString())));
+                                                },
+                                                child: const Text(
+                                                  "Call",
+                                                  style:
+                                                      TextStyle(fontSize: 15.0),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0)),
+                                                color: Colors.lightBlueAccent,
+                                              ),
+                                              trailing: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    RaisedButton(
+                                                        onPressed: () async {
+                                                          Navigator.push(
+                                                              context,
+                                                              //builder of MaterialPageRoute will call TodoDetail class
+                                                              MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    WSPInProgressOrderDetails(
+                                                                        wspId:
+                                                                            uid,
+                                                                        orderId:
+                                                                            course["order id"]),
+                                                              ));
+                                                        },
+                                                        child: const Text(
+                                                          "See Details",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors
+                                                            .lightBlueAccent),
+                                                  ]),
+                                            ),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                print(
+                                                    "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                await _asyncSimpleDialog(
+                                                    context,
+                                                    course["order id"],
+                                                    course.documentID);
+                                              },
+                                              child: const Text(
+                                                "Submit Proofs on completing order",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0)),
+                                              color: Colors.lightBlueAccent,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                }
+                              }
+                            }))
+                  ]);
+                } else {
+                  return Text("No orders in progress yet!");
+                }
+              }));
+    } else if (filter == 'Price (Low To High)') {
+      return Scaffold(
+          appBar:
+              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+          body: StreamBuilder(
+              stream: Firestore.instance
+                  .collection('placed orders')
+                  .where("wsp id", isEqualTo: uid)
+                  .where("status", isEqualTo: "In Progress")
+                  .where("service type", isEqualTo: role)
+                  .orderBy("price")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState == ConnectionState.active) {
+                if (!(snapshot.data == null ||
+                    snapshot.data.documents == null)) {
+                  return Column(children: [
+                    Text("Choose Filter"),
+                    Card(
+                      child: DropdownButton<String>(
+                        //create an array of strings
+                        items: filters.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        value: filter,
+                        onChanged: (String value) {
+                          _onDropDownChanged(value);
+                        },
+                      ),
+                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    Expanded(
+                        // height: 200.0,
+                        child: ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return new Text('Error: ${snapshot.error}');
+                              } else {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return CircularProgressIndicator();
+                                  default:
+                                    {
+                                      if (!snapshot.hasData)
+                                        return Text("Loading orders...");
+                                      DocumentSnapshot course =
+                                          snapshot.data.documents[index];
+                                      return Card(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            ListTile(
+                                              title: Text("Order Id: " +
+                                                  course["order id"]),
+                                              subtitle: Text("Price: " +
+                                                  course["price"].toString() +
+                                                  "\n Distance: " +
+                                                  course["distance"]
+                                                      .toString()),
+                                              leading: RaisedButton(
+                                                onPressed: () async {
+                                                  print("Call");
+                                                  print(Firestore.instance
+                                                      .collection('users')
+                                                      .document(
+                                                          course["user id"])
+                                                      .get()
+                                                      .then((value) =>
+                                                          _makingPhoneCall(
+                                                              value["phone no"]
+                                                                  .toString())));
+                                                },
+                                                child: const Text(
+                                                  "Call",
+                                                  style:
+                                                      TextStyle(fontSize: 15.0),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0)),
+                                                color: Colors.lightBlueAccent,
+                                              ),
+                                              trailing: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    RaisedButton(
+                                                        onPressed: () async {
+                                                          Navigator.push(
+                                                              context,
+                                                              //builder of MaterialPageRoute will call TodoDetail class
+                                                              MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    WSPInProgressOrderDetails(
+                                                                        wspId:
+                                                                            uid,
+                                                                        orderId:
+                                                                            course["order id"]),
+                                                              ));
+                                                        },
+                                                        child: const Text(
+                                                          "See Details",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors
+                                                            .lightBlueAccent),
+                                                  ]),
+                                            ),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                print(
+                                                    "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                await _asyncSimpleDialog(
+                                                    context,
+                                                    course["order id"],
+                                                    course.documentID);
+                                              },
+                                              child: const Text(
+                                                "Submit Proofs on completing order",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0)),
+                                              color: Colors.lightBlueAccent,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                }
+                              }
+                            }))
+                  ]);
+                } else {
+                  return Text("No orders in progress yet!");
+                }
+              }));
+    } else if (filter == 'Price (High To Low)') {
+      return Scaffold(
+          appBar:
+              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+          body: StreamBuilder(
+              stream: Firestore.instance
+                  .collection('placed orders')
+                  .where("wsp id", isEqualTo: uid)
+                  .where("status", isEqualTo: "In Progress")
+                  .where("service type", isEqualTo: role)
+                  .orderBy("price", descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState == ConnectionState.active) {
+                if (!(snapshot.data == null ||
+                    snapshot.data.documents == null)) {
+                  return Column(children: [
+                    Text("Choose Filter"),
+                    Card(
+                      child: DropdownButton<String>(
+                        //create an array of strings
+                        items: filters.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        value: filter,
+                        onChanged: (String value) {
+                          _onDropDownChanged(value);
+                        },
+                      ),
+                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    Expanded(
+                        // height: 200.0,
+                        child: ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return new Text('Error: ${snapshot.error}');
+                              } else {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return CircularProgressIndicator();
+                                  default:
+                                    {
+                                      if (!snapshot.hasData)
+                                        return Text("Loading orders...");
+                                      DocumentSnapshot course =
+                                          snapshot.data.documents[index];
+                                      return Card(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            ListTile(
+                                              title: Text("Order Id: " +
+                                                  course["order id"]),
+                                              subtitle: Text("Price: " +
+                                                  course["price"].toString() +
+                                                  "\n Distance: " +
+                                                  course["distance"]
+                                                      .toString()),
+                                              leading: RaisedButton(
+                                                onPressed: () async {
+                                                  print("Call");
+                                                  print(Firestore.instance
+                                                      .collection('users')
+                                                      .document(
+                                                          course["user id"])
+                                                      .get()
+                                                      .then((value) =>
+                                                          _makingPhoneCall(
+                                                              value["phone no"]
+                                                                  .toString())));
+                                                },
+                                                child: const Text(
+                                                  "Call",
+                                                  style:
+                                                      TextStyle(fontSize: 15.0),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0)),
+                                                color: Colors.lightBlueAccent,
+                                              ),
+                                              trailing: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    RaisedButton(
+                                                        onPressed: () async {
+                                                          Navigator.push(
+                                                              context,
+                                                              //builder of MaterialPageRoute will call TodoDetail class
+                                                              MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    WSPInProgressOrderDetails(
+                                                                        wspId:
+                                                                            uid,
+                                                                        orderId:
+                                                                            course["order id"]),
+                                                              ));
+                                                        },
+                                                        child: const Text(
+                                                          "See Details",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors
+                                                            .lightBlueAccent),
+                                                  ]),
+                                            ),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                print(
+                                                    "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                await _asyncSimpleDialog(
+                                                    context,
+                                                    course["order id"],
+                                                    course.documentID);
+                                              },
+                                              child: const Text(
+                                                "Submit Proofs on completing order",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0)),
+                                              color: Colors.lightBlueAccent,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                }
+                              }
+                            }))
+                  ]);
+                } else {
+                  return Text("No orders in progress yet!");
+                }
+              }));
+    }
+  }
+
+  _onDropDownChanged(String value) {
+    setState(() {
+      this.filter = value;
+    });
+  }
+
+  Future _asyncSimpleDialog(
+      BuildContext context, String orderId, String placedOrderId) async {
+    return await showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Submit Proofs'),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: new ProofsAndSignatures(
+                    orderId: orderId, placedOrderId: placedOrderId),
+              ),
+            ],
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}
+
+class ProofsAndSignatures extends StatefulWidget {
+  ProofsAndSignatures({this.orderId, this.placedOrderId});
+  final String orderId;
+  final String placedOrderId;
+  @override
+  State<StatefulWidget> createState() =>
+      ProofsAndSignaturesState(orderId, placedOrderId);
+}
+
+class ProofsAndSignaturesState extends State {
+  List<File> _proofImages = [];
+  List<File> _signaturesImages = [];
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String orderId;
+  String placedOrderId;
+  bool signaturesError, proofsError = false;
+  final List<Map<dynamic, dynamic>> lists = [];
+
+  void submitProofs(
+      String orderId, String placeOrderId, BuildContext contextt) {
+    debugPrint("Success");
+
+    Firestore.instance
+        .collection("orders")
+        .document(orderId)
+        .updateData({"status": "Completed"});
+
+    Firestore.instance
+        .collection("placed orders")
+        .document(placeOrderId)
+        .updateData({
+      "status": "Completed",
+    }).then((res) {
+      uploadFilesToFirestore(placeOrderId, _proofImages, "proofs")
+          .whenComplete(() {
+        uploadFilesToFirestore(placeOrderId, _signaturesImages, "signatures")
+            .whenComplete(() {
+          isLoading = false;
+          Navigator.pop(contextt);
+          Firestore.instance
+              .collection("placed orders")
+              .document(placeOrderId)
+              .updateData({"order completion time": DateTime.now()});
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Text("Submitted Proofs"),
+                  actions: [
+                    FlatButton(
+                      child: Text("Ok"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        });
+      });
+    }).catchError((err) {
+      print(err.message);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(err.message),
+              actions: [
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    });
+
+    setState(() {});
+  }
+
+  ProofsAndSignaturesState(String orderId, String placedOrderId) {
+    this.orderId = orderId;
+    this.placedOrderId = placedOrderId;
+  }
+
+  void _showPicker(context, List<File> _images) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        getImage(true, _images);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      getImage(false, _images);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future getImage(bool gallery, List<File> _images) async {
+    ImagePicker picker = ImagePicker();
+    PickedFile pickedFile;
+    // Let user select photo from gallery
+    if (gallery) {
+      pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+      );
+    }
+    // Otherwise open camera to get new photo
+    else {
+      pickedFile = await picker.getImage(
+        source: ImageSource.camera,
+      );
+    }
+
+    setState(() {
+      if (pickedFile != null) {
+        _images.add(File(pickedFile.path));
+        setState(() {});
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<String> uploadFile(File _image, String orderId, String type) async {
+    StorageReference storageReference;
+    if (type == "proofs") {
+      storageReference = FirebaseStorage.instance.ref().child(
+          'placed orders/${orderId}/${type}/${Path.basename(_image.path)}');
+    } else {
+      storageReference = FirebaseStorage.instance.ref().child(
+          'placed orders/${orderId}/${type}/${Path.basename(_image.path)}');
+    }
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+    String returnURL;
+    await storageReference.getDownloadURL().then((fileURL) {
+      returnURL = fileURL;
+    });
+    return returnURL;
+  }
+
+  Future<void> saveImages(
+      List<File> _images, DocumentReference ref, String type) async {
+    _images.forEach((image) async {
+      if (type == "proofs") {
+        String imageURL = await uploadFile(image, ref.documentID, type);
+        ref.updateData({
+          "proofs": FieldValue.arrayUnion([imageURL])
+        });
+      } else if (type == "signatures") {
+        String imageURL = await uploadFile(image, ref.documentID, type);
+        ref.updateData({
+          "signatures": FieldValue.arrayUnion([imageURL])
+        });
+      }
+    });
+  }
+
+  Future uploadFilesToFirestore(
+      String docId, List<File> _images, String type) async {
+    DocumentReference sightingRef =
+        Firestore.instance.collection("placed orders").document(docId);
+    await saveImages(_images, sightingRef, type);
+  }
+
+  Widget images(List<File> _images) {
+    List<Widget> list = new List<Widget>();
+
+    _images.forEach((image) async {
+      list.add(Expanded(
+          child: ClipRRect(
+        // borderRadius: BorderRadius.circular(0),
+        child: Image.file(
+          image,
+          width: 100,
+          height: 100,
+          fit: BoxFit.fitHeight,
+        ),
+      )));
+    });
+
+    return new Row(children: list);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+            child: Column(children: <Widget>[
+          Text("Submit Proofs*"),
+          Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(children: [
+                proofsError == true
+                    ? Text("Please submit atleast 2 proof pics.",
+                        style: TextStyle(color: Colors.red))
+                    : Container(),
+                RawMaterialButton(
+                  fillColor: Theme.of(context).accentColor,
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
+                  elevation: 8,
+                  onPressed: () {
+                    _showPicker(context, _proofImages);
+                  },
+                  padding: EdgeInsets.all(15),
+                  shape: CircleBorder(),
+                ),
+                _proofImages.length != 0
+                    ? Text("Choosen images (" +
+                        _proofImages.length.toString() +
+                        ")")
+                    : Container(),
+                _proofImages.length != 0 ? images(_proofImages) : Container(),
+              ])),
+          Text("Submit Customer Signatures*"),
+          Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(children: [
+                signaturesError == true
+                    ? Text("Please submit atleast 1 signature photo.",
+                        style: TextStyle(color: Colors.red))
+                    : Container(),
+                RawMaterialButton(
+                  fillColor: Theme.of(context).accentColor,
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
+                  elevation: 8,
+                  onPressed: () {
+                    _showPicker(context, _signaturesImages);
+                    // setState(() {});
+                  },
+                  padding: EdgeInsets.all(15),
+                  shape: CircleBorder(),
+                ),
+                _signaturesImages.length != 0
+                    ? Text("Choosen images (" +
+                        _signaturesImages.length.toString() +
+                        ")")
+                    : Container(),
+                _signaturesImages.length != 0
+                    ? images(_signaturesImages)
+                    : Container(),
+              ])),
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: isLoading
+                ? CircularProgressIndicator()
+                : RaisedButton(
+                    color: Colors.lightBlueAccent,
+                    onPressed: () {
+                      if (_signaturesImages.length == 0) {
+                        setState(() {
+                          signaturesError = true;
+                        });
+                      } else {
+                        setState(() {
+                          signaturesError = false;
+                        });
+                      }
+                      if (_proofImages.length < 2) {
+                        setState(() {
+                          proofsError = true;
+                        });
+                      } else {
+                        setState(() {
+                          proofsError = false;
+                        });
+                      }
+                      if (_formKey.currentState.validate() &&
+                          _proofImages.length >= 2 &&
+                          _signaturesImages.length >= 1) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        submitProofs(orderId, placedOrderId, context);
+                        // Navigator.pop(context);
+                      }
+                    },
+                    child: Text('Submit'),
+                  ),
+          )
+        ])));
+  }
+}
