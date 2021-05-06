@@ -4,14 +4,17 @@ import 'package:workforce/screens/location_tracking/models/place.dart';
 import 'package:workforce/screens/location_tracking/models/place_search.dart';
 
 class PlacesService {
-  final key = 'AIzaSyB5S5-CwfvowRaBgBXQwGQT0LuCgiUWaiw';
+  final key = 'YOUR_API_KEY';
 
   Future<List<PlaceSearch>> getAutocomplete(String search) async {
     var url =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&key=$key';
+    print(url);
     var response = await http.get(url);
     var json = convert.jsonDecode(response.body);
+    print(json);
     var jsonResults = json['predictions'] as List;
+    print(jsonResults);
     return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
   }
 
