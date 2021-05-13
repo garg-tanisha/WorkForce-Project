@@ -1,14 +1,14 @@
+import 'package:workforce/screens/customer_orders/customer_in_progress_or_completed_orders.dart';
+import 'package:workforce/screens/customer_orders/customer_cancelled_orders.dart';
+import 'package:workforce/screens/customer_orders/customer_order_new.dart';
+import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:workforce/screens/customer_orders/customer_in_progress_or_completed_orders.dart';
-import 'package:workforce/screens/customer_orders/customer_order_new.dart';
-import 'package:workforce/screens/customer_orders/place_order.dart';
-import 'package:workforce/screens/customer_orders/customer_cancelled_orders.dart';
 import 'main.dart';
 
-class Home extends StatelessWidget {
-  Home({this.uid});
+class CustomerHome extends StatelessWidget {
+  CustomerHome({this.uid});
   final String uid;
   final String title = "Customer Home";
   final List<Map<dynamic, dynamic>> lists = [];
@@ -90,7 +90,6 @@ class Home extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                               context,
-                              //builder of MaterialPageRoute will call TodoDetail class
                               MaterialPageRoute(
                                 builder: (context) =>
                                     CustomerInProgressOrCompletedOrders(
@@ -106,7 +105,6 @@ class Home extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                               context,
-                              //builder of MaterialPageRoute will call TodoDetail class
                               MaterialPageRoute(
                                 builder: (context) =>
                                     CustomerInProgressOrCompletedOrders(
@@ -122,7 +120,6 @@ class Home extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                               context,
-                              //builder of MaterialPageRoute will call TodoDetail class
                               MaterialPageRoute(
                                 builder: (context) =>
                                     CustomerCancelledOrders(uid: uid),
@@ -192,7 +189,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Home(uid: widget.uid)),
+                        builder: (context) => CustomerHome(uid: widget.uid)),
                   );
                 },
               ),

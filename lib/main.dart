@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'signup.dart';
-import 'user_roles_screen.dart';
-import 'home.dart';
-import 'service_provider_homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'is_email_verified.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:splashscreen/splashscreen.dart';
+import 'service_provider_homepage.dart';
+import 'package:flutter/material.dart';
+import 'user_roles_screen.dart';
+import 'customer_home.dart';
 import 'email_login.dart';
+import 'signup.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,7 +34,6 @@ class _IntroScreenState extends State<IntroScreen> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.currentUser().then((res) {
-      print(res);
       if (res != null) {
         Firestore.instance
             .collection("users")
@@ -46,7 +44,8 @@ class _IntroScreenState extends State<IntroScreen> {
             if (doc["role"] == "Customer") {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Home(uid: res.uid)),
+                MaterialPageRoute(
+                    builder: (context) => CustomerHome(uid: res.uid)),
               );
             } else if (doc["role"] == "Service Provider") {
               Navigator.pushReplacement(
@@ -66,24 +65,7 @@ class _IntroScreenState extends State<IntroScreen> {
               context,
               MaterialPageRoute(builder: (context) => EmailLogIn()),
             );
-// Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(
-//                   builder: (context) => IsEmailVerified(
-//                       email: res.email,
-//                       password: ,
-//                       role: doc["role"])),          //   print(doc["role"]);
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => IsEmailVerified(
-            //           email: res.email,
-            //           password: ,
-            //           role: doc["role"])),
-            // IsEmailVerified(res: result, role: doc["role"])),
-            // );
           }
-          // }
         });
       } else {
         Navigator.pushReplacement(

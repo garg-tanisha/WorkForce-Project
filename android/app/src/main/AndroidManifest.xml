@@ -14,7 +14,7 @@
         android:label="workforce"
         android:icon="@mipmap/ic_launcher">
             <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyC6H6kH-iEB5UUy41xNQl2XJ33VQCMngQU" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-// import 'package:workforce/phone_login.dart';
-import 'email_login.dart';
+import 'package:flutter/material.dart';
 import 'email_signup.dart';
-// import 'google_maps.dart';
+import 'email_login.dart';
 
 class SignUp extends StatelessWidget {
   final String title = "Sign Up";
@@ -39,19 +37,6 @@ class SignUp extends StatelessWidget {
                           );
                         },
                       )),
-                  // Padding(
-                  //     padding: EdgeInsets.all(10.0),
-                  //     child: SignInButton(
-                  //       Buttons.Apple,
-                  //       text: "Login with Phone",
-                  //       onPressed: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => PhoneLoginScreen()),
-                  //         );
-                  //       },
-                  //     )),
                   Padding(
                       padding: EdgeInsets.all(10.0),
                       child: SignInButton(
@@ -59,25 +44,6 @@ class SignUp extends StatelessWidget {
                         text: "Sign up with Google",
                         onPressed: () {},
                       )),
-                  // Padding(
-                  //     padding: EdgeInsets.all(10.0),
-                  //     child: SignInButton(
-                  //       Buttons.Google,
-                  //       text: "Google Maps",
-                  //       onPressed: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => GoogleMapsScreen()),
-                  //         );
-                  //       },
-                  //     )),
-                  // Padding(
-                  //     padding: EdgeInsets.all(10.0),
-                  //     child: SignInButton(
-                  //       Buttons.Twitter,
-                  //       text: "Sign up with Twitter",
-                  //       onPressed: () {},
-                  //     )),
                   Padding(
                       padding: EdgeInsets.all(10.0),
                       child: GestureDetector(

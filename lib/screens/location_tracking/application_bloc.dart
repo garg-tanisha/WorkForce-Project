@@ -1,14 +1,14 @@
-import 'dart:async';
-import 'package:workforce/screens/location_tracking/models/place.dart';
-import 'package:flutter/foundation.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:workforce/screens/location_tracking/services/markers_service.dart';
+import 'package:workforce/screens/location_tracking/services/places_service.dart';
+import 'package:workforce/screens/location_tracking/models/place_search.dart';
 import 'package:workforce/screens/location_tracking/models/location.dart';
 import 'package:workforce/screens/location_tracking/models/geometry.dart';
+import 'package:workforce/screens/location_tracking/models/place.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'services/geolocator_service.dart';
-import 'package:workforce/screens/location_tracking/models/place_search.dart';
-import 'package:workforce/screens/location_tracking/services/places_service.dart';
-import 'package:workforce/screens/location_tracking/services/markers_service.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:async';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
@@ -71,35 +71,6 @@ class ApplicationBloc with ChangeNotifier {
     placeType = null;
 
     notifyListeners();
-  }
-
-  togglePlaceType(String value, bool selected) async {
-    if (selected) {
-      placeType = value;
-    } else {
-      placeType = null;
-    }
-
-    if (placeType != null) {
-      var places = await placesService.getPlaces(
-          selectedLocationStatic.geometry.location.lat,
-          selectedLocationStatic.geometry.location.lng,
-          placeType);
-      markers = [];
-      if (places.length > 0) {
-        var newMarker = markerService.createMarkerFromPlace(places[0], false);
-        markers.add(newMarker);
-      }
-
-      var locationMarker =
-          markerService.createMarkerFromPlace(selectedLocationStatic, true);
-      markers.add(locationMarker);
-
-      var _bounds = markerService.bounds(Set<Marker>.of(markers));
-      bounds.add(_bounds);
-
-      notifyListeners();
-    }
   }
 
   @override

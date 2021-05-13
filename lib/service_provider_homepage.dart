@@ -1,8 +1,8 @@
+import 'package:workforce/screens/wsp_orders/wsp_order_status.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:workforce/screens/wsp_orders/wsp_order_status.dart';
 import 'main.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ServiceProviderHome extends StatelessWidget {
   ServiceProviderHome({this.uid});
@@ -57,18 +57,12 @@ class ServiceProviderHome extends StatelessWidget {
                           snapshot.data["role"] == "Customer")
                         return Center(child: Text("No specific roles!"));
 
-                      // print(userDocument);
-                      // print(userDocument.toString());
-                      // print(userDocument.values);
-
                       for (var key in userDocument.keys) {
-                        print(key);
                         roles.add(key);
-                        // print(roles);
                       }
+
                       for (var value in userDocument.values) {
                         rating.add(value);
-                        // print(roles);
                       }
 
                       return ListView.builder(
@@ -91,7 +85,6 @@ class ServiceProviderHome extends StatelessWidget {
                                       print(roles[index]);
                                       Navigator.push(
                                           context,
-                                          //builder of MaterialPageRoute will call TodoDetail class
                                           MaterialPageRoute(
                                             builder: (context) => OrderHistory(
                                                 uid: uid, role: roles[index]),
@@ -111,7 +104,6 @@ class ServiceProviderHome extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                             context,
-                            //builder of MaterialPageRoute will call TodoDetail class
                             MaterialPageRoute(
                               builder: (context) =>
                                   OrderHistory(uid: uid, role: "Other"),

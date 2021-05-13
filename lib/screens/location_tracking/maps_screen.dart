@@ -11,23 +11,22 @@ import 'application_bloc.dart';
 
 typedef void StringCallback(String val);
 
-class HomeScreen extends StatefulWidget {
+class MapsScreen extends StatefulWidget {
   final StringCallback callback;
 
-  // MyChildClass({this.callback});
-  HomeScreen({Key key, this.tableName, this.callback}) : super(key: key);
+  MapsScreen({Key key, this.tableName, this.callback}) : super(key: key);
   final String tableName;
   @override
-  _HomeScreenState createState() => _HomeScreenState(tableName);
+  _MapsScreenState createState() => _MapsScreenState(tableName);
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MapsScreenState extends State<MapsScreen> {
   Completer<GoogleMapController> _mapController = Completer();
   StreamSubscription locationSubscription;
   StreamSubscription boundsSubscription;
   String tableName;
 
-  _HomeScreenState(String tableName) {
+  _MapsScreenState(String tableName) {
     this.tableName = tableName;
   }
   @override
@@ -46,17 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
       controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50.0));
     });
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    final applicationBloc =
-        Provider.of<ApplicationBloc>(context, listen: false);
-
-    applicationBloc.dispose();
-    boundsSubscription.cancel();
-    locationSubscription.cancel();
-    super.dispose();
   }
 
   @override
@@ -163,5 +151,16 @@ class _HomeScreenState extends State<HomeScreen> {
           LatLng(place.geometry.location.lat, place.geometry.location.lng)
               .toString();
     }
+  }
+
+  @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+
+    applicationBloc.dispose();
+    boundsSubscription.cancel();
+    locationSubscription.cancel();
+    super.dispose();
   }
 }

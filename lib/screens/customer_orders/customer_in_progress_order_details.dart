@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:workforce/screens/chat/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workforce/screens/chat/chatPage.dart';
+import 'package:flutter/material.dart';
 
 class CustomerInProgressOrderDetails extends StatefulWidget {
   CustomerInProgressOrderDetails({this.uid, this.wspId, this.orderId});

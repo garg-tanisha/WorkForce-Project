@@ -1,17 +1,15 @@
-import 'package:workforce/screens/location_tracking/home_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:workforce/screens/location_tracking/application_bloc.dart';
+import 'package:workforce/screens/location_tracking/maps_screen.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:workforce/screens/location_tracking/application_bloc.dart';
-import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:location/location.dart';
-import 'is_email_verified.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'email_verification.dart';
+import 'dart:async';
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -23,14 +21,8 @@ class EmailSignUp extends StatefulWidget {
 
 class _EmailSignUpState extends State<EmailSignUp> {
   String location = "Not set yet";
-
-  set string(String value) => setState(() {
-        location = value;
-      });
-
   bool isLoading = false;
   final _roles = ['Customer', 'Service Provider', 'Both'];
-  // String location;
   String _role = 'Customer';
   List<String> options = [];
   Map roleChoices = new Map();
@@ -43,27 +35,21 @@ class _EmailSignUpState extends State<EmailSignUp> {
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  // TextEditingController addressController = TextEditingController();
   StreamSubscription _locationSubscription;
 
   LocationData newLocalData;
-  bool isNumeric(String s) {
-    if (s == null) {
-      return false;
-    }
-    return int.tryParse(s) != null;
-  }
+
+  set string(String value) => setState(() {
+        location = value;
+      });
 
   @override
   void initState() {
     super.initState();
-    // addressController.text = "Current Location is chosen!";
   }
 
   @override
   Widget build(BuildContext context) {
-    // final applicationBloc = Provider.of<ApplicationBloc>(context);
-
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
         child: MaterialApp(
@@ -133,7 +119,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.emailAddress,
-                          // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Enter an Email Address';
@@ -168,7 +153,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.phone,
-                          // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value.isEmpty ||
                                 value.length != 10 ||
@@ -191,7 +175,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.visiblePassword,
-                          // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Enter Password';
@@ -214,7 +197,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.visiblePassword,
-                          // The validator receives the text that the user has entered.
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Please Confirm Password';
@@ -262,8 +244,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                                     ],
                                     onChanged: (values) {
                                       roleChoices.clear();
-                                      values.forEach((e) => roleChoices[e] =
-                                          "null"); //options.add(e as String));
+                                      values.forEach(
+                                          (e) => roleChoices[e] = "null");
                                       setState(() {});
                                     },
                                   ),
@@ -280,7 +262,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: 400,
-                            child: HomeScreen(
+                            child: MapsScreen(
                               tableName: 'users',
                               callback: (val) => setState(() => location = val),
                             )),
@@ -303,6 +285,13 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               ),
                       ),
                     ]))))));
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return int.tryParse(s) != null;
   }
 
   void registerToFb() {
@@ -367,7 +356,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
               "first name": firstNameController.text,
               "last name": lastNameController.text,
               "role": _role,
-              // "address": addressController.text,
               "date time": DateTime.now(),
               "phone no": int.parse(phoneNoController.text),
               "latitude": double.parse(location.split('(')[1].split(',')[0]),
@@ -426,7 +414,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     ageController.dispose();
-    // addressController.dispose();
     phoneNoController.dispose();
     if (_locationSubscription != null) {
       _locationSubscription.cancel();

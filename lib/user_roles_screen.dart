@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:workforce/home.dart';
 import 'package:workforce/service_provider_homepage.dart';
-import 'main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:workforce/customer_home.dart';
+import 'package:flutter/material.dart';
+import 'main.dart';
 
 class UserRoles extends StatelessWidget {
   UserRoles({this.uid});
@@ -51,9 +51,8 @@ class UserRoles extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                             context,
-                            //builder of MaterialPageRoute will call TodoDetail class
                             MaterialPageRoute(
-                              builder: (context) => Home(
+                              builder: (context) => CustomerHome(
                                 uid: uid,
                               ),
                             ));
@@ -67,7 +66,6 @@ class UserRoles extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                             context,
-                            //builder of MaterialPageRoute will call TodoDetail class
                             MaterialPageRoute(
                               builder: (context) => ServiceProviderHome(
                                 uid: uid,

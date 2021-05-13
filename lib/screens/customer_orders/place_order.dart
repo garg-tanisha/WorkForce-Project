@@ -1,4 +1,4 @@
-import 'package:workforce/screens/location_tracking/home_screen.dart';
+import 'package:workforce/screens/location_tracking/maps_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -408,7 +408,7 @@ class PlaceOrderState extends State {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                             height: 400,
-                            child: HomeScreen(
+                            child: MapsScreen(
                               tableName: "orders",
                               callback: (val) => setState(() => location = val),
                             )),

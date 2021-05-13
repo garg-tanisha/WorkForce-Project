@@ -1,5 +1,5 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:workforce/screens/location_tracking/models/place.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkerService {
   LatLngBounds bounds(Set<Marker> markers) {

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -40,42 +39,6 @@ class _ChatState extends State<ChatPage> {
 
   _ChatState(String userId) {
     this.userId = userId;
-  }
-
-  Widget chatMessages() {
-    return StreamBuilder(
-      stream: chats,
-      builder: (context, snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) {
-                  return MessageTile(
-                    message: snapshot.data.documents[index].data["message"],
-                    sendByMe: this.userId ==
-                        snapshot.data.documents[index].data["sendBy"],
-                    timeOfMessage: snapshot.data.documents[index].data["time"],
-                  );
-                })
-            : Container();
-      },
-    );
-  }
-
-  addMessage() {
-    if (messageEditingController.text.isNotEmpty) {
-      Map<String, dynamic> chatMessageMap = {
-        "sendBy": this.userId,
-        "message": messageEditingController.text,
-        'time': DateTime.now(),
-      };
-
-      DatabaseMethods().addMessage(widget.placedOrderId, chatMessageMap);
-
-      setState(() {
-        messageEditingController.text = "";
-      });
-    }
   }
 
   @override
@@ -154,6 +117,42 @@ class _ChatState extends State<ChatPage> {
         ),
       ),
     );
+  }
+
+  Widget chatMessages() {
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                    message: snapshot.data.documents[index].data["message"],
+                    sendByMe: this.userId ==
+                        snapshot.data.documents[index].data["sendBy"],
+                    timeOfMessage: snapshot.data.documents[index].data["time"],
+                  );
+                })
+            : Container();
+      },
+    );
+  }
+
+  addMessage() {
+    if (messageEditingController.text.isNotEmpty) {
+      Map<String, dynamic> chatMessageMap = {
+        "sendBy": this.userId,
+        "message": messageEditingController.text,
+        'time': DateTime.now(),
+      };
+
+      DatabaseMethods().addMessage(widget.placedOrderId, chatMessageMap);
+
+      setState(() {
+        messageEditingController.text = "";
+      });
+    }
   }
 }
 

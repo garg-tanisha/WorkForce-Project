@@ -1,10 +1,10 @@
+import 'package:workforce/screens/location_tracking/models/place_search.dart';
+import 'package:workforce/screens/location_tracking/models/place.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:workforce/screens/location_tracking/models/place.dart';
-import 'package:workforce/screens/location_tracking/models/place_search.dart';
 
 class PlacesService {
-  final key = 'YOUR_API_KEY';
+  final key = 'AIzaSyC6H6kH-iEB5UUy41xNQl2XJ33VQCMngQU';
 
   Future<List<PlaceSearch>> getAutocomplete(String search) async {
     var url =
