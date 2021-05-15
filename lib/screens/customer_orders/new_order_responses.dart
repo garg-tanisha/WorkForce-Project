@@ -1,3 +1,4 @@
+import 'package:sentiment_dart/sentiment_dart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,11 +18,12 @@ class OrderResponsesState extends State {
   String uid;
   String orderId;
   final List<Map<dynamic, dynamic>> lists = [];
-
+  final sentiment = Sentiment();
   OrderResponsesState(String uid, String orderId) {
     this.uid = uid;
     this.orderId = orderId;
   }
+
   _onDropDownChanged(String value) {
     setState(() {
       this.filter = value;
@@ -37,7 +39,47 @@ class OrderResponsesState extends State {
     'Response (Oldest to Latest)',
     'Response (Latest to Oldest)'
   ];
+
   String filter = 'No Filter';
+
+  bool recommendation(DocumentSnapshot course) {
+    if (course["ratings"] == null || course["ratings"] < 3)
+      return false;
+
+    //calculate average rating of all the service providers and use it for comparing
+    else if (course["ratings"] >= 3) {
+      Firestore.instance
+          .collection("placed orders")
+          .where("wsp id", isEqualTo: course["wsp id"])
+          .where("status", isEqualTo: "Completed")
+          .getDocuments()
+          .then((doc) {
+        int positiveFeedback = 0, negativeFeedback = 0;
+        for (var order in doc.documents) {
+          if (order["feedback"] != null) {
+            //use text mining and percentage for the same
+            var analysedFeedback =
+                sentiment.analysis(order["feedback"], emoji: true);
+
+            if (analysedFeedback["good words"].length >
+                analysedFeedback["badword"].length) {
+              positiveFeedback++;
+            } else
+              negativeFeedback++;
+          }
+        }
+
+        if ((positiveFeedback / (positiveFeedback + negativeFeedback) * 100) <
+            75)
+          return false;
+        else
+          return true;
+      });
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (filter == 'No Filter') {
@@ -58,7 +100,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -70,9 +111,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -106,84 +146,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  //update "rejected" response
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  //accepted request
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  //changed order to "in progress"
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  //added to placed orders
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  //popped screen out
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -241,7 +303,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -253,9 +314,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -291,7 +351,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -312,7 +371,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -323,7 +381,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -332,7 +389,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -349,11 +405,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(
@@ -424,7 +477,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -436,9 +488,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -474,7 +525,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -495,7 +545,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -506,7 +555,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -515,7 +563,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -532,11 +579,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(
@@ -607,7 +651,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -619,9 +662,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -657,7 +699,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -678,7 +719,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -689,7 +729,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -698,7 +737,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -715,11 +753,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(
@@ -790,7 +825,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -802,9 +836,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -840,7 +873,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -861,7 +893,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -872,7 +903,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -881,7 +911,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -898,11 +927,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(
@@ -973,7 +999,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -985,9 +1010,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -1023,7 +1047,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -1044,7 +1067,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -1055,7 +1077,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -1064,7 +1085,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -1081,11 +1101,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(
@@ -1156,7 +1173,6 @@ class OrderResponsesState extends State {
                     Text("Choose Filter"),
                     Card(
                       child: DropdownButton<String>(
-                        //create an array of strings
                         items: filters.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -1168,9 +1184,8 @@ class OrderResponsesState extends State {
                           _onDropDownChanged(value);
                         },
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
-                        // height: 200.0,
                         child: ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
@@ -1206,7 +1221,6 @@ class OrderResponsesState extends State {
                                                       .toString()),
                                               leading: RaisedButton(
                                                 onPressed: () async {
-                                                  //update "rejected" response
                                                   CollectionReference ref =
                                                       Firestore.instance.collection(
                                                           'accepted responses');
@@ -1227,7 +1241,6 @@ class OrderResponsesState extends State {
                                                     });
                                                   });
 
-                                                  //accepted request
                                                   Firestore.instance
                                                       .collection(
                                                           "accepted responses")
@@ -1238,7 +1251,6 @@ class OrderResponsesState extends State {
                                                         "accepted",
                                                   });
 
-                                                  //changed order to "in progress"
                                                   Firestore.instance
                                                       .collection("orders")
                                                       .document(
@@ -1247,7 +1259,6 @@ class OrderResponsesState extends State {
                                                     "status": "In Progress",
                                                   });
 
-                                                  //added to placed orders
                                                   Firestore.instance
                                                       .collection(
                                                           "placed orders")
@@ -1264,11 +1275,8 @@ class OrderResponsesState extends State {
                                                         course["role"],
                                                     "distance":
                                                         course["distance"]
-                                                    // "service date and time": course[
-                                                    //     "service date and time"]
                                                   });
 
-                                                  //popped screen out
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: const Text(

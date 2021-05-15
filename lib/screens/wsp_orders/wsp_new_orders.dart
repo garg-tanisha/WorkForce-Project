@@ -46,6 +46,11 @@ class OrdersState extends State {
 
   bool checkDistance(
       double orderlatitude, double orderLongitude, var orderDistance) {
+    print(calculateDistance(
+        orderlatitude, orderLongitude, wsp_latitude, wsp_longitude));
+
+    print(orderDistance);
+
     return (calculateDistance(
             orderlatitude, orderLongitude, wsp_latitude, wsp_longitude) <=
         orderDistance);

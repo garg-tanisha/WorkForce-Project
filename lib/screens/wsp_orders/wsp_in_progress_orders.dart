@@ -562,8 +562,6 @@ class ProofsAndSignaturesState extends State {
 
   void submitProofs(
       String orderId, String placeOrderId, BuildContext contextt) {
-    debugPrint("Success");
-
     Firestore.instance
         .collection("orders")
         .document(orderId)
