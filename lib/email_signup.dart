@@ -1,5 +1,6 @@
 import 'package:workforce/screens/location_tracking/application_bloc.dart';
 import 'package:workforce/screens/location_tracking/maps_screen.dart';
+import 'package:flutter_recaptcha_v2/flutter_recaptcha_v2.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +28,10 @@ class _EmailSignUpState extends State<EmailSignUp> {
   List<String> options = [];
   Map roleChoices = new Map();
   final _formKey = GlobalKey<FormState>();
+  String verifyResult = "";
+  bool recaptchaCheck = false;
+  RecaptchaV2Controller recaptchaV2Controller = RecaptchaV2Controller();
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
@@ -59,18 +64,41 @@ class _EmailSignUpState extends State<EmailSignUp> {
             ),
             home: Scaffold(
                 appBar: AppBar(title: Text("Sign Up")),
-                body: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                        child: Column(children: <Widget>[
-                      Row(children: [
-                        Expanded(
-                          child: Padding(
+                body: Stack(children: <Widget>[
+                  Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                          child: Column(children: <Widget>[
+                        Row(children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: TextFormField(
+                                controller: firstNameController,
+                                decoration: InputDecoration(
+                                  labelText: "Enter First Name*",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.name,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter First Name*';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                              child: Padding(
                             padding: EdgeInsets.all(20.0),
                             child: TextFormField(
-                              controller: firstNameController,
+                              controller: lastNameController,
                               decoration: InputDecoration(
-                                labelText: "Enter First Name*",
+                                labelText: "Enter Last Name*",
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -79,212 +107,255 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               // The validator receives the text that the user has entered.
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return 'Enter First Name*';
+                                  return 'Enter Last Name';
                                 }
                                 return null;
                               },
                             ),
-                          ),
-                        ),
-                        Expanded(
-                            child: Padding(
+                          )),
+                        ]),
+                        Padding(
                           padding: EdgeInsets.all(20.0),
                           child: TextFormField(
-                            controller: lastNameController,
+                            controller: emailController,
                             decoration: InputDecoration(
-                              labelText: "Enter Last Name*",
+                              labelText: "Enter Email*",
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
-                            keyboardType: TextInputType.name,
-                            // The validator receives the text that the user has entered.
+                            keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Enter Last Name';
+                                return 'Enter an Email Address';
+                              } else if (!value.contains('@')) {
+                                return 'Please enter a valid email address';
                               }
                               return null;
                             },
                           ),
-                        )),
-                      ]),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Email*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Enter an Email Address';
-                            } else if (!value.contains('@')) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: ageController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Age",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: phoneNoController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Phone No.*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value.isEmpty ||
-                                value.length != 10 ||
-                                !isNumeric(value)) {
-                              return 'Enter Valid Phone No!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          obscureText: true,
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Password*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Enter Password';
-                            } else if (value.length < 6) {
-                              return 'Password must be atleast 6 characters!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          obscureText: true,
-                          controller: confirmPasswordController,
-                          decoration: InputDecoration(
-                            labelText: "Confirm Password*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please Confirm Password';
-                            } else if (value != passwordController.text) {
-                              return 'Passwords donot match!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Text("Choose Role*"),
-                      DropdownButton<String>(
-                        //create an array of strings
-                        items: _roles.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: _role,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
-                      ),
-                      _role != "Customer"
-                          ? ExpansionTile(
-                              title: Text('Service Roles'),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: FormBuilderCheckboxList(
-                                    decoration: InputDecoration(
-                                        labelText:
-                                            "Services that you are willing to provide"),
-                                    attribute: "service roles",
-                                    initialValue: options,
-                                    options: [
-                                      FormBuilderFieldOption(
-                                          value: "Electrician"),
-                                      FormBuilderFieldOption(
-                                          value: "Carpenter"),
-                                      FormBuilderFieldOption(value: "Doctor"),
-                                      FormBuilderFieldOption(value: "Plumber"),
-                                      FormBuilderFieldOption(value: "Mechanic"),
-                                    ],
-                                    onChanged: (values) {
-                                      roleChoices.clear();
-                                      values.forEach(
-                                          (e) => roleChoices[e] = "null");
-                                      setState(() {});
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "Address(Current Location or Search Location)"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            height: 400,
-                            child: MapsScreen(
-                              tableName: 'users',
-                              callback: (val) => setState(() => location = val),
-                            )),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: isLoading
-                            ? CircularProgressIndicator()
-                            : RaisedButton(
-                                color: Colors.lightBlueAccent,
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    registerToFb();
-                                  }
-                                },
-                                child: Text('Submit'),
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: TextFormField(
+                            controller: ageController,
+                            decoration: InputDecoration(
+                              labelText: "Enter Age",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
-                      ),
-                    ]))))));
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: TextFormField(
+                            controller: phoneNoController,
+                            decoration: InputDecoration(
+                              labelText: "Enter Phone No.*",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value.isEmpty ||
+                                  value.length != 10 ||
+                                  !isNumeric(value)) {
+                                return 'Enter Valid Phone No!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: TextFormField(
+                            obscureText: true,
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              labelText: "Enter Password*",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            keyboardType: TextInputType.visiblePassword,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Enter Password';
+                              } else if (value.length < 6) {
+                                return 'Password must be atleast 6 characters!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: TextFormField(
+                            obscureText: true,
+                            controller: confirmPasswordController,
+                            decoration: InputDecoration(
+                              labelText: "Confirm Password*",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            keyboardType: TextInputType.visiblePassword,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please Confirm Password';
+                              } else if (value != passwordController.text) {
+                                return 'Passwords donot match!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Text("Choose Role*"),
+                        DropdownButton<String>(
+                          //create an array of strings
+                          items: _roles.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          value: _role,
+                          onChanged: (String value) {
+                            _onDropDownChanged(value);
+                          },
+                        ),
+                        _role != "Customer"
+                            ? ExpansionTile(
+                                title: Text('Service Roles'),
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: FormBuilderCheckboxList(
+                                      decoration: InputDecoration(
+                                          labelText:
+                                              "Services that you are willing to provide"),
+                                      attribute: "service roles",
+                                      initialValue: options,
+                                      options: [
+                                        FormBuilderFieldOption(
+                                            value: "Electrician"),
+                                        FormBuilderFieldOption(
+                                            value: "Carpenter"),
+                                        FormBuilderFieldOption(value: "Doctor"),
+                                        FormBuilderFieldOption(
+                                            value: "Plumber"),
+                                        FormBuilderFieldOption(
+                                            value: "Mechanic"),
+                                      ],
+                                      onChanged: (values) {
+                                        roleChoices.clear();
+                                        values.forEach(
+                                            (e) => roleChoices[e] = "null");
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                              "Address(Current Location or Search Location)"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: 400,
+                              child: MapsScreen(
+                                tableName: 'users',
+                                callback: (val) =>
+                                    setState(() => location = val),
+                              )),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: isLoading
+                              ? CircularProgressIndicator()
+                              : RaisedButton(
+                                  color: Colors.lightBlueAccent,
+                                  onPressed: () {
+                                    if (_formKey.currentState.validate()) {
+                                      if (verifyResult ==
+                                          "You've been verified successfully.") {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        registerToFb();
+                                      } else {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                content: Text(
+                                                    "Kindly verify if you are robot"),
+                                                actions: [
+                                                  FlatButton(
+                                                    child: Text("Ok"),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      }
+                                    }
+                                  },
+                                  child: Text('Submit'),
+                                ),
+                        ),
+                      ]))),
+                  !recaptchaCheck
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RaisedButton(
+                                child: Text("Verify if you are robot"),
+                                onPressed: () {
+                                  recaptchaV2Controller.show();
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(width: 0.0, height: 0.0),
+                  RecaptchaV2(
+                    apiKey: "",
+                    apiSecret: "",
+                    controller: recaptchaV2Controller,
+                    onVerifiedError: (err) {
+                      print(err);
+                    },
+                    onVerifiedSuccessfully: (success) {
+                      setState(() {
+                        if (success) {
+                          verifyResult = "You've been verified successfully.";
+                          recaptchaCheck = true;
+                          print(verifyResult);
+                          recaptchaV2Controller.hide();
+                        } else {
+                          verifyResult = "Failed to verify.";
+                          recaptchaCheck = false;
+                          print(verifyResult);
+                        }
+                      });
+                    },
+                  ),
+                  !recaptchaCheck
+                      ? Container(width: 0.0, height: 0.0)
+                      : Text(verifyResult),
+                ]))));
   }
 
   bool isNumeric(String s) {

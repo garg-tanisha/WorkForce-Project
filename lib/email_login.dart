@@ -1,3 +1,4 @@
+import 'package:flutter_recaptcha_v2/flutter_recaptcha_v2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'service_provider_homepage.dart';
@@ -19,86 +20,162 @@ class _EmailLogInState extends State<EmailLogIn> {
   TextEditingController passwordResetController = TextEditingController();
   bool isLoading = false;
   dynamic role;
+  String verifyResult = "";
+  bool recaptchaCheck = false;
+  RecaptchaV2Controller recaptchaV2Controller = RecaptchaV2Controller();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    recaptchaV2Controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: Text("Login")),
-          body: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                  child: Column(children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: "Enter Email Address*",
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    // The validator receives the text that the user has entered.
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Enter Email Address*';
-                      } else if (!value.contains('@')) {
-                        return 'Please enter a valid email address!';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: TextFormField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      labelText: "Enter Password*",
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Enter Password';
-                      } else if (value.length < 6) {
-                        return 'Password must be atleast 6 characters!';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: isLoading
-                      ? CircularProgressIndicator()
-                      : RaisedButton(
-                          color: Colors.lightBlueAccent,
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              logInToFb();
-                            }
-                          },
-                          child: Text('Submit'),
+        appBar: AppBar(title: Text("Login")),
+        body: Stack(
+          children: <Widget>[
+            Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                    child: Column(children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: "Enter Email Address*",
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: GestureDetector(
-                        child: Text("Forgot Password",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Colors.blue)),
-                        onTap: () async {
-                          await _asyncSimpleDialog(context);
-                        })),
-              ])))),
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Enter Email Address*';
+                        } else if (!value.contains('@')) {
+                          return 'Please enter a valid email address!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: "Enter Password*",
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Enter Password';
+                        } else if (value.length < 6) {
+                          return 'Password must be atleast 6 characters!';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: isLoading
+                        ? CircularProgressIndicator()
+                        : RaisedButton(
+                            color: Colors.lightBlueAccent,
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                if (verifyResult ==
+                                    "You've been verified successfully.") {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  logInToFb();
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: Text(
+                                              "Kindly verify if you are robot"),
+                                          actions: [
+                                            FlatButton(
+                                              child: Text("Ok"),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                }
+                              }
+                            },
+                            child: Text('Submit'),
+                          ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                          child: Text("Forgot Password",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.blue)),
+                          onTap: () async {
+                            await _asyncSimpleDialog(context);
+                          })),
+                ]))),
+            !recaptchaCheck
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text("Verify if you are robot"),
+                          onPressed: () {
+                            recaptchaV2Controller.show();
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(width: 0.0, height: 0.0),
+            RecaptchaV2(
+              apiKey: "",
+              apiSecret: "",
+              controller: recaptchaV2Controller,
+              onVerifiedError: (err) {
+                print(err);
+              },
+              onVerifiedSuccessfully: (success) {
+                setState(() {
+                  if (success) {
+                    verifyResult = "You've been verified successfully.";
+                    recaptchaCheck = true;
+                    print(verifyResult);
+                    recaptchaV2Controller.hide();
+                  } else {
+                    verifyResult = "Failed to verify.";
+                    recaptchaCheck = false;
+                    print(verifyResult);
+                  }
+                });
+              },
+            ),
+            !recaptchaCheck
+                ? Container(width: 0.0, height: 0.0)
+                : Text(verifyResult),
+          ],
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

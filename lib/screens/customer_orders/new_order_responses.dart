@@ -19,6 +19,7 @@ class OrderResponsesState extends State {
   String orderId;
   final List<Map<dynamic, dynamic>> lists = [];
   final sentiment = Sentiment();
+  double averageWSPRating = 0;
   OrderResponsesState(String uid, String orderId) {
     this.uid = uid;
     this.orderId = orderId;
@@ -42,12 +43,50 @@ class OrderResponsesState extends State {
 
   String filter = 'No Filter';
 
+  double calculateAverageRating() {
+    int totalCompletedOrders = 0;
+
+    double totalRating = 0;
+    Firestore.instance
+        .collection('accepted responses')
+        .where("order id", isEqualTo: orderId)
+        .where("customer response", isEqualTo: "None")
+        .getDocuments()
+        .then((doc) {
+      print(doc.documents.length);
+      totalCompletedOrders = doc.documents.length;
+
+      for (var order in doc.documents) {
+        if (order["ratings"] != null) {
+          totalRating += int.parse(order["ratings"]);
+        }
+      }
+      Firestore.instance
+          .collection('accepted responses')
+          .where("order id", isEqualTo: orderId)
+          .where("customer response", isEqualTo: "None")
+          .where("ratings", isNull: true)
+          .getDocuments()
+          .then((doc) {
+        print(doc.documents.length);
+        totalCompletedOrders -= doc.documents.length;
+      });
+
+      double averageRating = ((totalRating * 5) / totalCompletedOrders);
+      print(averageRating);
+
+      averageWSPRating = averageRating;
+      return averageRating;
+    });
+    return averageWSPRating;
+  }
+
   bool recommendation(DocumentSnapshot course) {
-    if (course["ratings"] == null || course["ratings"] < 3)
+    if (course["ratings"] == null || course["ratings"] < averageWSPRating)
       return false;
 
     //calculate average rating of all the service providers and use it for comparing
-    else if (course["ratings"] >= 3) {
+    else if (course["ratings"] >= averageWSPRating) {
       Firestore.instance
           .collection("placed orders")
           .where("wsp id", isEqualTo: course["wsp id"])
@@ -61,8 +100,9 @@ class OrderResponsesState extends State {
             var analysedFeedback =
                 sentiment.analysis(order["feedback"], emoji: true);
 
-            if (analysedFeedback["good words"].length >
-                analysedFeedback["badword"].length) {
+            if ((analysedFeedback["good words"].length >
+                    analysedFeedback["badword"].length) &&
+                analysedFeedback["comparitive"] > 0) {
               positiveFeedback++;
             } else
               negativeFeedback++;
@@ -96,6 +136,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -299,6 +341,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -349,77 +393,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -473,6 +546,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -523,77 +598,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -647,6 +751,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -697,77 +803,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -821,6 +956,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -871,77 +1008,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -995,6 +1161,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -1045,77 +1213,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(
@@ -1169,6 +1366,8 @@ class OrderResponsesState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
+                  calculateAverageRating();
+
                   return Column(children: [
                     Text("Choose Filter"),
                     Card(
@@ -1219,77 +1418,106 @@ class OrderResponsesState extends State {
                                                   "Distance:" +
                                                   course["distance"]
                                                       .toString()),
-                                              leading: RaisedButton(
-                                                onPressed: () async {
-                                                  CollectionReference ref =
-                                                      Firestore.instance.collection(
-                                                          'accepted responses');
+                                              leading:
+                                                  Column(children: <Widget>[
+                                                Expanded(
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      CollectionReference ref =
+                                                          Firestore.instance
+                                                              .collection(
+                                                                  'accepted responses');
 
-                                                  QuerySnapshot eventsQuery =
-                                                      await ref
-                                                          .where('order id',
-                                                              isEqualTo:
-                                                                  orderId)
-                                                          .getDocuments();
+                                                      QuerySnapshot
+                                                          eventsQuery =
+                                                          await ref
+                                                              .where('order id',
+                                                                  isEqualTo:
+                                                                      orderId)
+                                                              .getDocuments();
 
-                                                  eventsQuery.documents
-                                                      .forEach((msgDoc) {
-                                                    msgDoc.reference
-                                                        .updateData({
-                                                      "customer response":
-                                                          "rejected",
-                                                    });
-                                                  });
+                                                      eventsQuery.documents
+                                                          .forEach((msgDoc) {
+                                                        msgDoc.reference
+                                                            .updateData({
+                                                          "customer response":
+                                                              "rejected",
+                                                        });
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "accepted responses")
-                                                      .document(
-                                                          course.documentID)
-                                                      .updateData({
-                                                    "customer response":
-                                                        "accepted",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "accepted responses")
+                                                          .document(
+                                                              course.documentID)
+                                                          .updateData({
+                                                        "customer response":
+                                                            "accepted",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection("orders")
-                                                      .document(
-                                                          course["order id"])
-                                                      .updateData({
-                                                    "status": "In Progress",
-                                                  });
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(course[
+                                                              "order id"])
+                                                          .updateData({
+                                                        "status": "In Progress",
+                                                      });
 
-                                                  Firestore.instance
-                                                      .collection(
-                                                          "placed orders")
-                                                      .add({
-                                                    "wsp id": course["wsp id"],
-                                                    "status": "In Progress",
-                                                    "order id":
-                                                        course["order id"],
-                                                    "description":
-                                                        course["description"],
-                                                    "user id": uid,
-                                                    "price": course["price"],
-                                                    "service type":
-                                                        course["role"],
-                                                    "distance":
-                                                        course["distance"]
-                                                  });
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "placed orders")
+                                                          .add({
+                                                        "wsp id":
+                                                            course["wsp id"],
+                                                        "status": "In Progress",
+                                                        "order id":
+                                                            course["order id"],
+                                                        "description": course[
+                                                            "description"],
+                                                        "user id": uid,
+                                                        "price":
+                                                            course["price"],
+                                                        "service type":
+                                                            course["role"],
+                                                        "distance":
+                                                            course["distance"]
+                                                      });
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  "Accept",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0)),
-                                                color: Colors.green,
-                                              ),
+                                                recommendation(course)
+                                                    ? RaisedButton(
+                                                        onPressed: () async {},
+                                                        child: const Text(
+                                                          "R",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                        color: Colors.blue,
+                                                      )
+                                                    : Container(
+                                                        width: 0.0, height: 0.0)
+                                              ]),
                                               trailing: RaisedButton(
                                                 onPressed: () async {
                                                   print(

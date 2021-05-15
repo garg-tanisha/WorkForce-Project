@@ -2,6 +2,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter/material.dart';
 import 'email_signup.dart';
 import 'email_login.dart';
+import 'package:workforce/screens/recommendations/recommendations.dart';
 
 class SignUp extends StatelessWidget {
   final String title = "Sign Up";
@@ -57,7 +58,21 @@ class SignUp extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => EmailLogIn()),
                             );
-                          }))
+                          })),
+                  // Padding(
+                  //     padding: EdgeInsets.all(10.0),
+                  //     child: GestureDetector(
+                  //         child: Text("Recommendations",
+                  //             style: TextStyle(
+                  //                 decoration: TextDecoration.underline,
+                  //                 color: Colors.blue)),
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => Recommendations()),
+                  //           );
+                  //         }))
                 ]),
           )),
       debugShowCheckedModeBanner: false,
