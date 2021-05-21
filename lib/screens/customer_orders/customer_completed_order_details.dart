@@ -187,10 +187,9 @@ class CustomerCompletedOrderDetailsState extends State {
                                                         color: Colors
                                                             .lightBlueAccent,
                                                       )
-                                                    : Text(
-                                                        "Hi"), // : Container(
-                                                //     width: 0.0,
-                                                //     height: 0.0),
+                                                    : Container(
+                                                        width: 0.0,
+                                                        height: 0.0),
                                                 course["feedback"] == null
                                                     ? Column(children: [
                                                         Text("Submit Feedback"),

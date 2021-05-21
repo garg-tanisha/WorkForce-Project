@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'user_roles_screen.dart';
 import 'customer_home.dart';
 import 'email_login.dart';
-import 'signup.dart';
+import 'home.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,7 +70,7 @@ class _IntroScreenState extends State<IntroScreen> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => SignUp()),
+          MaterialPageRoute(builder: (context) => Home()),
         );
       }
     });
@@ -84,7 +84,8 @@ class _IntroScreenState extends State<IntroScreen> {
           'Welcome To WorkForce!',
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
-        image: Image.asset('images/workforce.png', fit: BoxFit.scaleDown),
+        image: Image.asset('images/workforce.png',
+            height: 170.0, width: 170.0, fit: BoxFit.scaleDown),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,

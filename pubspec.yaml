@@ -53,6 +53,11 @@ dependencies:
   http: ^0.12.2
   sentiment_dart: ^0.0.4
   tflite_flutter:
+  tflite: 1.1.1
+  camera:
+  path_provider:
+  path:
+  carousel_slider: ^2.3.1
 dev_dependencies:
   # pedantic: ^1.9.0
   # build_runner: ^1.10.0
@@ -75,7 +80,14 @@ flutter:
     - images/workforce.png
     - images/send.png
     - images/car.jpg
+    - images/carpenter.jpeg
+    - images/women_hair_styling.jpg
+    - images/mechanic.jpg
+    - images/mechanic2.jpg
+    - images/home_page_background_image.jpg
     - assets/
+    - assets/labels.txt
+    - assets/mobilenet_v1_1.0_224_quant.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

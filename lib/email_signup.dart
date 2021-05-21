@@ -331,8 +331,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
                         )
                       : Container(width: 0.0, height: 0.0),
                   RecaptchaV2(
-                    apiKey: "",
-                    apiSecret: "",
+                    apiKey: "6LcDZNYaAAAAAJr47OaUnu6IBqJinP9lg6u68LnP",
+                    apiSecret: "6LcDZNYaAAAAANufZSbn6pTHKh64kjODmUnyt-Kh",
                     controller: recaptchaV2Controller,
                     onVerifiedError: (err) {
                       print(err);
