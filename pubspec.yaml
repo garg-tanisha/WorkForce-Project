@@ -80,11 +80,8 @@ flutter:
     - images/workforce.png
     - images/send.png
     - images/car.jpg
-    - images/carpenter.jpeg
-    - images/women_hair_styling.jpg
-    - images/mechanic.jpg
-    - images/mechanic2.jpg
     - images/home_page_background_image.jpg
+    - images/
     - assets/
     - assets/labels.txt
     - assets/mobilenet_v1_1.0_224_quant.tflite
