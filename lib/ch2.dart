@@ -33,7 +33,7 @@ List<String> listPathsLabels = [
   "Sofa Cleaning",
   "Women's Hair Cut and Spa"
 ];
-int indexTrack = 0;
+
 final List<Widget> imageSliders = imgList
     .map((item) => Container(
           child: Container(
@@ -148,8 +148,8 @@ class CustomerHomeState extends State {
   int indexTrack = 0;
   @override
   Widget build(BuildContext context) {
-    int imageCount = (imgList.length / 2).round();
-    List<int> list = [1, 2, 3, 4, 5];
+    int imageCount = (imgList.length / 3).round();
+    // List<int> list = [1, 2, 3, 4, 5];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -184,6 +184,87 @@ class CustomerHomeState extends State {
                   SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
+                        Container(
+                            child: CarouselSlider.builder(
+                          options: CarouselOptions(
+                            aspectRatio: 2.0,
+                            enlargeCenterPage: false,
+                            viewportFraction: 1,
+                          ),
+                          itemCount: imageCount,
+                          itemBuilder: (context, index) {
+                            final int first =
+                                index + indexTrack < imgList.length
+                                    ? index + indexTrack
+                                    : null;
+                            int second;
+                            int third;
+
+                            if (first == null) {
+                              second = null;
+                              third = null;
+                            } else {
+                              second =
+                                  first + 1 < imgList.length ? first + 1 : null;
+                              third =
+                                  first + 2 < imgList.length ? first + 2 : null;
+                            }
+                            indexTrack = third;
+                            return Row(
+                              children: [first, second, third].map((idx) {
+                                return idx != null
+                                    ? Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: Stack(children: <Widget>[
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.asset(imgList[idx],
+                                                    width: 1000.0,
+                                                    height: 700.0,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                              Positioned(
+                                                bottom: 0.0,
+                                                left: 0.0,
+                                                right: 0.0,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Color.fromARGB(
+                                                            200, 0, 0, 0),
+                                                        Color.fromARGB(
+                                                            0, 0, 0, 0)
+                                                      ],
+                                                      begin: Alignment
+                                                          .bottomCenter,
+                                                      end: Alignment.topCenter,
+                                                    ),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 20.0),
+                                                  child: Text(
+                                                    listPathsLabels[idx],
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ])))
+                                    : Container();
+                              }).toList(),
+                            );
+                          },
+                        )),
                         CarouselSlider(
                           items: imageServiceSliders,
                           options: CarouselOptions(
@@ -503,64 +584,209 @@ class CustomerHomeState extends State {
                       )),
                   Text("Recommeded Services"),
 
-                  Container(
-                      child: CarouselSlider.builder(
-                    options: CarouselOptions(
-                      aspectRatio: 2.0,
-                      enlargeCenterPage: false,
-                      viewportFraction: 1,
-                    ),
-                    itemCount: imageCount,
-                    itemBuilder: (context, index) {
-                      final int first = index * 2;
-                      final int second =
-                          index < imageCount - 1 ? first + 1 : null;
-
-                      return Row(
-                        children: [first, second].map((idx) {
-                          return idx != null
-                              ? Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Stack(children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Image.asset(imgList[idx],
-                                              width: 1000.0,
-                                              height: 700.0,
-                                              fit: BoxFit.cover),
-                                        ),
-                                        Positioned(
-                                          bottom: 0.0,
-                                          left: 0.0,
-                                          right: 0.0,
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10.0,
-                                                horizontal: 20.0),
-                                            child: Text(
-                                              listPathsLabels[idx],
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ])))
-                              : Container();
-                        }).toList(),
-                      );
-                    },
-                  )),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                    ],
+                  )
                   // )
                 ],
               ),
