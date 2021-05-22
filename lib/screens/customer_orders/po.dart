@@ -246,64 +246,54 @@ class PlaceOrderState extends State {
                         ]),
                       ),
                       Container(
-                        margin: const EdgeInsets.all(10.0),
+                        // margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(2.0),
-                        child: Row(children: [
-                          Icon(
-                            Icons.lock_sharp,
-                            color: Colors.blue,
-                            size: 30.0,
-                            semanticLabel: 'Confirm Password',
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
                           ),
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
                               ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 20.0,
-                                        right: 20.0),
-                                    child: Text("Service Type",
-                                        style: TextStyle(fontSize: 16.0)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 20.0,
-                                        right: 20.0),
-                                    child: DropdownButton<String>(
-                                      items: _serviceTypes.map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      value: _serviceType,
-                                      onChanged: (String value) {
-                                        _onDropDownChanged(value);
-                                      },
-                                    ),
-                                  ),
-                                ]),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 20.0,
+                                    right: 20.0),
+                                child: Text("Service Type",
+                                    style: TextStyle(fontSize: 16.0)),
                               ),
-                            ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 20.0,
+                                    right: 20.0),
+                                child: DropdownButton<String>(
+                                  items: _serviceTypes.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  value: _serviceType,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              ),
+                            ]),
                           ),
-                        ]),
+                        ),
                       ),
+
                       Padding(
                         padding: EdgeInsets.only(
                             top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
@@ -390,72 +380,56 @@ class PlaceOrderState extends State {
                           )
                         ]),
                       ),
-                      // Center(
-                      // child:
                       Container(
-                          margin: const EdgeInsets.all(10.0),
-                          padding: const EdgeInsets.all(2.0),
-                          alignment: Alignment(0.0, 0.0),
-                          child: Row(children: [
-                            Icon(
-                              Icons.lock_sharp,
-                              color: Colors.blue,
-                              size: 30.0,
-                              semanticLabel: 'Confirm Password',
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(20.0),
-                              padding: EdgeInsets.only(
-                                  top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
+                        margin: const EdgeInsets.all(20.0),
+                        padding: EdgeInsets.only(
+                            top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 0.0,
+                                      bottom: 0.0,
+                                      left: 20.0,
+                                      right: 20.0),
+                                  child: Text("Ratings",
+                                      style: TextStyle(fontSize: 16.0)),
                                 ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                              ),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.start,
-                                    // crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0.0,
-                                            bottom: 0.0,
-                                            left: 20.0,
-                                            right: 20.0),
-                                        child: Text("Ratings",
-                                            style: TextStyle(fontSize: 16.0)),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0.0,
-                                            bottom: 0.0,
-                                            left: 20.0,
-                                            right: 20.0),
-                                        child: DropdownButton<String>(
-                                          //create an array of strings
-                                          items: ratings.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                          //value property
-                                          value: rating,
-                                          //without it nothing will be updated
-                                          onChanged: (String value) {
-                                            _onRatingDropDownChanged(value);
-                                          },
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                            ),
-                          ])),
-
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 0.0,
+                                      bottom: 0.0,
+                                      left: 20.0,
+                                      right: 20.0),
+                                  child: DropdownButton<String>(
+                                    //create an array of strings
+                                    items: ratings.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                    //value property
+                                    value: rating,
+                                    //without it nothing will be updated
+                                    onChanged: (String value) {
+                                      _onRatingDropDownChanged(value);
+                                    },
+                                  ),
+                                ),
+                              ]),
+                        ),
+                      ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(2.0),

@@ -5,8 +5,82 @@ import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
+
+final List<String> imgList = [
+  "images/customer_home/carpenter.jpg",
+  "images/customer_home/electrician.jpg",
+  "images/customer_home/mechanic.jpg",
+  "images/customer_home/plumber.jpg",
+  "images/customer_home/sofa_cleaning.jpg",
+  "images/customer_home/women_hair_cut_and_styling.jpg",
+];
+List<String> listPaths = [
+  "images/customer_home/carpenter.jpg",
+  "images/customer_home/electrician.jpg",
+  "images/customer_home/mechanic.jpg",
+  "images/customer_home/plumber.jpg",
+  "images/customer_home/sofa_cleaning.jpg",
+  "images/customer_home/women_hair_cut_and_styling.jpg",
+];
+List<String> listPathsLabels = [
+  "Carpenter",
+  "Electrician",
+  "Mechanic",
+  "Plumber",
+  "Sofa Cleaning",
+  "Women's Hair Cut and Spa"
+];
+
+final List<Widget> imageSliders = imgList
+    .map((item) => Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(item,
+                          width: 1000.0,
+                          // width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.cover),
+                    ),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Text(
+                          listPathsLabels[imgList.indexOf(item)],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ))
+    .toList();
 
 class CustomerHome extends StatefulWidget {
   CustomerHome({this.uid});
@@ -26,16 +100,10 @@ class CustomerHomeState extends State {
     this.uid = uid;
   }
   int currentPos = 0;
-  List<String> listPaths = [
-    "Avail service anywhere ",
-    "Cut a deal on charges",
-    "Nearby service providers available",
-    "Several services to avail from",
-    "Recommendations are provided",
-    "Advanced search filters",
-  ];
+
   @override
   Widget build(BuildContext context) {
+    List<int> list = [1, 2, 3, 4, 5];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -67,6 +135,34 @@ class CustomerHomeState extends State {
               body: ListView(
                 padding: const EdgeInsets.all(8),
                 children: [
+                  GFCarousel(
+                    autoPlay: true,
+                    items: listPaths.map(
+                      (url) {
+                        return Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.asset(url,
+                                  height: 500,
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover),
+                            ),
+                            // Image.network(url,
+                            //     fit: BoxFit.cover, width: 1000.0),
+                          ),
+                        );
+                      },
+                    ).toList(),
+                    onPageChanged: (index) {
+                      setState(() {
+                        index;
+                      });
+                    },
+                  ),
                   CarouselSlider.builder(
                     itemCount: listPaths.length,
                     options: CarouselOptions(
@@ -77,31 +173,85 @@ class CustomerHomeState extends State {
                           });
                         }),
                     itemBuilder: (context, index) {
-                      return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          margin: const EdgeInsets.only(top: 10.0, bottom: 0.0),
-                          child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Container(
-                                  width: 200,
-                                  height: 50,
-                                  margin: EdgeInsets.symmetric(horizontal: 15),
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(listPaths[index],
-                                        style: TextStyle(
-                                            // fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 20.0)),
-                                  ))));
+                      return Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Expanded(
+                                      child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 0.0,
+                                              bottom: 10.0,
+                                              left: 5.0,
+                                              right: 5.0),
+                                          padding: EdgeInsets.only(
+                                              top: 0.0,
+                                              bottom: 5.0,
+                                              left: 0.0,
+                                              right: 0.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                          ),
+                                          child:
+                                              // Column(children: <Widget>[
+                                              Column(
+                                                  // To centralize the children.
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Image.asset(
+                                                      listPaths[index],
+                                                      height: 500,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      fit: BoxFit.cover),
+                                                ),
+                                                Text(listPathsLabels[index])
+                                              ]))))));
                     },
                   ),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        CarouselSlider(
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            aspectRatio: 2.0,
+                            enlargeCenterPage: true,
+                          ),
+                          items: imageSliders,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                      child: Column(
+                    children: <Widget>[
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          aspectRatio: 2.0,
+                          enlargeCenterPage: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                        ),
+                        items: imageSliders,
+                      ),
+                    ],
+                  )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: listPaths.map((url) {
@@ -109,8 +259,8 @@ class CustomerHomeState extends State {
                       return Container(
                         width: 8.0,
                         height: 8.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 2.0),
+                        margin: EdgeInsets.only(
+                            bottom: 20.0, left: 2.0, right: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: currentPos == index
@@ -125,6 +275,18 @@ class CustomerHomeState extends State {
                       elevation: 2.0,
                       child: ListTile(
                         title: Text("Place Order"),
+                        trailing: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
+                        leading: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -145,6 +307,18 @@ class CustomerHomeState extends State {
                       color: Colors.white,
                       elevation: 2.0,
                       child: ListTile(
+                        trailing: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
+                        leading: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
                         title: Text("Order Requests"),
                         onTap: () {
                           Navigator.push(
@@ -160,6 +334,18 @@ class CustomerHomeState extends State {
                       color: Colors.white,
                       elevation: 2.0,
                       child: ListTile(
+                        trailing: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
+                        leading: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
                         title: Text("Orders In Progress"),
                         onTap: () {
                           Navigator.push(
@@ -175,6 +361,18 @@ class CustomerHomeState extends State {
                       color: Colors.white,
                       elevation: 2.0,
                       child: ListTile(
+                        trailing: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
+                        leading: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
                         title: Text("Orders Completed"),
                         onTap: () {
                           Navigator.push(
@@ -190,6 +388,18 @@ class CustomerHomeState extends State {
                       color: Colors.white,
                       elevation: 2.0,
                       child: ListTile(
+                        trailing: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
+                        leading: Icon(
+                          Icons.add_location_alt_sharp,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Address',
+                        ),
                         title: Text("Orders Cancelled"),
                         onTap: () {
                           Navigator.push(
@@ -200,6 +410,322 @@ class CustomerHomeState extends State {
                               ));
                         },
                       )),
+                  Text("Preventive Measures To Fight Covid"),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        ),
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        )
+                      ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        ),
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        )
+                      ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        ),
+                        Expanded(
+                          child: Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              child: ListTile(
+                                title: Text("Orders Cancelled"),
+                                leading: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.blue,
+                                  size: 30.0,
+                                  semanticLabel: 'Password',
+                                ),
+                              )),
+                        )
+                      ]),
+                  Card(
+                      color: Colors.white,
+                      elevation: 2.0,
+                      child: ListTile(
+                        title: Text(
+                            "For any questions or enquires contact us or whatsapp us at 98xxxxxxxx"),
+                        leading: Icon(
+                          Icons.lock_outlined,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Password',
+                        ),
+                      )),
+                  Text("Recommeded Services"),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(
+                              'images/customer_home/electrician.jpg',
+                              width: 200,
+                            ),
+                            Text('Electrician')
+                          ],
+                        ),
+                      )),
+                    ],
+                  )
+                  // )
                 ],
               ),
               drawer: NavigateDrawer(uid: this.uid))),
