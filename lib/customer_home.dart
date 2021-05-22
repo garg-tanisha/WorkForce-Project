@@ -17,14 +17,14 @@ final List<String> imgList = [
   "images/customer_home/sofa_cleaning.jpg",
   "images/customer_home/women_hair_cut_and_styling.jpg",
 ];
-List<String> listPaths = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
+// List<String> listPaths = [
+//   "images/customer_home/carpenter.jpg",
+//   "images/customer_home/electrician.jpg",
+//   "images/customer_home/mechanic.jpg",
+//   "images/customer_home/plumber.jpg",
+//   "images/customer_home/sofa_cleaning.jpg",
+//   "images/customer_home/women_hair_cut_and_styling.jpg",
+// ];
 List<String> listPathsLabels = [
   "Carpenter",
   "Electrician",
@@ -98,8 +98,7 @@ class CustomerHomeState extends State {
     this.uid = uid;
   }
   int _current = 0;
-  int currentPos = 0;
-  int indexTrack = 0;
+  // int currentPos = 0;
   @override
   Widget build(BuildContext context) {
     int imageCount = (imgList.length / 2).round();
