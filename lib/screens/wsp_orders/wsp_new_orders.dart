@@ -1,7 +1,17 @@
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show cos, sqrt, asin;
+
+final List<String> imgList = [
+  "images/customer_home/carpenter.jpg",
+  "images/customer_home/electrician.jpg",
+  "images/customer_home/mechanic.jpg",
+  "images/customer_home/plumber.jpg",
+  "images/customer_home/sofa_cleaning.jpg",
+  "images/customer_home/women_hair_cut_and_styling.jpg",
+];
 
 class Orders extends StatefulWidget {
   Orders({this.uid, this.role});
@@ -116,26 +126,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Flexible(
-                      child: Card(
-                        child: Flexible(
-                          child: DropdownButton<String>(
-                            //create an array of strings
-                            items: filters.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: filter,
-                            onChanged: (String value) {
-                              _onDropDownChanged(value);
-                            },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
                           ),
-                        ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -185,146 +226,340 @@ class OrdersState extends State {
                                               (ratingIsNull ||
                                                   (rating >=
                                                       course["ratings"]))) {
-                                            return Card(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  ListTile(
-                                                    title: Text("Title: " +
-                                                        course["title"]),
-                                                    subtitle: Text("Price: " +
-                                                        course["price"]
-                                                            .toString()),
-                                                    leading: RaisedButton(
-                                                      onPressed: () async {
-                                                        print(
-                                                            "REMOVE from feed and move to confirmations sent page/tab.");
-                                                        await _asyncSimpleDialog(
-                                                            context,
-                                                            course.documentID,
-                                                            calculateDistance(
-                                                                course[
-                                                                    "latitude"],
-                                                                course[
-                                                                    "longitude"],
-                                                                wsp_latitude,
-                                                                wsp_longitude),
-                                                            course);
-                                                      },
-                                                      child: const Text(
-                                                        "Accept",
-                                                        style: TextStyle(
-                                                            fontSize: 15.0),
-                                                      ),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0)),
-                                                      color: Colors.green,
-                                                    ),
-                                                    trailing: RaisedButton(
-                                                      onPressed: () async {
-                                                        print(
-                                                            "Remove from feed!");
-                                                        Firestore.instance
-                                                            .collection(
-                                                                "orders")
-                                                            .document(course
-                                                                .documentID)
-                                                            .collection(
-                                                                "responses")
-                                                            .document(uid)
-                                                            .setData({
-                                                          "wsp response":
-                                                              "rejected",
-                                                        });
-
-                                                        Firestore.instance
-                                                            .collection(
-                                                                "rejected responses")
-                                                            .add({
-                                                          "wsp id": uid,
-                                                          "order id":
-                                                              course.documentID,
-                                                          "date time":
-                                                              DateTime.now()
-                                                        }).then((res) {
-                                                          isLoading = false;
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  content: Text(
-                                                                      "Rejected Order"),
-                                                                  actions: [
-                                                                    FlatButton(
-                                                                      child: Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              });
-
-                                                          setState(() {});
-                                                        }).catchError((err) {
-                                                          print(err.message);
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  title: Text(
-                                                                      "Error"),
-                                                                  content: Text(
-                                                                      err.message),
-                                                                  actions: [
-                                                                    FlatButton(
-                                                                      child: Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              });
-                                                        });
-                                                      },
-                                                      child: const Text(
-                                                        "Reject",
-                                                        style: TextStyle(
-                                                            fontSize: 15.0),
-                                                      ),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0)),
-                                                      color: Colors.red,
-                                                    ),
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  course["photos"] != null
-                                                      ? images(course["photos"])
-                                                      : Container(
-                                                          width: 0.0,
-                                                          height: 0.0),
-                                                ],
-                                              ),
-                                            );
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
+                                                ),
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
                                           } else {
                                             return Container(
                                                 width: 0.0, height: 0.0);
@@ -337,7 +572,126 @@ class OrdersState extends State {
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -362,22 +716,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -394,192 +783,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -604,22 +1306,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -636,192 +1373,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -846,22 +1896,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -878,192 +1963,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -1088,22 +2486,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -1120,192 +2553,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -1330,22 +3076,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -1362,192 +3143,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -1572,22 +3666,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -1604,192 +3733,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -1814,22 +4256,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -1846,192 +4323,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -2055,22 +4845,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -2087,192 +4912,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -2296,22 +5434,57 @@ class OrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -2328,192 +5501,505 @@ class OrdersState extends State {
                                     {
                                       if (!snapshot.hasData)
                                         return Text("Loading orders...");
-
-                                      if (snapshot.data.documents[index]
+                                      else if (snapshot.data.documents[index]
                                               ["user id"] ==
                                           uid)
                                         return Container(
                                             width: 0.0, height: 0.0);
+                                      else {
+                                        DocumentSnapshot course =
+                                            snapshot.data.documents[index];
+                                        Firestore.instance
+                                            .collection("orders")
+                                            .document(course.documentID)
+                                            .collection("responses")
+                                            .document(uid)
+                                            .get()
+                                            .then((doc) {
+                                          if (!doc.exists) {
+                                            orders.add(course.documentID);
+                                            print('No such document! ' +
+                                                course.documentID);
+                                          } else {
+                                            print("Document exists! " +
+                                                course.documentID);
+                                          }
+                                        });
 
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      Firestore.instance
-                                          .collection("orders")
-                                          .document(course.documentID)
-                                          .collection("responses")
-                                          .document(uid)
-                                          .get()
-                                          .then((doc) {
-                                        if (!doc.exists) {
-                                          orders.add(course.documentID);
-                                          print('No such document! ' +
-                                              course.documentID);
-                                        } else {
-                                          print("Document exists! " +
-                                              course.documentID);
-                                        }
-                                      });
-
-                                      // if (orders.contains(course.documentID)) {
-                                      if (course["ratings"] != null) {
-                                        if (checkDistance(
-                                                course["latitude"],
-                                                course["longitude"],
-                                                course["distance"]) &&
-                                            (ratingIsNull ||
-                                                (rating >=
-                                                    course["ratings"]))) {
-                                          return Card(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                ListTile(
-                                                  title: Text("Title: " +
-                                                      course["title"]),
-                                                  subtitle: Text("Price: " +
-                                                      course["price"]
-                                                          .toString()),
-                                                  leading: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "REMOVE from feed and move to confirmations sent page/tab.");
-                                                      await _asyncSimpleDialog(
-                                                          context,
-                                                          course.documentID,
-                                                          calculateDistance(
-                                                              course[
-                                                                  "latitude"],
-                                                              course[
-                                                                  "longitude"],
-                                                              wsp_latitude,
-                                                              wsp_longitude),
-                                                          course);
-                                                    },
-                                                    child: const Text(
-                                                      "Accept",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.green,
+                                        if (course["ratings"] != null) {
+                                          if (checkDistance(
+                                                  course["latitude"],
+                                                  course["longitude"],
+                                                  course["distance"]) &&
+                                              (ratingIsNull ||
+                                                  (rating >=
+                                                      course["ratings"]))) {
+                                            return Container(
+                                                width: 0.98 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width
+                                                        .roundToDouble(),
+                                                // height: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black12,
                                                   ),
-                                                  trailing: RaisedButton(
-                                                    onPressed: () async {
-                                                      print(
-                                                          "Remove from feed!");
-                                                      Firestore.instance
-                                                          .collection("orders")
-                                                          .document(
-                                                              course.documentID)
-                                                          .collection(
-                                                              "responses")
-                                                          .document(uid)
-                                                          .setData({
-                                                        "wsp response":
-                                                            "rejected"
-                                                      });
-
-                                                      Firestore.instance
-                                                          .collection(
-                                                              "rejected responses")
-                                                          .add({
-                                                        "wsp id": uid,
-                                                        "order id":
-                                                            course.documentID,
-                                                      }).then((res) {
-                                                        isLoading = false;
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    "Rejected Order"),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-
-                                                        setState(() {});
-                                                      }).catchError((err) {
-                                                        print(err.message);
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: Text(
-                                                                    "Error"),
-                                                                content: Text(
-                                                                    err.message),
-                                                                actions: [
-                                                                  FlatButton(
-                                                                    child: Text(
-                                                                        "Ok"),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            });
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      "Reject",
-                                                      style: TextStyle(
-                                                          fontSize: 15.0),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0)),
-                                                    color: Colors.red,
-                                                  ),
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          5.0) //                 <--- border radius here
+                                                      ),
                                                 ),
-                                                course["photos"] != null
-                                                    ? images(course["photos"])
-                                                    : Container(
-                                                        width: 0.0,
-                                                        height: 0.0),
-                                              ],
-                                            ),
-                                          );
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        title: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Title: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                      "title"]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: RichText(
+                                                          text: new TextSpan(
+                                                            style:
+                                                                new TextStyle(
+                                                              fontSize: 20.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              new TextSpan(
+                                                                  text:
+                                                                      'Price: ',
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: course[
+                                                                          "price"]
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nService Date and Time: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["service date and time"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                              new TextSpan(
+                                                                  text:
+                                                                      "\nTime Window: ",
+                                                                  style: new TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              new TextSpan(
+                                                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                          course["time window"]
+                                                                              .microsecondsSinceEpoch)
+                                                                      .toString()),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // Text("Price: " +
+                                                        //                           course["price"]
+                                                        //                               .toString() +
+                                                        //                           "\nService Date and Time: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["service date and time"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString() +
+                                                        //                           "\nTime Window: " +
+                                                        //                           DateTime.fromMicrosecondsSinceEpoch(
+                                                        //                                   course["time window"]
+                                                        //                                       .microsecondsSinceEpoch)
+                                                        //                               .toString()),
+                                                        leading: Image.network(
+                                                          course["photos"][0],
+                                                        ),
+                                                        trailing: Image.network(
+                                                          course["photos"][1],
+                                                        ),
+                                                      ),
+                                                      // course["photos"] != null
+                                                      //     ? images(course["photos"])
+                                                      //     : Container(
+                                                      //         width: 0.0,
+                                                      //         height: 0.0),
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                                onPressed: () =>
+                                                                    {},
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
+
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ]));
+                                          } else {
+                                            return Container(
+                                                width: 0.0, height: 0.0);
+                                          }
                                         } else {
                                           return Container(
                                               width: 0.0, height: 0.0);
                                         }
-                                      } else {
-                                        return Container(
-                                            width: 0.0, height: 0.0);
                                       }
                                     }
                                 }
                               }
-                            }))
+                            })),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("Preventive Measures To Fight Covid",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Wash your hands timely for atleast 30 seconds.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Use soaps or alcohol based sanitizers.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Do social distancing. Avoid any close contact with sick people.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Avoid touching your nose, eyes or face with unclean hands.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                        title: Text(
+                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                            style: TextStyle(fontSize: 13.0)),
+                                        leading: Image.asset(imgList[0],
+                                            width: 40.0,
+                                            height: 40.0,
+                                            fit: BoxFit.cover))),
+                              ),
+                              Expanded(
+                                child: Card(
+                                    color: Colors.white,
+                                    elevation: 2.0,
+                                    child: ListTile(
+                                      title: Text(
+                                          "Isolation and social distancing are very important to stay safe.",
+                                          style: TextStyle(fontSize: 13.0)),
+                                      leading: Image.asset(imgList[0],
+                                          width: 40.0,
+                                          height: 40.0,
+                                          fit: BoxFit.cover),
+                                    )),
+                              )
+                            ]),
+                      ]),
+                    ),
                   ]);
                 } else {
                   return Text("No orders yet!");
@@ -2529,53 +6015,85 @@ class OrdersState extends State {
         barrierDismissible: true,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text('Send Details '),
+            title: const Text('Send Acceptance '),
             children: <Widget>[
               SimpleDialogOption(
                 child: Form(
                     key: _formKey,
                     child: SingleChildScrollView(
                         child: Column(children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: priceController,
-                          decoration: InputDecoration(
-                            labelText: "Price*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                      Row(children: [
+                        Icon(
+                          Icons.email_rounded,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Email address',
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 10.0,
+                                left: 20.0,
+                                right: 20.0),
+                            child: TextFormField(
+                              controller: priceController,
+                              decoration: InputDecoration(
+                                labelText: "Price",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Enter a Price you can provide service for';
+                                } else if (value.contains('-')) {
+                                  return 'Please enter a valid price';
+                                }
+                                return null;
+                              },
                             ),
                           ),
-                          keyboardType: TextInputType.number,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Enter a Price you can provide service for';
-                            } else if (value.contains('-')) {
-                              return 'Please enter a valid price';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: descriptionController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Description (if any)",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                      ]),
+                      Row(children: [
+                        Icon(
+                          Icons.email_rounded,
+                          color: Colors.blue,
+                          size: 30.0,
+                          semanticLabel: 'Email address',
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.0,
+                                bottom: 10.0,
+                                left: 20.0,
+                                right: 20.0),
+                            child: TextFormField(
+                              controller: descriptionController,
+                              decoration: InputDecoration(
+                                labelText: "Description (Optional)",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
                             ),
                           ),
-                          keyboardType: TextInputType.text,
                         ),
-                      ),
+                      ]),
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: isLoading
                             ? CircularProgressIndicator()
                             : RaisedButton(
                                 color: Colors.lightBlueAccent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: BorderSide(
+                                        color: Colors.blue, width: 2)),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
                                     setState(() {
@@ -2585,7 +6103,7 @@ class OrdersState extends State {
                                     Navigator.pop(context);
                                   }
                                 },
-                                child: Text('Send'),
+                                child: Text('Reply'),
                               ),
                       )
                     ]))),
