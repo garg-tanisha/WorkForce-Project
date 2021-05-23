@@ -250,7 +250,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -455,7 +459,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -660,7 +668,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -865,7 +877,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -1070,7 +1086,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -1275,7 +1295,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)
@@ -1480,7 +1504,11 @@ class OrderResponsesState extends State {
                                                         "service type":
                                                             course["role"],
                                                         "distance":
-                                                            course["distance"]
+                                                            course["distance"],
+                                                        "title":
+                                                            course["title"],
+                                                        "photos":
+                                                            course["photos"]
                                                       });
 
                                                       Navigator.of(context)

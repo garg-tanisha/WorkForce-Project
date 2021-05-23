@@ -573,128 +573,28 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
                 } else {
-                  return Text("No orders yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
                 // }
               }));
@@ -1163,129 +1063,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
                 // }
               }));
     } else if (filter == 'Latest Orders To Oldest Orders') {
@@ -1753,129 +1549,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
                 // }
               }));
     } else if (filter == 'Price (Low To High)') {
@@ -2343,130 +2035,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
-                // }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
               }));
     } else if (filter == 'Price (High To Low)') {
       return Scaffold(
@@ -2933,130 +2520,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
-                // }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
               }));
     } else if (filter == 'Distance (Close To Far)') {
       return Scaffold(
@@ -3523,129 +3005,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
                 // }
               }));
     } else if (filter == 'Service Date And Time (Asc)') {
@@ -4113,129 +3491,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
                 // }
               }));
     } else if (filter == 'Service Date And Time (Dsc)') {
@@ -4703,129 +3977,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
                 // }
               }));
     } else if (filter == 'Time Window (Min to Max)') {
@@ -5292,130 +4462,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
-                // }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
               }));
     } else if (filter == 'Time Window (Max to Min') {
       return Scaffold(
@@ -5881,129 +4946,25 @@ class OrdersState extends State {
                                 }
                               }
                             })),
-                    Container(
-                      width: MediaQuery.of(context).size.width.roundToDouble(),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                5.0) //                 <--- border radius here
-                            ),
-                      ),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("Preventive Measures To Fight Covid",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0)),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Wash your hands timely for atleast 30 seconds.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Use soaps or alcohol based sanitizers.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Do social distancing. Avoid any close contact with sick people.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Avoid touching your nose, eyes or face with unclean hands.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                        title: Text(
-                                            "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                            style: TextStyle(fontSize: 13.0)),
-                                        leading: Image.asset(imgList[0],
-                                            width: 40.0,
-                                            height: 40.0,
-                                            fit: BoxFit.cover))),
-                              ),
-                              Expanded(
-                                child: Card(
-                                    color: Colors.white,
-                                    elevation: 2.0,
-                                    child: ListTile(
-                                      title: Text(
-                                          "Isolation and social distancing are very important to stay safe.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover),
-                                    )),
-                              )
-                            ]),
-                      ]),
-                    ),
                   ]);
-                } else {
-                  return Text("No orders yet!");
                 }
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
               }));
     }
   }
