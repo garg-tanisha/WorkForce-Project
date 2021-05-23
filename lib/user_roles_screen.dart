@@ -6,87 +6,11 @@ import 'package:workforce/customer_home.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
-
-List<String> listPathsLabels = [
-  "Carpenter",
-  "Electrician",
-  "Mechanic",
-  "Plumber",
-  "Sofa Cleaning",
-  "Women's Hair Cut and Spa"
-];
-
-final List<Widget> imageSliders = imgList
-    .map((item) => Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(item,
-                          width: 1000.0, height: 700.0, fit: BoxFit.cover),
-                    ),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          listPathsLabels[imgList.indexOf(item)],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ))
-    .toList();
-
-// class UserRoles extends StatefulWidget {
-//   UserRoles({this.uid});
-//   // final String uid;
-//   final String uid;
-//   @override
-//   State<StatefulWidget> createState() => UserRolesState(uid);
-// }
-
-// class UserRolesState extends State {
 class UserRoles extends StatelessWidget {
   UserRoles({this.uid});
   final String uid;
   final String title = "Roles";
-  int _current = 0;
-  // UserRolesState(String uid) {
-  //   this.uid = uid;
-  // }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(

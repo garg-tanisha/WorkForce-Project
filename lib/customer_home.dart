@@ -17,14 +17,7 @@ final List<String> imgList = [
   "images/customer_home/sofa_cleaning.jpg",
   "images/customer_home/women_hair_cut_and_styling.jpg",
 ];
-// List<String> listPaths = [
-//   "images/customer_home/carpenter.jpg",
-//   "images/customer_home/electrician.jpg",
-//   "images/customer_home/mechanic.jpg",
-//   "images/customer_home/plumber.jpg",
-//   "images/customer_home/sofa_cleaning.jpg",
-//   "images/customer_home/women_hair_cut_and_styling.jpg",
-// ];
+
 List<String> listPathsLabels = [
   "Carpenter",
   "Electrician",
@@ -196,7 +189,7 @@ class CustomerHomeState extends State {
                     width: MediaQuery.of(context).size.width.roundToDouble(),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.white,
+                        color: Colors.black12,
                       ),
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(
