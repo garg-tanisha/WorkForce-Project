@@ -115,25 +115,54 @@ class OrdersState extends State {
                 orders.clear();
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
-                  return Column(children: [
-                    Text("Choose Filter"),
-                    Flexible(
-                      child: Card(
-                        child: Flexible(
-                          child: DropdownButton<String>(
-                            //create an array of strings
-                            items: filters.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: filter,
-                            onChanged: (String value) {
-                              _onDropDownChanged(value);
-                            },
+                  Column(children: [
+                    Container(
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
                           ),
-                        ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              ))
+                        ]),
                       ),
                     ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
                     Expanded(
@@ -195,133 +224,139 @@ class OrdersState extends State {
                                                         course["title"]),
                                                     subtitle: Text("Price: " +
                                                         course["price"]
-                                                            .toString()),
-                                                    leading: RaisedButton(
-                                                      onPressed: () async {
-                                                        print(
-                                                            "REMOVE from feed and move to confirmations sent page/tab.");
-                                                        await _asyncSimpleDialog(
-                                                            context,
-                                                            course.documentID,
-                                                            calculateDistance(
-                                                                course[
-                                                                    "latitude"],
-                                                                course[
-                                                                    "longitude"],
-                                                                wsp_latitude,
-                                                                wsp_longitude),
-                                                            course);
-                                                      },
-                                                      child: const Text(
-                                                        "Accept",
-                                                        style: TextStyle(
-                                                            fontSize: 15.0),
-                                                      ),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0)),
-                                                      color: Colors.green,
-                                                    ),
-                                                    trailing: RaisedButton(
-                                                      onPressed: () async {
-                                                        print(
-                                                            "Remove from feed!");
-                                                        Firestore.instance
-                                                            .collection(
-                                                                "orders")
-                                                            .document(course
-                                                                .documentID)
-                                                            .collection(
-                                                                "responses")
-                                                            .document(uid)
-                                                            .setData({
-                                                          "wsp response":
-                                                              "rejected",
-                                                        });
-
-                                                        Firestore.instance
-                                                            .collection(
-                                                                "rejected responses")
-                                                            .add({
-                                                          "wsp id": uid,
-                                                          "order id":
-                                                              course.documentID,
-                                                          "date time":
-                                                              DateTime.now()
-                                                        }).then((res) {
-                                                          isLoading = false;
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  content: Text(
-                                                                      "Rejected Order"),
-                                                                  actions: [
-                                                                    FlatButton(
-                                                                      child: Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              });
-
-                                                          setState(() {});
-                                                        }).catchError((err) {
-                                                          print(err.message);
-                                                          showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  title: Text(
-                                                                      "Error"),
-                                                                  content: Text(
-                                                                      err.message),
-                                                                  actions: [
-                                                                    FlatButton(
-                                                                      child: Text(
-                                                                          "Ok"),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              });
-                                                        });
-                                                      },
-                                                      child: const Text(
-                                                        "Reject",
-                                                        style: TextStyle(
-                                                            fontSize: 15.0),
-                                                      ),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0)),
-                                                      color: Colors.red,
-                                                    ),
+                                                            .toString() +
+                                                        "\nService date and time: " +
+                                                        course[
+                                                            "service date and time"] +
+                                                        "\nTime window: " +
+                                                        course["time window"]),
                                                   ),
                                                   course["photos"] != null
                                                       ? images(course["photos"])
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
+                                                  RaisedButton(
+                                                    onPressed: () async {
+                                                      print(
+                                                          "REMOVE from feed and move to confirmations sent page/tab.");
+                                                      await _asyncSimpleDialog(
+                                                          context,
+                                                          course.documentID,
+                                                          calculateDistance(
+                                                              course[
+                                                                  "latitude"],
+                                                              course[
+                                                                  "longitude"],
+                                                              wsp_latitude,
+                                                              wsp_longitude),
+                                                          course);
+                                                    },
+                                                    child: const Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.green,
+                                                  ),
+                                                  RaisedButton(
+                                                    onPressed: () async {
+                                                      print(
+                                                          "Remove from feed!");
+                                                      Firestore.instance
+                                                          .collection("orders")
+                                                          .document(
+                                                              course.documentID)
+                                                          .collection(
+                                                              "responses")
+                                                          .document(uid)
+                                                          .setData({
+                                                        "wsp response":
+                                                            "rejected",
+                                                      });
+
+                                                      Firestore.instance
+                                                          .collection(
+                                                              "rejected responses")
+                                                          .add({
+                                                        "wsp id": uid,
+                                                        "order id":
+                                                            course.documentID,
+                                                        "date time":
+                                                            DateTime.now()
+                                                      }).then((res) {
+                                                        isLoading = false;
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                content: Text(
+                                                                    "Rejected Order"),
+                                                                actions: [
+                                                                  FlatButton(
+                                                                    child: Text(
+                                                                        "Ok"),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  )
+                                                                ],
+                                                              );
+                                                            });
+
+                                                        setState(() {});
+                                                      }).catchError((err) {
+                                                        print(err.message);
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: Text(
+                                                                    "Error"),
+                                                                content: Text(
+                                                                    err.message),
+                                                                actions: [
+                                                                  FlatButton(
+                                                                    child: Text(
+                                                                        "Ok"),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                  )
+                                                                ],
+                                                              );
+                                                            });
+                                                      });
+                                                    },
+                                                    child: const Text(
+                                                      "Reject",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0)),
+                                                    color: Colors.red,
+                                                  ),
                                                 ],
                                               ),
                                             );
@@ -363,21 +398,21 @@ class OrdersState extends State {
                     snapshot.data.documents == null)) {
                   return Column(children: [
                     Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
-                      ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    // Card(
+                    //   child: DropdownButton<String>(
+                    //     //create an array of strings
+                    //     items: filters.map((String value) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: value,
+                    //         child: Text(value),
+                    //       );
+                    //     }).toList(),
+                    //     value: filter,
+                    //     onChanged: (String value) {
+                    //       _onDropDownChanged(value);
+                    //     },
+                    //   ),
+                    // ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -2596,6 +2631,7 @@ class OrdersState extends State {
   }
 
   void sendMessage(String orderId, double distance, DocumentSnapshot course) {
+    // String c = course.toString();
     Firestore.instance
         .collection("orders")
         .document(orderId)
@@ -2608,7 +2644,8 @@ class OrdersState extends State {
       "customer response": "None",
       "wsp response": "accepted",
       "ratings": rating,
-      "distance": distance
+      "distance": distance,
+      // "order": course
     });
 
     Firestore.instance.collection("accepted responses").add({
@@ -2622,8 +2659,9 @@ class OrdersState extends State {
       "date time": DateTime.now(),
       "distance": distance,
       "title": course["title"],
-      "photos": course["photos"],
-      "price_by_customer": course["price"]
+      "customer_price": course["price"],
+      "photos": course["photos"]
+      // "order": c
     }).then((res) {
       isLoading = false;
       showDialog(
