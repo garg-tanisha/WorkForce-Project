@@ -74,7 +74,7 @@ class _ChatState extends State<ChatPage> {
                     Expanded(
                         child: TextField(
                       controller: messageEditingController,
-                      style: TextStyle(color: Colors.amberAccent, fontSize: 16),
+                      style: TextStyle(color: Colors.blue, fontSize: 16),
                       decoration: InputDecoration(
                           hintText: "Message ...",
                           hintStyle: TextStyle(

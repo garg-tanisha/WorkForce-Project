@@ -271,7 +271,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -638,7 +638,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -1005,7 +1005,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -1372,7 +1372,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -1739,7 +1739,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -2106,7 +2106,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -2473,7 +2473,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -2840,7 +2840,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),
@@ -3207,7 +3207,7 @@ class CustomerNewOrdersState extends State {
                                                           onPressed:
                                                               () async {},
                                                           child: const Text(
-                                                            "See Details",
+                                                            "Order Details",
                                                             style: TextStyle(
                                                                 fontSize: 15.0),
                                                           ),

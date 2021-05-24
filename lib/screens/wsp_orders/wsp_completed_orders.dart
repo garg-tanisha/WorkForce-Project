@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:workforce/screens/wsp_orders/wsp_completed_order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+final String noOrderImage = "images/customer_home/carpenter.jpg";
+
 class WSPCompletedOrders extends StatefulWidget {
   WSPCompletedOrders({this.uid, this.role});
   final String uid;
@@ -53,22 +55,57 @@ class WSPCompletedOrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -87,43 +124,173 @@ class WSPCompletedOrdersState extends State {
                                         return Text("Loading orders...");
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
-                                      return Card(
+                                      return Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
+                                              ),
+                                        ),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            ListTile(
-                                              title: Text("Order Id: " +
-                                                  course["order id"]),
-                                              subtitle: Text("Price: " +
-                                                  course["price"].toString() +
-                                                  "\n Distance: " +
-                                                  course["distance"]
-                                                      .toString()),
-                                              trailing: RaisedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        //builder of MaterialPageRoute will call TodoDetail class
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WSPCompletedOrderDetails(
-                                                                  wspId: uid,
-                                                                  orderId: course[
-                                                                      "order id"]),
-                                                        ));
-                                                  },
-                                                  child: const Text(
-                                                    "See Details",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            course["title"] != null
+                                                ? ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Title: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "title"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nService Date and Time: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                      course["service date and time"]
+                                                                          .microsecondsSinceEpoch)
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.network(
+                                                      course["photos"][0],
+                                                    ),
+                                                    trailing: Image.network(
+                                                      course["photos"][1],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text:
+                                                                  'Order Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "order id"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.asset(
+                                                      noOrderImage,
+                                                    ),
+                                                    trailing: Image.asset(
+                                                      noOrderImage,
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color:
-                                                      Colors.lightBlueAccent),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WSPCompletedOrderDetails(
+                                                              wspId: uid,
+                                                              orderId: course[
+                                                                  "order id"]),
+                                                    ));
+                                              },
+                                              child: const Text(
+                                                "Order Details",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              color: Colors.lightBlueAccent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 2)),
                                             ),
                                           ],
                                         ),
@@ -134,7 +301,26 @@ class WSPCompletedOrdersState extends State {
                             }))
                   ]);
                 } else {
-                  return Text("No orders completed yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders completed yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
               }));
     } else if (filter == 'Price (Low To High)') {
@@ -152,22 +338,57 @@ class WSPCompletedOrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -186,43 +407,173 @@ class WSPCompletedOrdersState extends State {
                                         return Text("Loading orders...");
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
-                                      return Card(
+                                      return Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
+                                              ),
+                                        ),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            ListTile(
-                                              title: Text("Order Id: " +
-                                                  course["order id"]),
-                                              subtitle: Text("Price: " +
-                                                  course["price"].toString() +
-                                                  "\n Distance: " +
-                                                  course["distance"]
-                                                      .toString()),
-                                              trailing: RaisedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        //builder of MaterialPageRoute will call TodoDetail class
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WSPCompletedOrderDetails(
-                                                                  wspId: uid,
-                                                                  orderId: course[
-                                                                      "order id"]),
-                                                        ));
-                                                  },
-                                                  child: const Text(
-                                                    "See Details",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            course["title"] != null
+                                                ? ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Title: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "title"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nService Date and Time: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                      course["service date and time"]
+                                                                          .microsecondsSinceEpoch)
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.network(
+                                                      course["photos"][0],
+                                                    ),
+                                                    trailing: Image.network(
+                                                      course["photos"][1],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text:
+                                                                  'Order Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "order id"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.asset(
+                                                      noOrderImage,
+                                                    ),
+                                                    trailing: Image.asset(
+                                                      noOrderImage,
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color:
-                                                      Colors.lightBlueAccent),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WSPCompletedOrderDetails(
+                                                              wspId: uid,
+                                                              orderId: course[
+                                                                  "order id"]),
+                                                    ));
+                                              },
+                                              child: const Text(
+                                                "Order Details",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              color: Colors.lightBlueAccent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 2)),
                                             ),
                                           ],
                                         ),
@@ -233,7 +584,26 @@ class WSPCompletedOrdersState extends State {
                             }))
                   ]);
                 } else {
-                  return Text("No orders completed yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders completed yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
               }));
     } else if (filter == 'Price (High To Low)') {
@@ -251,22 +621,57 @@ class WSPCompletedOrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -285,43 +690,173 @@ class WSPCompletedOrdersState extends State {
                                         return Text("Loading orders...");
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
-                                      return Card(
+                                      return Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
+                                              ),
+                                        ),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            ListTile(
-                                              title: Text("Order Id: " +
-                                                  course["order id"]),
-                                              subtitle: Text("Price: " +
-                                                  course["price"].toString() +
-                                                  "\n Distance: " +
-                                                  course["distance"]
-                                                      .toString()),
-                                              trailing: RaisedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        //builder of MaterialPageRoute will call TodoDetail class
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WSPCompletedOrderDetails(
-                                                                  wspId: uid,
-                                                                  orderId: course[
-                                                                      "order id"]),
-                                                        ));
-                                                  },
-                                                  child: const Text(
-                                                    "See Details",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            course["title"] != null
+                                                ? ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Title: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "title"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nService Date and Time: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                      course["service date and time"]
+                                                                          .microsecondsSinceEpoch)
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.network(
+                                                      course["photos"][0],
+                                                    ),
+                                                    trailing: Image.network(
+                                                      course["photos"][1],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text:
+                                                                  'Order Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "order id"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.asset(
+                                                      noOrderImage,
+                                                    ),
+                                                    trailing: Image.asset(
+                                                      noOrderImage,
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color:
-                                                      Colors.lightBlueAccent),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WSPCompletedOrderDetails(
+                                                              wspId: uid,
+                                                              orderId: course[
+                                                                  "order id"]),
+                                                    ));
+                                              },
+                                              child: const Text(
+                                                "Order Details",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              color: Colors.lightBlueAccent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 2)),
                                             ),
                                           ],
                                         ),
@@ -332,7 +867,26 @@ class WSPCompletedOrdersState extends State {
                             }))
                   ]);
                 } else {
-                  return Text("No orders completed yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders completed yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
               }));
     } else if (filter == "Order Completion Time (Asc)") {
@@ -350,22 +904,57 @@ class WSPCompletedOrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -384,43 +973,173 @@ class WSPCompletedOrdersState extends State {
                                         return Text("Loading orders...");
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
-                                      return Card(
+                                      return Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
+                                              ),
+                                        ),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            ListTile(
-                                              title: Text("Order Id: " +
-                                                  course["order id"]),
-                                              subtitle: Text("Price: " +
-                                                  course["price"].toString() +
-                                                  "\n Distance: " +
-                                                  course["distance"]
-                                                      .toString()),
-                                              trailing: RaisedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        //builder of MaterialPageRoute will call TodoDetail class
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WSPCompletedOrderDetails(
-                                                                  wspId: uid,
-                                                                  orderId: course[
-                                                                      "order id"]),
-                                                        ));
-                                                  },
-                                                  child: const Text(
-                                                    "See Details",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            course["title"] != null
+                                                ? ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Title: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "title"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nService Date and Time: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                      course["service date and time"]
+                                                                          .microsecondsSinceEpoch)
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.network(
+                                                      course["photos"][0],
+                                                    ),
+                                                    trailing: Image.network(
+                                                      course["photos"][1],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text:
+                                                                  'Order Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "order id"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.asset(
+                                                      noOrderImage,
+                                                    ),
+                                                    trailing: Image.asset(
+                                                      noOrderImage,
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color:
-                                                      Colors.lightBlueAccent),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WSPCompletedOrderDetails(
+                                                              wspId: uid,
+                                                              orderId: course[
+                                                                  "order id"]),
+                                                    ));
+                                              },
+                                              child: const Text(
+                                                "Order Details",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              color: Colors.lightBlueAccent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 2)),
                                             ),
                                           ],
                                         ),
@@ -431,7 +1150,26 @@ class WSPCompletedOrdersState extends State {
                             }))
                   ]);
                 } else {
-                  return Text("No orders completed yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders completed yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
               }));
     } else if (filter == "Order Completion Time (Dsc)") {
@@ -449,22 +1187,57 @@ class WSPCompletedOrdersState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return Column(children: [
-                    Text("Choose Filter"),
-                    Card(
-                      child: DropdownButton<String>(
-                        //create an array of strings
-                        items: filters.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        value: filter,
-                        onChanged: (String value) {
-                          _onDropDownChanged(value);
-                        },
+                    Container(
+                      width: 0.98 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      color: Colors.black,
+                      margin: const EdgeInsets.all(20.0),
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
                       ),
-                    ), //clicking shows alert which gives option to choose filter or shows dropdown to choose filter
+                    ),
                     Expanded(
                         // height: 200.0,
                         child: ListView.builder(
@@ -483,43 +1256,173 @@ class WSPCompletedOrdersState extends State {
                                         return Text("Loading orders...");
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
-                                      return Card(
+                                      return Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
+                                              ),
+                                        ),
                                         child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            ListTile(
-                                              title: Text("Order Id: " +
-                                                  course["order id"]),
-                                              subtitle: Text("Price: " +
-                                                  course["price"].toString() +
-                                                  "\n Distance: " +
-                                                  course["distance"]
-                                                      .toString()),
-                                              trailing: RaisedButton(
-                                                  onPressed: () async {
-                                                    Navigator.push(
-                                                        context,
-                                                        //builder of MaterialPageRoute will call TodoDetail class
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              WSPCompletedOrderDetails(
-                                                                  wspId: uid,
-                                                                  orderId: course[
-                                                                      "order id"]),
-                                                        ));
-                                                  },
-                                                  child: const Text(
-                                                    "See Details",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            course["title"] != null
+                                                ? ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Title: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "title"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nService Date and Time: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                      course["service date and time"]
+                                                                          .microsecondsSinceEpoch)
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.network(
+                                                      course["photos"][0],
+                                                    ),
+                                                    trailing: Image.network(
+                                                      course["photos"][1],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text:
+                                                                  'Order Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "order id"]),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'Price: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    leading: Image.asset(
+                                                      noOrderImage,
+                                                    ),
+                                                    trailing: Image.asset(
+                                                      noOrderImage,
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color:
-                                                      Colors.lightBlueAccent),
+                                            RaisedButton(
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          WSPCompletedOrderDetails(
+                                                              wspId: uid,
+                                                              orderId: course[
+                                                                  "order id"]),
+                                                    ));
+                                              },
+                                              child: const Text(
+                                                "Order Details",
+                                                style:
+                                                    TextStyle(fontSize: 15.0),
+                                              ),
+                                              color: Colors.lightBlueAccent,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                  side: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 2)),
                                             ),
                                           ],
                                         ),
@@ -530,7 +1433,26 @@ class WSPCompletedOrdersState extends State {
                             }))
                   ]);
                 } else {
-                  return Text("No orders completed yet!");
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders completed yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
               }));
     }

@@ -1,3 +1,5 @@
+import 'package:workforce/screens/chat/chat.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,15 @@ class CustomerInProgressOrCompletedOrdersState extends State {
     setState(() {
       this.filter = value;
     });
+  }
+
+  _makingPhoneCall(String phoneNo) async {
+    String url = 'tel:' + phoneNo;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   final filters = [
@@ -136,19 +147,6 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
 
-                                      // return Card(
-                                      //   child: Column(
-                                      //     crossAxisAlignment:
-                                      //         CrossAxisAlignment.start,
-                                      //     children: <Widget>[
-                                      //       Text("Order id: " +
-                                      //           course["order id"]),
-                                      //       Text("Price: " +
-                                      //           course["price"].toString()),
-                                      //       Text("WSP id: " + course["wsp id"]),
-                                      //       Text("Distance: " +
-                                      //           course["distance"]
-                                      //               .toString()), // orderDoc != null ? Text("Hi") : Container(),
                                       return Container(
                                         width: 0.98 *
                                             MediaQuery.of(context)
@@ -291,49 +289,194 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       imgList[0],
                                                     ),
                                                   ),
-                                            RaisedButton(
-                                              onPressed: () async {
-                                                if (status == "In Progress") {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CustomerInProgressOrderDetails(
-                                                          uid: uid,
-                                                          wspId:
-                                                              course["wsp id"],
-                                                          orderId: course[
-                                                              "order id"],
-                                                        ),
-                                                      ));
-                                                } else {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CustomerCompletedOrderDetails(
-                                                                uid: uid,
-                                                                wspId: course[
-                                                                    "wsp id"],
-                                                                orderId: course[
-                                                                    "order id"],
-                                                              )));
-                                                }
-                                              },
-                                              child: const Text(
-                                                "See Details",
-                                                style:
-                                                    TextStyle(fontSize: 15.0),
-                                              ),
-                                              color: Colors.lightBlueAccent,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
-                                                  side: BorderSide(
-                                                      color: Colors.blue,
-                                                      width: 2)),
-                                            ),
+                                            status == "In Progress"
+                                                ? SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print("Call");
+                                                                print(Firestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'users')
+                                                                    .document(
+                                                                        course[
+                                                                            "user id"])
+                                                                    .get()
+                                                                    .then((value) =>
+                                                                        _makingPhoneCall(
+                                                                            value["phone no"].toString())));
+                                                              },
+                                                              child: const Text(
+                                                                "Call",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Gives a platform to chat with customer");
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => ChatPage(
+                                                                            placedOrderId:
+                                                                                course.documentID,
+                                                                            userId: uid)),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Chat",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2))),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    //builder of MaterialPageRoute will call TodoDetail class
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              CustomerInProgressOrderDetails(
+                                                                        uid:
+                                                                            uid,
+                                                                        wspId: course[
+                                                                            "wsp id"],
+                                                                        orderId:
+                                                                            course["order id"],
+                                                                      ),
+                                                                    ));
+                                                              },
+                                                              child: const Text(
+                                                                "Order Details",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                  )
+                                                : Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        CustomerCompletedOrderDetails(
+                                                                          uid:
+                                                                              uid,
+                                                                          wspId:
+                                                                              course["wsp id"],
+                                                                          orderId:
+                                                                              course["order id"],
+                                                                        )));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
                                           ],
                                         ),
                                       );
@@ -450,19 +593,6 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
 
-                                      // return Card(
-                                      //   child: Column(
-                                      //     crossAxisAlignment:
-                                      //         CrossAxisAlignment.start,
-                                      //     children: <Widget>[
-                                      //       Text("Order id: " +
-                                      //           course["order id"]),
-                                      //       Text("Price: " +
-                                      //           course["price"].toString()),
-                                      //       Text("WSP id: " + course["wsp id"]),
-                                      //       Text("Distance: " +
-                                      //           course["distance"]
-                                      //               .toString()), // orderDoc != null ? Text("Hi") : Container(),
                                       return Container(
                                         width: 0.98 *
                                             MediaQuery.of(context)
@@ -605,49 +735,194 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       imgList[0],
                                                     ),
                                                   ),
-                                            RaisedButton(
-                                              onPressed: () async {
-                                                if (status == "In Progress") {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CustomerInProgressOrderDetails(
-                                                          uid: uid,
-                                                          wspId:
-                                                              course["wsp id"],
-                                                          orderId: course[
-                                                              "order id"],
-                                                        ),
-                                                      ));
-                                                } else {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CustomerCompletedOrderDetails(
-                                                                uid: uid,
-                                                                wspId: course[
-                                                                    "wsp id"],
-                                                                orderId: course[
-                                                                    "order id"],
-                                                              )));
-                                                }
-                                              },
-                                              child: const Text(
-                                                "See Details",
-                                                style:
-                                                    TextStyle(fontSize: 15.0),
-                                              ),
-                                              color: Colors.lightBlueAccent,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
-                                                  side: BorderSide(
-                                                      color: Colors.blue,
-                                                      width: 2)),
-                                            ),
+                                            status == "In Progress"
+                                                ? SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print("Call");
+                                                                print(Firestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'users')
+                                                                    .document(
+                                                                        course[
+                                                                            "user id"])
+                                                                    .get()
+                                                                    .then((value) =>
+                                                                        _makingPhoneCall(
+                                                                            value["phone no"].toString())));
+                                                              },
+                                                              child: const Text(
+                                                                "Call",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Gives a platform to chat with customer");
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => ChatPage(
+                                                                            placedOrderId:
+                                                                                course.documentID,
+                                                                            userId: uid)),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Chat",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2))),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    //builder of MaterialPageRoute will call TodoDetail class
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              CustomerInProgressOrderDetails(
+                                                                        uid:
+                                                                            uid,
+                                                                        wspId: course[
+                                                                            "wsp id"],
+                                                                        orderId:
+                                                                            course["order id"],
+                                                                      ),
+                                                                    ));
+                                                              },
+                                                              child: const Text(
+                                                                "Order Details",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                  )
+                                                : Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        CustomerCompletedOrderDetails(
+                                                                          uid:
+                                                                              uid,
+                                                                          wspId:
+                                                                              course["wsp id"],
+                                                                          orderId:
+                                                                              course["order id"],
+                                                                        )));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
                                           ],
                                         ),
                                       );
@@ -764,19 +1039,6 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                       DocumentSnapshot course =
                                           snapshot.data.documents[index];
 
-                                      // return Card(
-                                      //   child: Column(
-                                      //     crossAxisAlignment:
-                                      //         CrossAxisAlignment.start,
-                                      //     children: <Widget>[
-                                      //       Text("Order id: " +
-                                      //           course["order id"]),
-                                      //       Text("Price: " +
-                                      //           course["price"].toString()),
-                                      //       Text("WSP id: " + course["wsp id"]),
-                                      //       Text("Distance: " +
-                                      //           course["distance"]
-                                      //               .toString()), // orderDoc != null ? Text("Hi") : Container(),
                                       return Container(
                                         width: 0.98 *
                                             MediaQuery.of(context)
@@ -919,49 +1181,194 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       imgList[0],
                                                     ),
                                                   ),
-                                            RaisedButton(
-                                              onPressed: () async {
-                                                if (status == "In Progress") {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CustomerInProgressOrderDetails(
-                                                          uid: uid,
-                                                          wspId:
-                                                              course["wsp id"],
-                                                          orderId: course[
-                                                              "order id"],
-                                                        ),
-                                                      ));
-                                                } else {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CustomerCompletedOrderDetails(
-                                                                uid: uid,
-                                                                wspId: course[
-                                                                    "wsp id"],
-                                                                orderId: course[
-                                                                    "order id"],
-                                                              )));
-                                                }
-                                              },
-                                              child: const Text(
-                                                "See Details",
-                                                style:
-                                                    TextStyle(fontSize: 15.0),
-                                              ),
-                                              color: Colors.lightBlueAccent,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          30.0),
-                                                  side: BorderSide(
-                                                      color: Colors.blue,
-                                                      width: 2)),
-                                            ),
+                                            status == "In Progress"
+                                                ? SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print("Call");
+                                                                print(Firestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'users')
+                                                                    .document(
+                                                                        course[
+                                                                            "user id"])
+                                                                    .get()
+                                                                    .then((value) =>
+                                                                        _makingPhoneCall(
+                                                                            value["phone no"].toString())));
+                                                              },
+                                                              child: const Text(
+                                                                "Call",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Gives a platform to chat with customer");
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => ChatPage(
+                                                                            placedOrderId:
+                                                                                course.documentID,
+                                                                            userId: uid)),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Chat",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2))),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    //builder of MaterialPageRoute will call TodoDetail class
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              CustomerInProgressOrderDetails(
+                                                                        uid:
+                                                                            uid,
+                                                                        wspId: course[
+                                                                            "wsp id"],
+                                                                        orderId:
+                                                                            course["order id"],
+                                                                      ),
+                                                                    ));
+                                                              },
+                                                              child: const Text(
+                                                                "Order Details",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                        ]),
+                                                  )
+                                                : Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        CustomerCompletedOrderDetails(
+                                                                          uid:
+                                                                              uid,
+                                                                          wspId:
+                                                                              course["wsp id"],
+                                                                          orderId:
+                                                                              course["order id"],
+                                                                        )));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
                                           ],
                                         ),
                                       );

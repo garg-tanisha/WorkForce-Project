@@ -396,7 +396,7 @@ class WSPInProgressOrdersState extends State {
                                                               ));
                                                         },
                                                         child: const Text(
-                                                          "See Details",
+                                                          "Order Details",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
@@ -822,7 +822,7 @@ class WSPInProgressOrdersState extends State {
                                                               ));
                                                         },
                                                         child: const Text(
-                                                          "See Details",
+                                                          "Order Details",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
@@ -1267,7 +1267,7 @@ class WSPInProgressOrdersState extends State {
                                                               ));
                                                         },
                                                         child: const Text(
-                                                          "See Details",
+                                                          "Order Details",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
