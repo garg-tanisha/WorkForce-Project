@@ -171,7 +171,6 @@ class PlaceOrderState extends State {
     });
 
     return new Column(children: list);
-    // : Container();
   }
 
   DateTime selectedDate = DateTime.now();
@@ -210,152 +209,36 @@ class PlaceOrderState extends State {
                       //   style: Theme.of(context).textTheme.headline4,
                       // ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                            labelText: "Enter Title*",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.text,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Enter Title';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Container(
-                        // margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  15.0) //                 <--- border radius here
-                              ),
-                        ),
-                        child: Column(children: [
-                          Text("Type of Service Required"),
-                          DropdownButton<String>(
-                            items: _serviceTypes.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            value: _serviceType,
-                            onChanged: (String value) {
-                              _onDropDownChanged(value);
-                            },
-                          ),
-                        ]),
-                      ),
-                      Container(
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(2.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                    15.0) //                 <--- border radius here
-                                ),
-                          ),
-                          child: Column(children: [
-                            Text(
-                                "Upload at least 2 pictures of the device etc.*"),
-                            Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Column(children: [
-                                  RawMaterialButton(
-                                    fillColor: Theme.of(context).accentColor,
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.white,
-                                    ),
-                                    elevation: 8,
-                                    onPressed: () {
-                                      _showPicker(context);
-                                    },
-                                    padding: EdgeInsets.all(15),
-                                    shape: CircleBorder(),
-                                  ),
-                                  _images.length != 0
-                                      ? Text("Choosen images (" +
-                                          _images.length.toString() +
-                                          ")")
-                                      : Container(),
-                                  _images.length != 0 ? images() : Container(),
-                                ])),
-                          ])),
-                      Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          controller: priceController,
-                          decoration: InputDecoration(
-                            labelText: "Price (In Rupees) *",
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                          // The validator receives the text that the user has entered.
-                          validator: (value) {
-                            if (value.isEmpty && _images.length < 2) {
-                              return 'Please select at least 2 images \nEnter a Price you are willing to pay';
-                            } else if (value.contains('-') &&
-                                _images.length < 2) {
-                              return 'Please select at least 2 images \nPlease enter a valid price';
-                            } else if (value.isEmpty) {
-                              return 'Enter a Price you are willing to pay';
-                            } else if (value.contains('-')) {
-                              return 'Please enter a valid price';
-                            } else if (_images.length < 2) {
-                              return 'Please select at least 2 images';
-                            }
-
-                            return null;
-                          },
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  15.0) //                 <--- border radius here
-                              ),
-                        ),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
                         child: Row(children: [
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Text("Ratings*"),
-                          )),
+                          Icon(
+                            Icons.account_circle,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'First Name',
+                          ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: ratings.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                //value property
-                                value: rating,
-                                //without it nothing will be updated
-                                onChanged: (String value) {
-                                  _onRatingDropDownChanged(value);
+                              padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                controller: titleController,
+                                decoration: InputDecoration(
+                                  labelText: "Enter Title",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter Title';
+                                  }
+                                  return null;
                                 },
                               ),
                             ),
@@ -363,24 +246,85 @@ class PlaceOrderState extends State {
                         ]),
                       ),
                       Container(
-                        margin: const EdgeInsets.all(15.0),
+                        margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  15.0) //                 <--- border radius here
-                              ),
-                        ),
                         child: Row(children: [
+                          Icon(
+                            Icons.lock_sharp,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Confirm Password',
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(2.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 0.0,
+                                        bottom: 0.0,
+                                        left: 20.0,
+                                        right: 20.0),
+                                    child: Text("Service Type",
+                                        style: TextStyle(fontSize: 16.0)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 0.0,
+                                        bottom: 0.0,
+                                        left: 20.0,
+                                        right: 20.0),
+                                    child: DropdownButton<String>(
+                                      items: _serviceTypes.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      value: _serviceType,
+                                      onChanged: (String value) {
+                                        _onDropDownChanged(value);
+                                      },
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.call,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Phone Number',
+                          ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.all(20.0),
+                              padding: EdgeInsets.only(
+                                  top: 20.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
                               child: TextFormField(
                                 controller: distanceController,
                                 decoration: InputDecoration(
-                                  labelText: "Distance (in km) *",
+                                  labelText: "Distance (in km)",
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -395,24 +339,123 @@ class PlaceOrderState extends State {
                                 },
                               ),
                             ),
-                          ),
+                          )
                         ]),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.call,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Phone Number',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                controller: priceController,
+                                decoration: InputDecoration(
+                                  labelText: "Price (In Rupees)",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty && _images.length < 2) {
+                                    return 'Please select at least 2 images \nEnter a Price you are willing to pay';
+                                  } else if (value.contains('-') &&
+                                      _images.length < 2) {
+                                    return 'Please select at least 2 images \nPlease enter a valid price';
+                                  } else if (value.isEmpty) {
+                                    return 'Enter a Price you are willing to pay';
+                                  } else if (value.contains('-')) {
+                                    return 'Please enter a valid price';
+                                  } else if (_images.length < 2) {
+                                    return 'Please select at least 2 images';
+                                  }
 
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "Address(Current Location or Search Location)"),
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
+                        ]),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            height: 400,
-                            child: MapsScreen(
-                              tableName: "orders",
-                              callback: (val) => setState(() => location = val),
-                            )),
-                      ),
+                      // Center(
+                      // child:
+                      Container(
+                          margin: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(2.0),
+                          alignment: Alignment(0.0, 0.0),
+                          child: Row(children: [
+                            Icon(
+                              Icons.lock_sharp,
+                              color: Colors.blue,
+                              size: 30.0,
+                              semanticLabel: 'Confirm Password',
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.only(
+                                  top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                              ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    // crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 20.0,
+                                            right: 20.0),
+                                        child: Text("Ratings",
+                                            style: TextStyle(fontSize: 16.0)),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 20.0,
+                                            right: 20.0),
+                                        child: DropdownButton<String>(
+                                          //create an array of strings
+                                          items: ratings.map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          //value property
+                                          value: rating,
+                                          //without it nothing will be updated
+                                          onChanged: (String value) {
+                                            _onRatingDropDownChanged(value);
+                                          },
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                          ])),
+
                       Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(2.0),
@@ -526,6 +569,93 @@ class PlaceOrderState extends State {
                               ),
                             ])),
                       ),
+                      Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                    15.0) //                 <--- border radius here
+                                ),
+                          ),
+                          child: Column(children: [
+                            Text(
+                                "Upload at least 2 pictures of the device etc.*"),
+                            Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Column(children: [
+                                  RawMaterialButton(
+                                    fillColor: Theme.of(context).accentColor,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                    ),
+                                    elevation: 8,
+                                    onPressed: () {
+                                      _showPicker(context);
+                                    },
+                                    padding: EdgeInsets.all(15),
+                                    shape: CircleBorder(),
+                                  ),
+                                  _images.length != 0
+                                      ? Text("Choosen images (" +
+                                          _images.length.toString() +
+                                          ")")
+                                      : Container(),
+                                  _images.length != 0 ? images() : Container(),
+                                ])),
+                          ])),
+
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                          child: Row(children: [
+                            Icon(
+                              Icons.add_location_alt_sharp,
+                              color: Colors.blue,
+                              size: 30.0,
+                              semanticLabel: 'Address',
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "Address(Current Location or Search Location)",
+                                    style: TextStyle(fontSize: 16.0)),
+                              ),
+                            ))
+                          ])),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: 400,
+                              child: MapsScreen(
+                                tableName: 'users',
+                                callback: (val) =>
+                                    setState(() => location = val),
+                              )),
+                        ),
+                      ),
+
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: isLoading

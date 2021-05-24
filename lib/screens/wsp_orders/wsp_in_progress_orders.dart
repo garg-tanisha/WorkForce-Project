@@ -230,10 +230,10 @@ class WSPInProgressOrdersState extends State {
                                                                       FontWeight
                                                                           .bold)),
                                                           new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["distance"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4)),
                                                         ],
                                                       ),
                                                     ),
@@ -458,24 +458,28 @@ class WSPInProgressOrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders in progress yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders in progress yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     } else if (filter == 'Price (Low To High)') {
       return Scaffold(
@@ -652,10 +656,10 @@ class WSPInProgressOrdersState extends State {
                                                                       FontWeight
                                                                           .bold)),
                                                           new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["distance"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4)),
                                                         ],
                                                       ),
                                                     ),
@@ -899,24 +903,28 @@ class WSPInProgressOrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders in progress yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders in progress yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     } else if (filter == 'Price (High To Low)') {
       return Scaffold(
@@ -1093,10 +1101,10 @@ class WSPInProgressOrdersState extends State {
                                                                       FontWeight
                                                                           .bold)),
                                                           new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["distance"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
+                                                              text: course[
+                                                                      "distance"]
+                                                                  .toStringAsFixed(
+                                                                      4))
                                                         ],
                                                       ),
                                                     ),
@@ -1340,24 +1348,28 @@ class WSPInProgressOrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders in progress yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders in progress yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     }
   }
