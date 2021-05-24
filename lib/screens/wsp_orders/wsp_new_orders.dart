@@ -1064,25 +1064,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
-                // }
               }));
     } else if (filter == 'Latest Orders To Oldest Orders') {
       return Scaffold(
@@ -1550,25 +1553,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
-                // }
               }));
     } else if (filter == 'Price (Low To High)') {
       return Scaffold(
@@ -2036,24 +2042,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     } else if (filter == 'Price (High To Low)') {
       return Scaffold(
@@ -2521,24 +2531,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     } else if (filter == 'Distance (Close To Far)') {
       return Scaffold(
@@ -3006,25 +3020,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
-                // }
               }));
     } else if (filter == 'Service Date And Time (Asc)') {
       return Scaffold(
@@ -3492,25 +3509,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
-                // }
               }));
     } else if (filter == 'Service Date And Time (Dsc)') {
       return Scaffold(
@@ -3978,25 +3998,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
-                // }
               }));
     } else if (filter == 'Time Window (Min to Max)') {
       return Scaffold(
@@ -4463,24 +4486,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     } else if (filter == 'Time Window (Max to Min') {
       return Scaffold(
@@ -4947,24 +4974,28 @@ class OrdersState extends State {
                               }
                             })),
                   ]);
+                } else {
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Image.asset(
+                          imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text("No orders yet!",
+                                style: TextStyle(fontSize: 15.0)))
+                      ]));
                 }
-                return Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text("No orders yet!",
-                              style: TextStyle(fontSize: 15.0)))
-                    ]));
               }));
     }
   }
