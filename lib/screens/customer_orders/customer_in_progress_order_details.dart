@@ -1,8 +1,27 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:workforce/screens/chat/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
+
+final List<String> imgList = [
+  "images/customer_home/carpenter.jpg",
+  "images/customer_home/electrician.jpg",
+  "images/customer_home/mechanic.jpg",
+  "images/customer_home/plumber.jpg",
+  "images/customer_home/sofa_cleaning.jpg",
+  "images/customer_home/women_hair_cut_and_styling.jpg",
+];
+
+List<String> listPathsLabels = [
+  "Carpenter",
+  "Electrician",
+  "Mechanic",
+  "Plumber",
+  "Sofa Cleaning",
+  "Women's Hair Cut and Spa"
+];
 
 class CustomerInProgressOrderDetails extends StatefulWidget {
   CustomerInProgressOrderDetails({this.uid, this.wspId, this.orderId});
@@ -36,24 +55,54 @@ class CustomerInProgressOrderDetailsState extends State {
 
   Widget images(var _images) {
     List<Widget> list = new List<Widget>();
-    _images.forEach((image) async {
-      list.add(Expanded(
-          child: Image.network(
-        image,
-        width: 100,
-        height: 100,
-      )));
-    });
 
-    return new Row(children: list);
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Image.network(
+            _images[i],
+            width: 100,
+            height: 100,
+          ))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Image.network(
+            _images[i],
+            width: 100,
+            height: 100,
+          )),
+          Expanded(
+              child: Image.network(
+            _images[i + 1],
+            width: 100,
+            height: 100,
+          ))
+        ]));
+      }
+    }
+    ;
+
+    return new Column(children: list);
   }
 
   @override
   Widget build(BuildContext context) {
+    int imageCount = (imgList.length / 2).round();
     return Scaffold(
-        appBar: AppBar(title: Text("Order ( " + orderId + " )")),
+        appBar: AppBar(title: Text("View Order Details")),
         body: Column(children: [
-          Padding(padding: EdgeInsets.all(20.0), child: Text("Order Details")),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text("Order Details",
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+            ),
+          ),
           StreamBuilder(
               stream: Firestore.instance
                   .collection('orders')
@@ -65,37 +114,85 @@ class CustomerInProgressOrderDetailsState extends State {
                 }
                 var userDocument = snapshot.data;
                 // return Text("Title: " + userDocument["title"]);
-                return Card(
+                return Container(
+                  width:
+                      0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            5.0) //                 <--- border radius here
+                        ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
+                      ListTile(
+                        subtitle: RichText(
+                          text: new TextSpan(
+                            style: new TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.black,
+                            ),
+                            children: <TextSpan>[
+                              new TextSpan(
+                                  text: 'Title: ',
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              new TextSpan(text: userDocument["title"]),
+                              new TextSpan(
+                                  text: '\nOrder #: ',
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              new TextSpan(text: orderId),
+                              new TextSpan(
+                                  text: '\nDate Of Ordering: ',
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              new TextSpan(
+                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                          userDocument["date time"]
+                                              .microsecondsSinceEpoch)
+                                      .toString()),
+                              new TextSpan(
+                                  text: "\nService Date and Time: ",
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              new TextSpan(
+                                  text: DateTime.fromMicrosecondsSinceEpoch(
+                                          userDocument["service date and time"]
+                                              .microsecondsSinceEpoch)
+                                      .toString()),
+                              new TextSpan(
+                                  text: "\nPrice ",
+                                  style: new TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              new TextSpan(
+                                  text: userDocument["price"].toString())
+                            ],
+                          ),
+                        ),
+                      ),
                       Padding(padding: EdgeInsets.all(5.0)),
-                      Text("Title: " + userDocument["title"]),
-                      Text("Distance: " + userDocument["distance"].toString()),
-                      Text("Service date and time: " +
-                          DateTime.fromMicrosecondsSinceEpoch(
-                                  userDocument["service date and time"]
-                                      .microsecondsSinceEpoch)
-                              .toString()),
-                      Text("Time window: " +
-                          DateTime.fromMicrosecondsSinceEpoch(
-                                  userDocument["time window"]
-                                      .microsecondsSinceEpoch)
-                              .toString()),
-                      Text("Service type: " + userDocument["service type"]),
-                      // Image.network(userDocument["photos"][0],
-                      //     width: 50, height: 50),
                       userDocument["photos"] != null
                           ? images(userDocument["photos"])
                           : Container(),
-                      // images(userDocument["photos"]),
-                      Padding(padding: EdgeInsets.all(5.0)),
                     ],
                   ),
                 );
               }),
-          Padding(padding: EdgeInsets.all(20.0), child: Text("WSP Details")),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text("WSP Details",
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+            ),
+          ),
           StreamBuilder(
               stream: Firestore.instance
                   .collection('placed orders')
@@ -123,78 +220,181 @@ class CustomerInProgressOrderDetailsState extends State {
                                           return Text("Loading orders...");
                                         DocumentSnapshot course =
                                             snapshot.data.documents[index];
-                                        return Card(
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text("WSP Id: " +
-                                                    course["wsp id"]),
-                                                Text("Description: " +
-                                                    course["description"]),
-                                                Text("Price: " +
-                                                    course["price"].toString()),
-                                                Text("Distance: " +
-                                                    course["distance"]
-                                                        .toString()),
-                                                // course["ratings"] != null
-                                                //     ? Text("Ratings: " +
-                                                //         course["ratings"])
-                                                //     : Container(),
-                                                RaisedButton(
-                                                  onPressed: () async {
-                                                    print(
-                                                        "Gives a platform to chat with WSP");
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ChatPage(
-                                                                  placedOrderId:
-                                                                      course
-                                                                          .documentID,
-                                                                  userId: course[
-                                                                      "user id"])),
-                                                    );
-                                                  },
-                                                  child: const Text(
-                                                    "Chat",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                        return Container(
+                                            width: 0.98 *
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width
+                                                    .roundToDouble(),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.black12,
+                                              ),
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      5.0) //                 <--- border radius here
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color: Colors.lightBlueAccent,
-                                                ),
-                                                RaisedButton(
-                                                  onPressed: () async {
-                                                    print(
-                                                        "Shows alert with no of wsp");
-                                                    print(Firestore.instance
-                                                        .collection('users')
-                                                        .document(
-                                                            course["wsp id"])
-                                                        .get()
-                                                        .then((value) =>
-                                                            _makingPhoneCall(value[
-                                                                    "phone no"]
-                                                                .toString())));
-                                                  },
-                                                  child: const Text(
-                                                    "Call",
-                                                    style: TextStyle(
-                                                        fontSize: 15.0),
+                                            ),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  ListTile(
+                                                    subtitle: RichText(
+                                                      text: new TextSpan(
+                                                        style: new TextStyle(
+                                                          fontSize: 20.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                        children: <TextSpan>[
+                                                          new TextSpan(
+                                                              text: 'WSP Id: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "wsp id"]),
+                                                          new TextSpan(
+                                                              text:
+                                                                  '\nDescription: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                  "description"]),
+                                                          new TextSpan(
+                                                              text: '\nPrice: ',
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                      "price"]
+                                                                  .toString()),
+                                                          new TextSpan(
+                                                              text:
+                                                                  "\nDistance: ",
+                                                              style: new TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          new TextSpan(
+                                                              text: course[
+                                                                          "distance"]
+                                                                      .toStringAsFixed(
+                                                                          4) +
+                                                                  " km")
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0)),
-                                                  color: Colors.lightBlueAccent,
-                                                ),
-                                              ]),
-                                        );
+                                                  Center(
+                                                      child:
+                                                          SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print("Call");
+                                                                print(Firestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'users')
+                                                                    .document(
+                                                                        course[
+                                                                            "user id"])
+                                                                    .get()
+                                                                    .then((value) =>
+                                                                        _makingPhoneCall(
+                                                                            value["phone no"].toString())));
+                                                              },
+                                                              child: const Text(
+                                                                "Call",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Gives a platform to chat with customer");
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => ChatPage(
+                                                                            placedOrderId:
+                                                                                course.documentID,
+                                                                            userId: uid)),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Chat",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2))),
+                                                          ),
+                                                        ]),
+                                                  ))
+                                                ]));
                                       }
                                   }
                                 }
@@ -202,7 +402,110 @@ class CustomerInProgressOrderDetailsState extends State {
                 } else {
                   return Text("Invalid order id!");
                 }
-              })
+              }),
+          Container(
+            width: MediaQuery.of(context).size.width.roundToDouble(),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white,
+              ),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(
+                      5.0) //                 <--- border radius here
+                  ),
+            ),
+            child: Column(children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text("Recommended Services",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0)),
+                ),
+              ),
+              Container(
+                  width:
+                      0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            5.0) //                 <--- border radius here
+                        ),
+                  ),
+                  margin: const EdgeInsets.all(10.0),
+                  child: CarouselSlider.builder(
+                    options: CarouselOptions(
+                      aspectRatio: 2.0,
+                      enlargeCenterPage: false,
+                      viewportFraction: 1,
+                    ),
+                    itemCount: imageCount,
+                    itemBuilder: (context, index) {
+                      final int first = index * 2;
+                      final int second =
+                          index < imageCount - 1 ? first + 1 : null;
+
+                      return Row(
+                        children: [first, second].map((idx) {
+                          return idx != null
+                              ? Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: Stack(children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image.asset(imgList[idx],
+                                              width: 1000.0,
+                                              height: 700.0,
+                                              fit: BoxFit.cover),
+                                        ),
+                                        Positioned(
+                                          bottom: 0.0,
+                                          left: 0.0,
+                                          right: 0.0,
+                                          child: Container(
+                                            height: 60.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                color: Colors.black,
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(
+                                                      10.0) //                 <--- border radius here
+                                                  ,
+                                                  bottomRight: Radius.circular(
+                                                      10.0) //                 <--- border radius here
+                                                  ),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 20.0),
+                                            child: Text(
+                                              listPathsLabels[idx],
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ])))
+                              : Container();
+                        }).toList(),
+                      );
+                    },
+                  )),
+            ]),
+          )
         ]));
   }
 
