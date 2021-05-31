@@ -60,26 +60,32 @@ class CustomerInProgressOrderDetailsState extends State {
       if (i + 1 >= _images.length) {
         list.add(Row(children: [
           Expanded(
-              child: Image.network(
-            _images[i],
-            width: 100,
-            height: 100,
-          ))
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  )))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
-              child: Image.network(
-            _images[i],
-            width: 100,
-            height: 100,
-          )),
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  ))),
           Expanded(
-              child: Image.network(
-            _images[i + 1],
-            width: 100,
-            height: 100,
-          ))
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Image.network(
+                    _images[i + 1],
+                    width: 100,
+                    height: 100,
+                  )))
         ]));
       }
     }
@@ -187,7 +193,8 @@ class CustomerInProgressOrderDetailsState extends State {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.only(
+                  left: 10.0, right: 10.0, top: 15.0, bottom: 10.0),
               child: Text("WSP Details",
                   style:
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
@@ -403,109 +410,109 @@ class CustomerInProgressOrderDetailsState extends State {
                   return Text("Invalid order id!");
                 }
               }),
-          Container(
-            width: MediaQuery.of(context).size.width.roundToDouble(),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white,
-              ),
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(
-                      5.0) //                 <--- border radius here
-                  ),
-            ),
-            child: Column(children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text("Recommended Services",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0)),
-                ),
-              ),
-              Container(
-                  width:
-                      0.98 * MediaQuery.of(context).size.width.roundToDouble(),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black12,
-                    ),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(
-                            5.0) //                 <--- border radius here
-                        ),
-                  ),
-                  margin: const EdgeInsets.all(10.0),
-                  child: CarouselSlider.builder(
-                    options: CarouselOptions(
-                      aspectRatio: 2.0,
-                      enlargeCenterPage: false,
-                      viewportFraction: 1,
-                    ),
-                    itemCount: imageCount,
-                    itemBuilder: (context, index) {
-                      final int first = index * 2;
-                      final int second =
-                          index < imageCount - 1 ? first + 1 : null;
+          // Container(
+          //   width: MediaQuery.of(context).size.width.roundToDouble(),
+          //   decoration: BoxDecoration(
+          //     border: Border.all(
+          //       color: Colors.white,
+          //     ),
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.all(Radius.circular(
+          //             5.0) //                 <--- border radius here
+          //         ),
+          //   ),
+          //   child: Column(children: [
+          //     Align(
+          //       alignment: Alignment.centerLeft,
+          //       child: Padding(
+          //         padding: EdgeInsets.all(10.0),
+          //         child: Text("Recommended Services",
+          //             style: TextStyle(
+          //                 fontWeight: FontWeight.bold, fontSize: 16.0)),
+          //       ),
+          //     ),
+          //     Container(
+          //         width:
+          //             0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+          //         decoration: BoxDecoration(
+          //           border: Border.all(
+          //             color: Colors.black12,
+          //           ),
+          //           color: Colors.white,
+          //           borderRadius: BorderRadius.all(Radius.circular(
+          //                   5.0) //                 <--- border radius here
+          //               ),
+          //         ),
+          //         margin: const EdgeInsets.all(10.0),
+          //         child: CarouselSlider.builder(
+          //           options: CarouselOptions(
+          //             aspectRatio: 2.0,
+          //             enlargeCenterPage: false,
+          //             viewportFraction: 1,
+          //           ),
+          //           itemCount: imageCount,
+          //           itemBuilder: (context, index) {
+          //             final int first = index * 2;
+          //             final int second =
+          //                 index < imageCount - 1 ? first + 1 : null;
 
-                      return Row(
-                        children: [first, second].map((idx) {
-                          return idx != null
-                              ? Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Stack(children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          child: Image.asset(imgList[idx],
-                                              width: 1000.0,
-                                              height: 700.0,
-                                              fit: BoxFit.cover),
-                                        ),
-                                        Positioned(
-                                          bottom: 0.0,
-                                          left: 0.0,
-                                          right: 0.0,
-                                          child: Container(
-                                            height: 60.0,
-                                            decoration: BoxDecoration(
-                                              color: Colors.black,
-                                              border: Border.all(
-                                                color: Colors.black,
-                                              ),
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft: Radius.circular(
-                                                      10.0) //                 <--- border radius here
-                                                  ,
-                                                  bottomRight: Radius.circular(
-                                                      10.0) //                 <--- border radius here
-                                                  ),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10.0,
-                                                horizontal: 20.0),
-                                            child: Text(
-                                              listPathsLabels[idx],
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ])))
-                              : Container();
-                        }).toList(),
-                      );
-                    },
-                  )),
-            ]),
-          )
+          //             return Row(
+          //               children: [first, second].map((idx) {
+          //                 return idx != null
+          //                     ? Expanded(
+          //                         flex: 1,
+          //                         child: Container(
+          //                             margin:
+          //                                 EdgeInsets.symmetric(horizontal: 10),
+          //                             child: Stack(children: <Widget>[
+          //                               ClipRRect(
+          //                                 borderRadius:
+          //                                     BorderRadius.circular(10.0),
+          //                                 child: Image.asset(imgList[idx],
+          //                                     width: 1000.0,
+          //                                     height: 700.0,
+          //                                     fit: BoxFit.cover),
+          //                               ),
+          //                               Positioned(
+          //                                 bottom: 0.0,
+          //                                 left: 0.0,
+          //                                 right: 0.0,
+          //                                 child: Container(
+          //                                   height: 60.0,
+          //                                   decoration: BoxDecoration(
+          //                                     color: Colors.black,
+          //                                     border: Border.all(
+          //                                       color: Colors.black,
+          //                                     ),
+          //                                     borderRadius: BorderRadius.only(
+          //                                         bottomLeft: Radius.circular(
+          //                                             10.0) //                 <--- border radius here
+          //                                         ,
+          //                                         bottomRight: Radius.circular(
+          //                                             10.0) //                 <--- border radius here
+          //                                         ),
+          //                                   ),
+          //                                   padding: EdgeInsets.symmetric(
+          //                                       vertical: 10.0,
+          //                                       horizontal: 20.0),
+          //                                   child: Text(
+          //                                     listPathsLabels[idx],
+          //                                     style: TextStyle(
+          //                                       color: Colors.white,
+          //                                       fontSize: 14.0,
+          //                                       fontWeight: FontWeight.bold,
+          //                                     ),
+          //                                   ),
+          //                                 ),
+          //                               ),
+          //                             ])))
+          //                     : Container();
+          //               }).toList(),
+          //             );
+          //           },
+          //         )),
+          //   ]),
+          // )
         ]));
   }
 
