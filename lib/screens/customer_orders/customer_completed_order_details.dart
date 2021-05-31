@@ -203,275 +203,255 @@ class CustomerCompletedOrderDetailsState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
-                  return SizedBox(
-                      height: 400.0,
-                      child: new ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            if (snapshot.hasError) {
-                              print(snapshot.error);
-                              return new Text('Error: ${snapshot.error}');
-                            } else {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return new Text('Loading...');
-                                default:
-                                  {
-                                    if (!snapshot.hasData)
-                                      return Text("Loading orders...");
-                                    DocumentSnapshot course =
-                                        snapshot.data.documents[index];
-                                    return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            width: 0.98 *
-                                                MediaQuery.of(context)
-                                                    .size
-                                                    .width
-                                                    .roundToDouble(),
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 10.0),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.black12,
+                  return new ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return new Text('Error: ${snapshot.error}');
+                        } else {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return new Text('Loading...');
+                            default:
+                              {
+                                if (!snapshot.hasData)
+                                  return Text("Loading orders...");
+                                DocumentSnapshot course =
+                                    snapshot.data.documents[index];
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 0.98 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .width
+                                                .roundToDouble(),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black12,
+                                          ),
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  5.0) //                 <--- border radius here
                                               ),
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(
-                                                      5.0) //                 <--- border radius here
-                                                  ),
-                                            ),
-                                            child: ListTile(
-                                              subtitle: RichText(
-                                                text: new TextSpan(
-                                                  style: new TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.black,
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    new TextSpan(
-                                                        text: 'WSP Id: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["wsp id"]),
-                                                    new TextSpan(
-                                                        text: '\nDescription: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    course["description"] != ""
-                                                        ? new TextSpan(
-                                                            text: course[
-                                                                "description"])
-                                                        : new TextSpan(
-                                                            text: "N/A"),
-                                                    new TextSpan(
-                                                        text: '\nPrice: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["price"]
-                                                            .toString()),
-                                                    new TextSpan(
-                                                        text: "\nDistance: ",
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4) +
-                                                            " km")
-                                                  ],
-                                                ),
+                                        ),
+                                        child: ListTile(
+                                          subtitle: RichText(
+                                            text: new TextSpan(
+                                              style: new TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
                                               ),
+                                              children: <TextSpan>[
+                                                new TextSpan(
+                                                    text: 'WSP Id: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["wsp id"]),
+                                                new TextSpan(
+                                                    text: '\nDescription: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                course["description"] != ""
+                                                    ? new TextSpan(
+                                                        text: course[
+                                                            "description"])
+                                                    : new TextSpan(text: "N/A"),
+                                                new TextSpan(
+                                                    text: '\nPrice: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["price"]
+                                                        .toString()),
+                                                new TextSpan(
+                                                    text: "\nDistance: ",
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["distance"]
+                                                            .toStringAsFixed(
+                                                                4) +
+                                                        " km")
+                                              ],
                                             ),
                                           ),
-                                          DateTime.now()
-                                                      .difference(DateTime
-                                                          .fromMicrosecondsSinceEpoch(
-                                                              course["order completion time"]
-                                                                  .microsecondsSinceEpoch))
-                                                      .inMinutes <=
-                                                  24 * 60
-                                              ? Column(children: [
-                                                  Padding(
-                                                      padding:
-                                                          EdgeInsets.all(10.0)),
-                                                  Container(
-                                                      width: 0.98 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 10.0),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.black12,
+                                        ),
+                                      ),
+                                      DateTime.now()
+                                                  .difference(DateTime
+                                                      .fromMicrosecondsSinceEpoch(
+                                                          course["order completion time"]
+                                                              .microsecondsSinceEpoch))
+                                                  .inMinutes <=
+                                              24 * 60
+                                          ? Column(children: [
+                                              Padding(
+                                                  padding:
+                                                      EdgeInsets.all(10.0)),
+                                              Container(
+                                                  width: 0.98 *
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width
+                                                          .roundToDouble(),
+                                                  margin: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10.0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.black12,
+                                                    ),
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(
+                                                            5.0) //                 <--- border radius here
                                                         ),
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    5.0) //                 <--- border radius here
-                                                                ),
+                                                  ),
+                                                  child: Row(children: [
+                                                    Expanded(
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10.0,
+                                                                  right: 10.0,
+                                                                  top: 5.0,
+                                                                  bottom: 5.0),
+                                                          child: Text(
+                                                              "Want to reopen order? ( in 24 hours)",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                        ),
                                                       ),
-                                                      child: Row(children: [
-                                                        Expanded(
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Padding(
+                                                    ),
+                                                    Padding(
+                                                        child: RaisedButton(
+                                                            onPressed: () {
+                                                              Firestore.instance
+                                                                  .collection(
+                                                                      "orders")
+                                                                  .document(
+                                                                      orderId)
+                                                                  .updateData({
+                                                                "status":
+                                                                    "In Progress"
+                                                              });
+
+                                                              Firestore.instance
+                                                                  .collection(
+                                                                      "placed orders")
+                                                                  .document(course
+                                                                      .documentID)
+                                                                  .updateData({
+                                                                "status":
+                                                                    "In Progress",
+                                                                "feedback":
+                                                                    FieldValue
+                                                                        .delete(),
+                                                                "rating":
+                                                                    FieldValue
+                                                                        .delete()
+                                                              });
+
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                              "Reopen Order",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      15.0),
+                                                            ),
+                                                            color: Colors
+                                                                .lightBlueAccent,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30.0),
+                                                                side: BorderSide(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    width: 2))),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 10.0))
+                                                  ]))
+                                            ])
+                                          : Container(width: 0.0, height: 0.0),
+                                      course["feedback"] == null
+                                          ? Column(children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10.0,
+                                                      right: 10.0,
+                                                      top: 15.0,
+                                                      bottom: 10.0),
+                                                  child: Text("Submit Feedback",
+                                                      style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ),
+                                              ),
+                                              Container(
+                                                  width: 0.98 *
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width
+                                                          .roundToDouble(),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.black12,
+                                                    ),
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(
+                                                            5.0) //                 <--- border radius here
+                                                        ),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 5.0),
+                                                  margin: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 10.0),
+                                                  child: Form(
+                                                      key: _formKey,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                              child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: <
+                                                                      Widget>[
+                                                            Padding(
                                                               padding: EdgeInsets
                                                                   .only(
-                                                                      left:
-                                                                          10.0,
-                                                                      right:
-                                                                          10.0,
-                                                                      top: 5.0,
-                                                                      bottom:
-                                                                          5.0),
-                                                              child: Text(
-                                                                  "Want to reopen order? ( in 24 hours)",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                            child: RaisedButton(
-                                                                onPressed: () {
-                                                                  Firestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "orders")
-                                                                      .document(
-                                                                          orderId)
-                                                                      .updateData({
-                                                                    "status":
-                                                                        "In Progress"
-                                                                  });
-
-                                                                  Firestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "placed orders")
-                                                                      .document(
-                                                                          course
-                                                                              .documentID)
-                                                                      .updateData({
-                                                                    "status":
-                                                                        "In Progress",
-                                                                    "feedback":
-                                                                        FieldValue
-                                                                            .delete(),
-                                                                    "rating":
-                                                                        FieldValue
-                                                                            .delete()
-                                                                  });
-
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                  "Reopen Order",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15.0),
-                                                                ),
-                                                                color: Colors
-                                                                    .lightBlueAccent,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            30.0),
-                                                                    side: BorderSide(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        width:
-                                                                            2))),
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right:
-                                                                        10.0))
-                                                      ]))
-                                                ])
-                                              : Container(
-                                                  width: 0.0, height: 0.0),
-                                          course["feedback"] == null
-                                              ? Column(children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 10.0,
-                                                          right: 10.0,
-                                                          top: 15.0,
-                                                          bottom: 10.0),
-                                                      child: Text(
-                                                          "Submit Feedback",
-                                                          style: TextStyle(
-                                                              fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      width: 0.98 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.black12,
-                                                        ),
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    5.0) //                 <--- border radius here
-                                                                ),
-                                                      ),
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5.0),
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 10.0),
-                                                      child: Form(
-                                                          key: _formKey,
-                                                          child:
-                                                              SingleChildScrollView(
-                                                                  child: Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .center,
-                                                                      children: <
-                                                                          Widget>[
-                                                                Padding(
-                                                                  padding: EdgeInsets.only(
                                                                       top: 0.0,
                                                                       bottom:
                                                                           10.0,
@@ -479,110 +459,138 @@ class CustomerCompletedOrderDetailsState extends State {
                                                                           20.0,
                                                                       right:
                                                                           20.0),
-                                                                  child: Row(
-                                                                      children: [
-                                                                        Icon(
-                                                                          Icons
-                                                                              .account_circle,
-                                                                          color:
-                                                                              Colors.blue,
-                                                                          size:
-                                                                              30.0,
-                                                                          semanticLabel:
-                                                                              'First Name',
-                                                                        ),
-                                                                        Expanded(
-                                                                          child:
-                                                                              Padding(
-                                                                            padding: EdgeInsets.only(
-                                                                                top: 5.0,
-                                                                                bottom: 5.0,
-                                                                                left: 20.0,
-                                                                                right: 20.0),
-                                                                            child:
-                                                                                TextFormField(
-                                                                              controller: feedbackController,
-                                                                              decoration: InputDecoration(
-                                                                                labelText: "Feedback",
-                                                                                enabledBorder: OutlineInputBorder(
-                                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                                ),
-                                                                              ),
-                                                                              keyboardType: TextInputType.text,
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ]),
-                                                                ),
-                                                                Center(
-                                                                  child:
-                                                                      SingleChildScrollView(
-                                                                    scrollDirection:
-                                                                        Axis.horizontal,
-                                                                    child: Row(
-                                                                        children: [
-                                                                          Text(
-                                                                              "Ratings",
-                                                                              style: TextStyle(fontSize: 16.0)),
+                                                              child: Row(
+                                                                  children: [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .account_circle,
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      size:
+                                                                          30.0,
+                                                                      semanticLabel:
+                                                                          'First Name',
+                                                                    ),
+                                                                    Expanded(
+                                                                      child:
                                                                           Padding(
-                                                                            padding: EdgeInsets.only(
-                                                                                left: 15.0,
-                                                                                top: 5.0,
-                                                                                bottom: 5.0),
-                                                                            child:
-                                                                                DropdownButton<String>(
-                                                                              //create an array of strings
-                                                                              items: ratings.map((String value) {
-                                                                                return DropdownMenuItem<String>(
-                                                                                  value: value,
-                                                                                  child: Text(value),
-                                                                                );
-                                                                              }).toList(),
-                                                                              //value property
-                                                                              value: rating,
-                                                                              //without it nothing will be updated
-                                                                              onChanged: (String value) {
-                                                                                _onDropDownChanged(value);
-                                                                              },
+                                                                        padding: EdgeInsets.only(
+                                                                            top:
+                                                                                5.0,
+                                                                            bottom:
+                                                                                5.0,
+                                                                            left:
+                                                                                20.0,
+                                                                            right:
+                                                                                20.0),
+                                                                        child:
+                                                                            TextFormField(
+                                                                          controller:
+                                                                              feedbackController,
+                                                                          decoration:
+                                                                              InputDecoration(
+                                                                            labelText:
+                                                                                "Feedback",
+                                                                            enabledBorder:
+                                                                                OutlineInputBorder(
+                                                                              borderRadius: BorderRadius.circular(10.0),
                                                                             ),
                                                                           ),
-                                                                        ]),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              5.0),
-                                                                  child: isLoading
-                                                                      ? CircularProgressIndicator()
-                                                                      : RaisedButton(
-                                                                          color:
-                                                                              Colors.lightBlueAccent,
-                                                                          shape: RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(30.0),
-                                                                              side: BorderSide(color: Colors.blue, width: 2)),
-                                                                          onPressed:
-                                                                              () {
-                                                                            if (_formKey.currentState.validate()) {
-                                                                              setState(() {
-                                                                                isLoading = true;
-                                                                              });
-                                                                              submitFeedback(orderId, course.documentID, course["wsp id"], course["service type"]);
-                                                                            }
-                                                                          },
-                                                                          child:
-                                                                              Text('Submit'),
+                                                                          keyboardType:
+                                                                              TextInputType.text,
                                                                         ),
-                                                                )
-                                                              ]))))
-                                                ])
-                                              : Container(),
-                                        ]);
-                                  }
+                                                                      ),
+                                                                    )
+                                                                  ]),
+                                                            ),
+                                                            Center(
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                scrollDirection:
+                                                                    Axis.horizontal,
+                                                                child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                          "Ratings",
+                                                                          style:
+                                                                              TextStyle(fontSize: 16.0)),
+                                                                      Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            left:
+                                                                                15.0,
+                                                                            top:
+                                                                                5.0,
+                                                                            bottom:
+                                                                                5.0),
+                                                                        child: DropdownButton<
+                                                                            String>(
+                                                                          //create an array of strings
+                                                                          items:
+                                                                              ratings.map((String value) {
+                                                                            return DropdownMenuItem<String>(
+                                                                              value: value,
+                                                                              child: Text(value),
+                                                                            );
+                                                                          }).toList(),
+                                                                          //value property
+                                                                          value:
+                                                                              rating,
+                                                                          //without it nothing will be updated
+                                                                          onChanged:
+                                                                              (String value) {
+                                                                            _onDropDownChanged(value);
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                    ]),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(5.0),
+                                                              child: isLoading
+                                                                  ? CircularProgressIndicator()
+                                                                  : RaisedButton(
+                                                                      color: Colors
+                                                                          .lightBlueAccent,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              30.0),
+                                                                          side: BorderSide(
+                                                                              color: Colors.blue,
+                                                                              width: 2)),
+                                                                      onPressed:
+                                                                          () {
+                                                                        if (_formKey
+                                                                            .currentState
+                                                                            .validate()) {
+                                                                          setState(
+                                                                              () {
+                                                                            isLoading =
+                                                                                true;
+                                                                          });
+                                                                          submitFeedback(
+                                                                              orderId,
+                                                                              course.documentID,
+                                                                              course["wsp id"],
+                                                                              course["service type"]);
+                                                                        }
+                                                                      },
+                                                                      child: Text(
+                                                                          'Submit'),
+                                                                    ),
+                                                            )
+                                                          ]))))
+                                            ])
+                                          : Container(),
+                                    ]);
                               }
-                            }
-                          }));
+                          }
+                        }
+                      }
+                      // )
+                      );
                 } else {
                   return Text("Invalid order id!");
                 }
@@ -591,7 +599,7 @@ class CustomerCompletedOrderDetailsState extends State {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(
-                  left: 10.0, right: 10.0, top: 0.0, bottom: 10.0),
+                  left: 10.0, right: 10.0, top: 15.0, bottom: 10.0),
               child: Text("Recommended Services",
                   style:
                       TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
