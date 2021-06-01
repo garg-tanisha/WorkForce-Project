@@ -131,6 +131,66 @@ class WSPInProgressOrderDetailsState extends State {
         });
   }
 
+  Widget images(List<File> _images) {
+    List<Widget> list = new List<Widget>();
+
+    _images.forEach((image) async {
+      list.add(Expanded(
+          child: ClipRRect(
+        // borderRadius: BorderRadius.circular(0),
+        child: Image.file(
+          image,
+          width: 100,
+          height: 100,
+          fit: BoxFit.fitHeight,
+        ),
+      )));
+    });
+
+    return new Row(children: list);
+  }
+
+  Widget images_(var _images) {
+    List<Widget> list = new List<Widget>();
+
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  )))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  ))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i + 1],
+                    width: 100,
+                    height: 100,
+                  )))
+        ]));
+      }
+    }
+    ;
+
+    return new Column(children: list);
+  }
+
   Future getImage(bool gallery, List<File> _images) async {
     ImagePicker picker = ImagePicker();
     PickedFile pickedFile;
@@ -204,47 +264,6 @@ class WSPInProgressOrderDetailsState extends State {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Widget images(var _images) {
-    List<Widget> list = new List<Widget>();
-
-    for (var i = 0; i < _images.length; i += 2) {
-      if (i + 1 >= _images.length) {
-        list.add(Row(children: [
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  )))
-        ]));
-      } else {
-        list.add(Row(children: [
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  ))),
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,
-                  )))
-        ]));
-      }
-    }
-    ;
-
-    return new Column(children: list);
   }
 
   @override
@@ -334,7 +353,7 @@ class WSPInProgressOrderDetailsState extends State {
                       ),
                       Padding(padding: EdgeInsets.all(5.0)),
                       userDocument["photos"] != null
-                          ? images(userDocument["photos"])
+                          ? images_(userDocument["photos"])
                           : Container(),
                     ],
                   ),
@@ -358,242 +377,305 @@ class WSPInProgressOrderDetailsState extends State {
               builder: (context, snapshot) {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
-                  return Expanded(
-                      child: new ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            if (snapshot.hasError) {
-                              print(snapshot.error);
-                              return new Text('Error: ${snapshot.error}');
-                            } else {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return new Text('Loading...');
-                                default:
-                                  {
-                                    if (!snapshot.hasData)
-                                      return Text("Loading orders...");
-                                    DocumentSnapshot course =
-                                        snapshot.data.documents[index];
-                                    return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                              width: 0.98 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width
-                                                      .roundToDouble(),
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10.0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.black12,
-                                                ),
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        5.0) //                 <--- border radius here
-                                                    ),
-                                              ),
-                                              child: Column(children: [
-                                                ListTile(
-                                                  subtitle: RichText(
-                                                    text: new TextSpan(
-                                                      style: new TextStyle(
-                                                        fontSize: 20.0,
-                                                        color: Colors.black,
-                                                      ),
-                                                      children: <TextSpan>[
-                                                        new TextSpan(
-                                                            text:
-                                                                'Description: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        course["description"] !=
-                                                                ""
-                                                            ? new TextSpan(
-                                                                text: course[
-                                                                    "description"])
-                                                            : new TextSpan(
-                                                                text: "N/A"),
-                                                        new TextSpan(
-                                                            text: '\nPrice: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: course[
-                                                                    "price"]
-                                                                .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: course[
-                                                                        "distance"]
-                                                                    .toStringAsFixed(
-                                                                        4) +
-                                                                " km")
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10.0,
-                                                                    bottom:
-                                                                        00.0,
-                                                                    left: 20.0,
-                                                                    right:
-                                                                        10.0),
-                                                            child: RaisedButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                print("Call");
-                                                                print(Firestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        'users')
-                                                                    .document(
-                                                                        course[
-                                                                            "user id"])
-                                                                    .get()
-                                                                    .then((value) =>
-                                                                        _makingPhoneCall(
-                                                                            value["phone no"].toString())));
-                                                              },
-                                                              child: const Text(
-                                                                "Call",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15.0),
-                                                              ),
-                                                              color: Colors
-                                                                  .lightBlueAccent,
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              30.0),
-                                                                  side: BorderSide(
-                                                                      color: Colors
-                                                                          .blue,
-                                                                      width:
-                                                                          2)),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10.0,
-                                                                    bottom:
-                                                                        00.0,
-                                                                    left: 20.0,
-                                                                    right:
-                                                                        10.0),
-                                                            child: RaisedButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  print(
-                                                                      "Gives a platform to chat with customer");
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => ChatPage(
-                                                                            placedOrderId:
-                                                                                course.documentID,
-                                                                            userId: wspId)),
-                                                                  );
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                  "Chat",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15.0),
-                                                                ),
-                                                                color: Colors
-                                                                    .lightBlueAccent,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            30.0),
-                                                                    side: BorderSide(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        width:
-                                                                            2))),
-                                                          ),
-                                                        ]),
-                                                  ),
-                                                ),
-                                              ])),
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 15.0,
-                                                  bottom: 10.0,
-                                                  left: 10.0,
-                                                  right: 10.0),
-                                              child: Text("Submit Proofs",
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                  return new ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return new Text('Error: ${snapshot.error}');
+                        } else {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return new Text('Loading...');
+                            default:
+                              {
+                                if (!snapshot.hasData)
+                                  return Text("Loading orders...");
+                                DocumentSnapshot course =
+                                    snapshot.data.documents[index];
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                          width: 0.98 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width
+                                                  .roundToDouble(),
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black12,
                                             ),
-                                          ),
-                                          Container(
-                                              width: 0.98 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width
-                                                      .roundToDouble(),
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10.0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.black12,
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                    5.0) //                 <--- border radius here
                                                 ),
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        5.0) //                 <--- border radius here
-                                                    ),
+                                          ),
+                                          child: Column(children: [
+                                            ListTile(
+                                              subtitle: RichText(
+                                                text: new TextSpan(
+                                                  style: new TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    new TextSpan(
+                                                        text: 'Description: ',
+                                                        style: new TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    course["description"] != ""
+                                                        ? new TextSpan(
+                                                            text: course[
+                                                                "description"])
+                                                        : new TextSpan(
+                                                            text: "N/A"),
+                                                    new TextSpan(
+                                                        text: '\nPrice: ',
+                                                        style: new TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    new TextSpan(
+                                                        text: course["price"]
+                                                            .toString()),
+                                                    new TextSpan(
+                                                        text: "\nDistance: ",
+                                                        style: new TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                    new TextSpan(
+                                                        text: course["distance"]
+                                                                .toStringAsFixed(
+                                                                    4) +
+                                                            " km")
+                                                  ],
+                                                ),
                                               ),
-                                              child: Center(
-                                                  child: Form(
-                                                key: _formKey,
-                                                child: SingleChildScrollView(
-                                                    child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                      Row(children: [
+                                            ),
+                                            Center(
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10.0,
+                                                                bottom: 00.0,
+                                                                left: 20.0,
+                                                                right: 10.0),
+                                                        child: RaisedButton(
+                                                          onPressed: () async {
+                                                            print("Call");
+                                                            print(Firestore
+                                                                .instance
+                                                                .collection(
+                                                                    'users')
+                                                                .document(course[
+                                                                    "user id"])
+                                                                .get()
+                                                                .then((value) =>
+                                                                    _makingPhoneCall(
+                                                                        value["phone no"]
+                                                                            .toString())));
+                                                          },
+                                                          child: const Text(
+                                                            "Call",
+                                                            style: TextStyle(
+                                                                fontSize: 15.0),
+                                                          ),
+                                                          color: Colors
+                                                              .lightBlueAccent,
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10.0,
+                                                                bottom: 00.0,
+                                                                left: 20.0,
+                                                                right: 10.0),
+                                                        child: RaisedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              print(
+                                                                  "Gives a platform to chat with customer");
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => ChatPage(
+                                                                        placedOrderId:
+                                                                            course
+                                                                                .documentID,
+                                                                        userId:
+                                                                            wspId)),
+                                                              );
+                                                            },
+                                                            child: const Text(
+                                                              "Chat",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      15.0),
+                                                            ),
+                                                            color: Colors
+                                                                .lightBlueAccent,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30.0),
+                                                                side: BorderSide(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    width: 2))),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ),
+                                          ])),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 15.0,
+                                              bottom: 10.0,
+                                              left: 10.0,
+                                              right: 10.0),
+                                          child: Text("Submit Proofs",
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                      Container(
+                                          width: 0.98 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .width
+                                                  .roundToDouble(),
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 10.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black12,
+                                            ),
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(
+                                                    5.0) //                 <--- border radius here
+                                                ),
+                                          ),
+                                          child: Center(
+                                              child: Form(
+                                            key: _formKey,
+                                            child: SingleChildScrollView(
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                  Row(children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          bottom: 0.0,
+                                                          left: 20.0,
+                                                          right: 00.0),
+                                                      child: Icon(
+                                                        Icons.account_circle,
+                                                        color: Colors.blue,
+                                                        size: 30.0,
+                                                        semanticLabel:
+                                                            'First Name',
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10.0,
+                                                                bottom: 0.0,
+                                                                left: 20.0,
+                                                                right: 20.0),
+                                                        child: Text(
+                                                            "Work Proofs",
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    15.0)),
+                                                      ),
+                                                    ),
+                                                  ]),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 0.0,
+                                                          bottom: 10.0,
+                                                          left: 20.0,
+                                                          right: 20.0),
+                                                      child: Column(children: [
+                                                        proofsError == true
+                                                            ? Text(
+                                                                "Please submit atleast 2 proof pics.",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .red,
+                                                                ))
+                                                            : Container(),
+                                                        RawMaterialButton(
+                                                          fillColor:
+                                                              Theme.of(context)
+                                                                  .accentColor,
+                                                          child: Icon(
+                                                            Icons.camera_alt,
+                                                            color: Colors.white,
+                                                          ),
+                                                          elevation: 8,
+                                                          onPressed: () {
+                                                            _showPicker(context,
+                                                                _proofImages);
+                                                          },
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  15),
+                                                          shape: CircleBorder(),
+                                                        ),
+                                                        _proofImages.length != 0
+                                                            ? Text("Choosen images (" +
+                                                                _proofImages
+                                                                    .length
+                                                                    .toString() +
+                                                                ")")
+                                                            : Container(),
+                                                        _proofImages.length != 0
+                                                            ? images(
+                                                                _proofImages)
+                                                            : Container(),
+                                                      ])),
+                                                  Row(
+                                                      // mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
                                                         Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -611,257 +693,146 @@ class WSPInProgressOrderDetailsState extends State {
                                                           ),
                                                         ),
                                                         Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10.0,
-                                                                    bottom: 0.0,
-                                                                    left: 20.0,
-                                                                    right:
-                                                                        20.0),
-                                                            child: Text(
-                                                                "Work Proofs",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15.0)),
-                                                          ),
-                                                        ),
+                                                            child: Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0,
+                                                                  bottom: 0.0,
+                                                                  left: 20.0,
+                                                                  right: 20.0),
+                                                          child: Text(
+                                                              "Customer Signatures",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      15.0)),
+                                                        ))
                                                       ]),
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 0.0,
-                                                                  bottom: 10.0,
-                                                                  left: 20.0,
-                                                                  right: 20.0),
-                                                          child:
-                                                              Column(children: [
-                                                            proofsError == true
-                                                                ? Text(
-                                                                    "Please submit atleast 2 proof pics.",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ))
-                                                                : Container(),
-                                                            RawMaterialButton(
-                                                              fillColor: Theme.of(
-                                                                      context)
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 0.0,
+                                                          bottom: 10.0,
+                                                          left: 20.0,
+                                                          right: 20.0),
+                                                      child: Column(children: [
+                                                        signaturesError == true
+                                                            ? Text(
+                                                                "Please submit atleast 1 signature photo.",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red))
+                                                            : Container(),
+                                                        RawMaterialButton(
+                                                          fillColor:
+                                                              Theme.of(context)
                                                                   .accentColor,
-                                                              child: Icon(
-                                                                Icons
-                                                                    .camera_alt,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              elevation: 8,
-                                                              onPressed: () {
-                                                                _showPicker(
-                                                                    context,
-                                                                    _proofImages);
-                                                              },
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(15),
-                                                              shape:
-                                                                  CircleBorder(),
-                                                            ),
-                                                            _proofImages.length !=
-                                                                    0
-                                                                ? Text("Choosen images (" +
-                                                                    _proofImages
-                                                                        .length
-                                                                        .toString() +
-                                                                    ")")
-                                                                : Container(),
-                                                            _proofImages.length !=
-                                                                    0
-                                                                ? images(
-                                                                    _proofImages)
-                                                                : Container(),
-                                                          ])),
-                                                      Row(
-                                                          // mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 10.0,
-                                                                      bottom:
-                                                                          0.0,
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          00.0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .account_circle,
-                                                                color:
-                                                                    Colors.blue,
-                                                                size: 30.0,
-                                                                semanticLabel:
-                                                                    'First Name',
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                                child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 10.0,
-                                                                      bottom:
-                                                                          0.0,
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          20.0),
-                                                              child: Text(
-                                                                  "Customer Signatures",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15.0)),
-                                                            ))
-                                                          ]),
-                                                      Padding(
+                                                          child: Icon(
+                                                            Icons.camera_alt,
+                                                            color: Colors.white,
+                                                          ),
+                                                          elevation: 8,
+                                                          onPressed: () {
+                                                            _showPicker(context,
+                                                                _signaturesImages);
+                                                            // setState(() {});
+                                                          },
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  top: 0.0,
-                                                                  bottom: 10.0,
-                                                                  left: 20.0,
-                                                                  right: 20.0),
-                                                          child:
-                                                              Column(children: [
-                                                            signaturesError ==
-                                                                    true
-                                                                ? Text(
-                                                                    "Please submit atleast 1 signature photo.",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .red))
-                                                                : Container(),
-                                                            RawMaterialButton(
-                                                              fillColor: Theme.of(
-                                                                      context)
-                                                                  .accentColor,
-                                                              child: Icon(
-                                                                Icons
-                                                                    .camera_alt,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              elevation: 8,
-                                                              onPressed: () {
-                                                                _showPicker(
-                                                                    context,
-                                                                    _signaturesImages);
-                                                                // setState(() {});
-                                                              },
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(15),
-                                                              shape:
-                                                                  CircleBorder(),
-                                                            ),
-                                                            _signaturesImages
-                                                                        .length !=
-                                                                    0
-                                                                ? Text("Choosen images (" +
-                                                                    _signaturesImages
-                                                                        .length
-                                                                        .toString() +
-                                                                    ")")
-                                                                : Container(),
-                                                            _signaturesImages
-                                                                        .length !=
-                                                                    0
-                                                                ? images(
-                                                                    _signaturesImages)
-                                                                : Container(),
-                                                          ])),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 0.0,
-                                                                left: 20.0,
-                                                                right: 20.0),
-                                                        child: isLoading
-                                                            ? CircularProgressIndicator()
-                                                            : RaisedButton(
-                                                                color: Colors
-                                                                    .lightBlueAccent,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
+                                                              EdgeInsets.all(
+                                                                  15),
+                                                          shape: CircleBorder(),
+                                                        ),
+                                                        _signaturesImages
+                                                                    .length !=
+                                                                0
+                                                            ? Text("Choosen images (" +
+                                                                _signaturesImages
+                                                                    .length
+                                                                    .toString() +
+                                                                ")")
+                                                            : Container(),
+                                                        _signaturesImages
+                                                                    .length !=
+                                                                0
+                                                            ? images(
+                                                                _signaturesImages)
+                                                            : Container(),
+                                                      ])),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 0.0,
+                                                        left: 20.0,
+                                                        right: 20.0),
+                                                    child: isLoading
+                                                        ? CircularProgressIndicator()
+                                                        : RaisedButton(
+                                                            color: Colors
+                                                                .lightBlueAccent,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
                                                                             30.0),
-                                                                    side: BorderSide(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        width:
-                                                                            2)),
-                                                                onPressed: () {
-                                                                  if (_signaturesImages
-                                                                          .length ==
-                                                                      0) {
-                                                                    setState(
-                                                                        () {
-                                                                      signaturesError =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    setState(
-                                                                        () {
-                                                                      signaturesError =
-                                                                          false;
-                                                                    });
-                                                                  }
-                                                                  if (_proofImages
-                                                                          .length <
-                                                                      2) {
-                                                                    setState(
-                                                                        () {
-                                                                      proofsError =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    setState(
-                                                                        () {
-                                                                      proofsError =
-                                                                          false;
-                                                                    });
-                                                                  }
-                                                                  if (_formKey
-                                                                          .currentState
-                                                                          .validate() &&
-                                                                      _proofImages
-                                                                              .length >=
-                                                                          2 &&
-                                                                      _signaturesImages
-                                                                              .length >=
-                                                                          1) {
-                                                                    setState(
-                                                                        () {
-                                                                      isLoading =
-                                                                          true;
-                                                                    });
-                                                                    submitProofs(
-                                                                        orderId,
-                                                                        placedOrderId,
-                                                                        context);
-                                                                    // Navigator.pop(context);
-                                                                  }
-                                                                },
-                                                                child: Text(
-                                                                    'Submit'),
-                                                              ),
-                                                      )
-                                                    ])),
-                                              ))),
-                                        ]);
-                                  }
+                                                                side: BorderSide(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    width: 2)),
+                                                            onPressed: () {
+                                                              if (_signaturesImages
+                                                                      .length ==
+                                                                  0) {
+                                                                setState(() {
+                                                                  signaturesError =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  signaturesError =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              if (_proofImages
+                                                                      .length <
+                                                                  2) {
+                                                                setState(() {
+                                                                  proofsError =
+                                                                      true;
+                                                                });
+                                                              } else {
+                                                                setState(() {
+                                                                  proofsError =
+                                                                      false;
+                                                                });
+                                                              }
+                                                              if (_formKey
+                                                                      .currentState
+                                                                      .validate() &&
+                                                                  _proofImages
+                                                                          .length >=
+                                                                      2 &&
+                                                                  _signaturesImages
+                                                                          .length >=
+                                                                      1) {
+                                                                setState(() {
+                                                                  isLoading =
+                                                                      true;
+                                                                });
+                                                                submitProofs(
+                                                                    orderId,
+                                                                    placedOrderId,
+                                                                    context);
+                                                              }
+                                                            },
+                                                            child:
+                                                                Text('Submit'),
+                                                          ),
+                                                  )
+                                                ])),
+                                          ))),
+                                    ]);
                               }
-                            }
-                          }));
+                          }
+                        }
+                      });
                 } else {
                   return Text("Invalid order id!");
                 }
@@ -887,82 +858,114 @@ class WSPInProgressOrderDetailsState extends State {
                           fontWeight: FontWeight.bold, fontSize: 16.0)),
                 ),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        title: Text(
-                            "Wash your hands timely for atleast 30 seconds.",
-                            style: TextStyle(fontSize: 13.0)),
-                        leading: Image.asset(imgList[0],
-                            width: 40.0, height: 40.0, fit: BoxFit.cover),
-                      )),
-                ),
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        title: Text("Use soaps or alcohol based sanitizers.",
-                            style: TextStyle(fontSize: 13.0)),
-                        leading: Image.asset(imgList[0],
-                            width: 40.0, height: 40.0, fit: BoxFit.cover),
-                      )),
-                )
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        title: Text(
-                            "Do social distancing. Avoid any close contact with sick people.",
-                            style: TextStyle(fontSize: 13.0)),
-                        leading: Image.asset(imgList[0],
-                            width: 40.0, height: 40.0, fit: BoxFit.cover),
-                      )),
-                ),
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        title: Text(
-                            "Avoid touching your nose, eyes or face with unclean hands.",
-                            style: TextStyle(fontSize: 13.0)),
-                        leading: Image.asset(imgList[0],
-                            width: 40.0, height: 40.0, fit: BoxFit.cover),
-                      )),
-                )
-              ]),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                          title: Text(
-                              "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                              style: TextStyle(fontSize: 13.0)),
-                          leading: Image.asset(imgList[0],
-                              width: 40.0, height: 40.0, fit: BoxFit.cover))),
-                ),
-                Expanded(
-                  child: Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        title: Text(
-                            "Isolation and social distancing are very important to stay safe.",
-                            style: TextStyle(fontSize: 13.0)),
-                        leading: Image.asset(imgList[0],
-                            width: 40.0, height: 40.0, fit: BoxFit.cover),
-                      )),
-                )
-              ]),
+              Container(
+                  width:
+                      0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black12,
+                    ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  ),
+                  child: Column(children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Wash your hands timely for atleast 30 seconds.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          ),
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Use soaps or alcohol based sanitizers.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Do social distancing. Avoid any close contact with sick people.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          ),
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Avoid touching your nose, eyes or face with unclean hands.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                    title: Text(
+                                        "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                        style: TextStyle(fontSize: 13.0)),
+                                    leading: Image.asset(imgList[0],
+                                        width: 40.0,
+                                        height: 40.0,
+                                        fit: BoxFit.cover))),
+                          ),
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Isolation and social distancing are very important to stay safe.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                  ]))
             ]),
           ),
         ]));
