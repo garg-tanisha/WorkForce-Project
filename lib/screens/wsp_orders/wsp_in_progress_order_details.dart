@@ -628,20 +628,20 @@ class WSPInProgressOrderDetailsState extends State {
                                                             .center,
                                                     children: <Widget>[
                                                   Row(children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 0.0,
-                                                          left: 20.0,
-                                                          right: 00.0),
-                                                      child: Icon(
-                                                        Icons.account_circle,
-                                                        color: Colors.blue,
-                                                        size: 30.0,
-                                                        semanticLabel:
-                                                            'First Name',
-                                                      ),
-                                                    ),
+                                                    // Padding(
+                                                    //   padding: EdgeInsets.only(
+                                                    //       top: 10.0,
+                                                    //       bottom: 0.0,
+                                                    //       left: 20.0,
+                                                    //       right: 00.0),
+                                                    //   child: Icon(
+                                                    //     Icons.account_circle,
+                                                    //     color: Colors.blue,
+                                                    //     size: 30.0,
+                                                    //     semanticLabel:
+                                                    //         'First Name',
+                                                    //   ),
+                                                    // ),
                                                     Expanded(
                                                       child: Padding(
                                                         padding:
@@ -657,6 +657,32 @@ class WSPInProgressOrderDetailsState extends State {
                                                                     15.0)),
                                                       ),
                                                     ),
+                                                    proofsError == true
+                                                        ? Text(
+                                                            "Please submit atleast 2 proof pics.",
+                                                            style: TextStyle(
+                                                              color: Colors.red,
+                                                            ))
+                                                        : Container(),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: 20.0),
+                                                      child: IconButton(
+                                                        icon: const Icon(
+                                                          Icons.camera_alt,
+                                                          color: Colors.blue,
+                                                          size: 35.0,
+                                                          semanticLabel:
+                                                              'Camera',
+                                                        ),
+                                                        tooltip:
+                                                            'Click to add images',
+                                                        onPressed: () {
+                                                          _showPicker(context,
+                                                              _proofImages);
+                                                        },
+                                                      ),
+                                                    )
                                                   ]),
                                                   Padding(
                                                       padding: EdgeInsets.only(
@@ -665,79 +691,67 @@ class WSPInProgressOrderDetailsState extends State {
                                                           left: 20.0,
                                                           right: 20.0),
                                                       child: Column(children: [
-                                                        proofsError == true
-                                                            ? Text(
-                                                                "Please submit atleast 2 proof pics.",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .red,
-                                                                ))
-                                                            : Container(),
-                                                        RawMaterialButton(
-                                                          fillColor:
-                                                              Theme.of(context)
-                                                                  .accentColor,
-                                                          child: Icon(
-                                                            Icons.camera_alt,
-                                                            color: Colors.white,
-                                                          ),
-                                                          elevation: 8,
-                                                          onPressed: () {
-                                                            _showPicker(context,
-                                                                _proofImages);
-                                                          },
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  15),
-                                                          shape: CircleBorder(),
-                                                        ),
                                                         _proofImages.length != 0
-                                                            ? Text("Choosen images (" +
-                                                                _proofImages
-                                                                    .length
-                                                                    .toString() +
-                                                                ")")
+                                                            ? Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            5.0),
+                                                                child: Text(
+                                                                    "Choosen images (" +
+                                                                        _proofImages
+                                                                            .length
+                                                                            .toString() +
+                                                                        ")",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15.0)))
                                                             : Container(),
                                                         _proofImages.length != 0
                                                             ? images(
                                                                 _proofImages)
                                                             : Container(),
                                                       ])),
-                                                  Row(
-                                                      // mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 0.0,
-                                                                  left: 20.0,
-                                                                  right: 00.0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .account_circle,
-                                                            color: Colors.blue,
-                                                            size: 30.0,
-                                                            semanticLabel:
-                                                                'First Name',
-                                                          ),
+                                                  Row(children: [
+                                                    Expanded(
+                                                        child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          bottom: 0.0,
+                                                          left: 20.0,
+                                                          right: 20.0),
+                                                      child: Text(
+                                                          "Customer Signatures",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0)),
+                                                    )),
+                                                    signaturesError == true
+                                                        ? Text(
+                                                            "Please submit atleast 1 signature photo.",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red))
+                                                        : Container(),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: 20.0),
+                                                      child: IconButton(
+                                                        icon: const Icon(
+                                                          Icons.camera_alt,
+                                                          color: Colors.blue,
+                                                          size: 35.0,
+                                                          semanticLabel:
+                                                              'Camera',
                                                         ),
-                                                        Expanded(
-                                                            child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 0.0,
-                                                                  left: 20.0,
-                                                                  right: 20.0),
-                                                          child: Text(
-                                                              "Customer Signatures",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0)),
-                                                        ))
-                                                      ]),
+                                                        tooltip:
+                                                            'Click to add images',
+                                                        onPressed: () {
+                                                          _showPicker(context,
+                                                              _signaturesImages);
+                                                        },
+                                                      ),
+                                                    )
+                                                  ]),
                                                   Padding(
                                                       padding: EdgeInsets.only(
                                                           top: 0.0,
@@ -745,40 +759,23 @@ class WSPInProgressOrderDetailsState extends State {
                                                           left: 20.0,
                                                           right: 20.0),
                                                       child: Column(children: [
-                                                        signaturesError == true
-                                                            ? Text(
-                                                                "Please submit atleast 1 signature photo.",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red))
-                                                            : Container(),
-                                                        RawMaterialButton(
-                                                          fillColor:
-                                                              Theme.of(context)
-                                                                  .accentColor,
-                                                          child: Icon(
-                                                            Icons.camera_alt,
-                                                            color: Colors.white,
-                                                          ),
-                                                          elevation: 8,
-                                                          onPressed: () {
-                                                            _showPicker(context,
-                                                                _signaturesImages);
-                                                            // setState(() {});
-                                                          },
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  15),
-                                                          shape: CircleBorder(),
-                                                        ),
                                                         _signaturesImages
                                                                     .length !=
                                                                 0
-                                                            ? Text("Choosen images (" +
-                                                                _signaturesImages
-                                                                    .length
-                                                                    .toString() +
-                                                                ")")
+                                                            ? Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            5.0),
+                                                                child: Text(
+                                                                    "Choosen images (" +
+                                                                        _signaturesImages
+                                                                            .length
+                                                                            .toString() +
+                                                                        ")",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15.0)))
                                                             : Container(),
                                                         _signaturesImages
                                                                     .length !=
