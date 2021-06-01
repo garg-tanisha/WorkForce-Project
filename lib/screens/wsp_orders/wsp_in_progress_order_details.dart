@@ -134,20 +134,51 @@ class WSPInProgressOrderDetailsState extends State {
   Widget images(List<File> _images) {
     List<Widget> list = new List<Widget>();
 
-    _images.forEach((image) async {
-      list.add(Expanded(
-          child: ClipRRect(
-        // borderRadius: BorderRadius.circular(0),
-        child: Image.file(
-          image,
-          width: 100,
-          height: 100,
-          fit: BoxFit.fitHeight,
-        ),
-      )));
-    });
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ))))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  )))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i + 1],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ))))
+        ]));
+      }
+    }
+    ;
 
-    return new Row(children: list);
+    return new Column(children: list);
   }
 
   Widget images_(var _images) {
