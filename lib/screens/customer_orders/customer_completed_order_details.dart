@@ -398,6 +398,71 @@ class CustomerCompletedOrderDetailsState extends State {
                                                   ]))
                                             ])
                                           : Container(width: 0.0, height: 0.0),
+                                      Column(children: [
+                                        Padding(padding: EdgeInsets.all(10.0)),
+                                        Container(
+                                            width: 0.98 *
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .width
+                                                    .roundToDouble(),
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10.0),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.black12,
+                                              ),
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(
+                                                      5.0) //                 <--- border radius here
+                                                  ),
+                                            ),
+                                            child: Row(children: [
+                                              Expanded(
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10.0,
+                                                        right: 10.0,
+                                                        top: 5.0,
+                                                        bottom: 5.0),
+                                                    child: Text(
+                                                        "Want to place similar order?",
+                                                        style: TextStyle(
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                  child: RaisedButton(
+                                                      onPressed: () {},
+                                                      child: const Text(
+                                                        "Order Again",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2))),
+                                                  padding: EdgeInsets.only(
+                                                      right: 10.0))
+                                            ]))
+                                      ]),
                                       course["feedback"] == null
                                           ? Column(children: [
                                               Align(
