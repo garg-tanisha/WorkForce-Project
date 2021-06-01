@@ -204,134 +204,127 @@ class CustomerInProgressOrderDetailsState extends State {
                 .snapshots(),
             builder: (context, snapshot) {
               if (!(snapshot.data == null || snapshot.data.documents == null)) {
-                return SizedBox(
-                    height: 200.0,
-                    child: new ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          if (snapshot.hasError) {
-                            print(snapshot.error);
-                            return new Text('Error: ${snapshot.error}');
-                          } else {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.waiting:
-                                return new Text('Loading...');
-                              default:
-                                {
-                                  if (!snapshot.hasData)
-                                    return Text("Loading orders...");
-                                  DocumentSnapshot course =
-                                      snapshot.data.documents[index];
-                                  return Container(
-                                      width: 0.98 *
-                                          MediaQuery.of(context)
-                                              .size
-                                              .width
-                                              .roundToDouble(),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.black12,
+                return new ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return new Text('Error: ${snapshot.error}');
+                      } else {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return new Text('Loading...');
+                          default:
+                            {
+                              if (!snapshot.hasData)
+                                return Text("Loading orders...");
+                              DocumentSnapshot course =
+                                  snapshot.data.documents[index];
+                              return Container(
+                                  width: 0.98 *
+                                      MediaQuery.of(context)
+                                          .size
+                                          .width
+                                          .roundToDouble(),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                    ),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            5.0) //                 <--- border radius here
                                         ),
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                5.0) //                 <--- border radius here
-                                            ),
-                                      ),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            ListTile(
-                                              subtitle: RichText(
-                                                text: new TextSpan(
-                                                  style: new TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.black,
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    new TextSpan(
-                                                        text: 'WSP Id: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["wsp id"]),
-                                                    new TextSpan(
-                                                        text: '\nDescription: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    course["description"] != ""
-                                                        ? new TextSpan(
-                                                            text: course[
-                                                                "description"])
-                                                        : new TextSpan(
-                                                            text: "N/A"),
-                                                    new TextSpan(
-                                                        text: '\nPrice: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["price"]
-                                                            .toString()),
-                                                    new TextSpan(
-                                                        text: "\nDistance: ",
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4) +
-                                                            " km")
-                                                  ],
-                                                ),
+                                  ),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        ListTile(
+                                          subtitle: RichText(
+                                            text: new TextSpan(
+                                              style: new TextStyle(
+                                                fontSize: 20.0,
+                                                color: Colors.black,
                                               ),
+                                              children: <TextSpan>[
+                                                new TextSpan(
+                                                    text: 'WSP Id: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["wsp id"]),
+                                                new TextSpan(
+                                                    text: '\nDescription: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                course["description"] != ""
+                                                    ? new TextSpan(
+                                                        text: course[
+                                                            "description"])
+                                                    : new TextSpan(text: "N/A"),
+                                                new TextSpan(
+                                                    text: '\nPrice: ',
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["price"]
+                                                        .toString()),
+                                                new TextSpan(
+                                                    text: "\nDistance: ",
+                                                    style: new TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                new TextSpan(
+                                                    text: course["distance"]
+                                                            .toStringAsFixed(
+                                                                4) +
+                                                        " km")
+                                              ],
                                             ),
-                                            Center(
-                                                child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          print("Call");
-                                                          print(Firestore
-                                                              .instance
-                                                              .collection(
-                                                                  'users')
-                                                              .document(course[
-                                                                  "user id"])
-                                                              .get()
-                                                              .then((value) =>
-                                                                  _makingPhoneCall(
-                                                                      value["phone no"]
-                                                                          .toString())));
-                                                        },
-                                                        child: const Text(
-                                                          "Call",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
+                                          ),
+                                        ),
+                                        Center(
+                                            child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 10.0,
+                                                      bottom: 00.0,
+                                                      left: 20.0,
+                                                      right: 10.0),
+                                                  child: RaisedButton(
+                                                    onPressed: () async {
+                                                      print("Call");
+                                                      print(Firestore.instance
+                                                          .collection('users')
+                                                          .document(
+                                                              course["user id"])
+                                                          .get()
+                                                          .then((value) =>
+                                                              _makingPhoneCall(value[
+                                                                      "phone no"]
+                                                                  .toString())));
+                                                    },
+                                                    child: const Text(
+                                                      "Call",
+                                                      style: TextStyle(
+                                                          fontSize: 15.0),
+                                                    ),
+                                                    color:
+                                                        Colors.lightBlueAccent,
+                                                    shape:
+                                                        RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -340,37 +333,39 @@ class CustomerInProgressOrderDetailsState extends State {
                                                                 color:
                                                                     Colors.blue,
                                                                 width: 2)),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                          onPressed: () async {
-                                                            print(
-                                                                "Gives a platform to chat with customer");
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => ChatPage(
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 10.0,
+                                                      bottom: 00.0,
+                                                      left: 20.0,
+                                                      right: 10.0),
+                                                  child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print(
+                                                            "Gives a platform to chat with customer");
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ChatPage(
                                                                       placedOrderId:
                                                                           course
                                                                               .documentID,
                                                                       userId:
                                                                           uid)),
-                                                            );
-                                                          },
-                                                          child: const Text(
-                                                            "Chat",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
+                                                        );
+                                                      },
+                                                      child: const Text(
+                                                        "Chat",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -379,14 +374,14 @@ class CustomerInProgressOrderDetailsState extends State {
                                                                   color: Colors
                                                                       .blue,
                                                                   width: 2))),
-                                                    ),
-                                                  ]),
-                                            ))
-                                          ]));
-                                }
+                                                ),
+                                              ]),
+                                        ))
+                                      ]));
                             }
-                          }
-                        }));
+                        }
+                      }
+                    });
               } else {
                 return Text("Invalid order id!");
               }
