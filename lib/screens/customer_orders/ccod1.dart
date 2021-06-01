@@ -650,6 +650,96 @@ class CustomerCompletedOrderDetailsState extends State {
                   return Text("Invalid order id!");
                 }
               }),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: 10.0, right: 10.0, top: 15.0, bottom: 10.0),
+              child: Text("Recommended Services",
+                  style:
+                      TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+            ),
+          ),
+          Container(
+              width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.black12,
+                ),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(
+                        5.0) //                 <--- border radius here
+                    ),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 5.0),
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: CarouselSlider.builder(
+                options: CarouselOptions(
+                  aspectRatio: 2.0,
+                  enlargeCenterPage: false,
+                  viewportFraction: 1,
+                ),
+                itemCount: imageCount,
+                itemBuilder: (context, index) {
+                  final int first = index * 2;
+                  final int second = index < imageCount - 1 ? first + 1 : null;
+
+                  return Row(
+                    children: [first, second].map((idx) {
+                      return idx != null
+                          ? Expanded(
+                              flex: 1,
+                              child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Stack(children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.asset(imgList[idx],
+                                          width: 500.0,
+                                          height: 0.5 *
+                                              MediaQuery.of(context)
+                                                  .size
+                                                  .height
+                                                  .roundToDouble(),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    Positioned(
+                                      bottom: 0.0,
+                                      left: 0.0,
+                                      right: 0.0,
+                                      child: Container(
+                                        height: 60.0,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(
+                                                  10.0) //                 <--- border radius here
+                                              ,
+                                              bottomRight: Radius.circular(
+                                                  10.0) //                 <--- border radius here
+                                              ),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 20.0),
+                                        child: Text(
+                                          listPathsLabels[idx],
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ])))
+                          : Container();
+                    }).toList(),
+                  );
+                },
+              ))
         ]));
   }
 
@@ -765,5 +855,6 @@ class CustomerCompletedOrderDetailsState extends State {
   void dispose() {
     super.dispose();
     feedbackController.dispose();
+    // descriptionController.dispose();
   }
 }
