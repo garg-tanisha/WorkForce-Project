@@ -447,145 +447,161 @@ class WSPInProgressOrderDetailsState extends State {
                                                     5.0) //                 <--- border radius here
                                                 ),
                                           ),
-                                          child: Column(children: [
-                                            ListTile(
-                                              subtitle: RichText(
-                                                text: new TextSpan(
-                                                  style: new TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.black,
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    new TextSpan(
-                                                        text: 'Description: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    course["description"] != ""
-                                                        ? new TextSpan(
+                                          child: ListView(
+                                              // physics:
+                                              //     NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              children: [
+                                                ListTile(
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text:
+                                                                'Description: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        course["description"] !=
+                                                                ""
+                                                            ? new TextSpan(
+                                                                text: course[
+                                                                    "description"])
+                                                            : new TextSpan(
+                                                                text: "N/A"),
+                                                        new TextSpan(
+                                                            text: '\nPrice: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
                                                             text: course[
-                                                                "description"])
-                                                        : new TextSpan(
-                                                            text: "N/A"),
-                                                    new TextSpan(
-                                                        text: '\nPrice: ',
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["price"]
-                                                            .toString()),
-                                                    new TextSpan(
-                                                        text: "\nDistance: ",
-                                                        style: new TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    new TextSpan(
-                                                        text: course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4) +
-                                                            " km")
-                                                  ],
+                                                                    "price"]
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nDistance: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                        "distance"]
+                                                                    .toStringAsFixed(
+                                                                        4) +
+                                                                " km")
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Center(
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed: () async {
-                                                            print("Call");
-                                                            print(Firestore
-                                                                .instance
-                                                                .collection(
-                                                                    'users')
-                                                                .document(course[
-                                                                    "user id"])
-                                                                .get()
-                                                                .then((value) =>
-                                                                    _makingPhoneCall(
-                                                                        value["phone no"]
-                                                                            .toString())));
-                                                          },
-                                                          child: const Text(
-                                                            "Call",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                            onPressed:
-                                                                () async {
-                                                              print(
-                                                                  "Gives a platform to chat with customer");
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) => ChatPage(
-                                                                        placedOrderId:
-                                                                            course
-                                                                                .documentID,
-                                                                        userId:
-                                                                            wspId)),
-                                                              );
-                                                            },
-                                                            child: const Text(
-                                                              "Chat",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
+                                                Center(
+                                                  child: SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print("Call");
+                                                                print(Firestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'users')
+                                                                    .document(
+                                                                        course[
+                                                                            "user id"])
+                                                                    .get()
+                                                                    .then((value) =>
+                                                                        _makingPhoneCall(
+                                                                            value["phone no"].toString())));
+                                                              },
+                                                              child: const Text(
+                                                                "Call",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15.0),
+                                                              ),
+                                                              color: Colors
+                                                                  .lightBlueAccent,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      width:
+                                                                          2)),
                                                             ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.0,
+                                                                    bottom:
+                                                                        00.0,
+                                                                    left: 20.0,
+                                                                    right:
+                                                                        10.0),
+                                                            child: RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Gives a platform to chat with customer");
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => ChatPage(
+                                                                            placedOrderId:
+                                                                                course.documentID,
+                                                                            userId: wspId)),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Chat",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
                                                                             30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2))),
-                                                      ),
-                                                    ]),
-                                              ),
-                                            ),
-                                          ])),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2))),
+                                                          ),
+                                                        ]),
+                                                  ),
+                                                ),
+                                              ])),
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -627,21 +643,20 @@ class WSPInProgressOrderDetailsState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: <Widget>[
+                                                  proofsError == true
+                                                      ? Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 10.0,
+                                                                  left: 5.0),
+                                                          child: Text(
+                                                              "Please submit atleast 2 proof pictures.",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors.red,
+                                                              )))
+                                                      : Container(),
                                                   Row(children: [
-                                                    // Padding(
-                                                    //   padding: EdgeInsets.only(
-                                                    //       top: 10.0,
-                                                    //       bottom: 0.0,
-                                                    //       left: 20.0,
-                                                    //       right: 00.0),
-                                                    //   child: Icon(
-                                                    //     Icons.account_circle,
-                                                    //     color: Colors.blue,
-                                                    //     size: 30.0,
-                                                    //     semanticLabel:
-                                                    //         'First Name',
-                                                    //   ),
-                                                    // ),
                                                     Expanded(
                                                       child: Padding(
                                                         padding:
@@ -657,13 +672,6 @@ class WSPInProgressOrderDetailsState extends State {
                                                                     15.0)),
                                                       ),
                                                     ),
-                                                    proofsError == true
-                                                        ? Text(
-                                                            "Please submit atleast 2 proof pics.",
-                                                            style: TextStyle(
-                                                              color: Colors.red,
-                                                            ))
-                                                        : Container(),
                                                     Padding(
                                                       padding: EdgeInsets.only(
                                                           right: 20.0),
@@ -712,11 +720,23 @@ class WSPInProgressOrderDetailsState extends State {
                                                                 _proofImages)
                                                             : Container(),
                                                       ])),
+                                                  signaturesError == true
+                                                      ? Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10.0,
+                                                                  bottom: 5.0),
+                                                          child: Text(
+                                                              "Please submit atleast 1 signature picture.",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red)))
+                                                      : Container(),
                                                   Row(children: [
                                                     Expanded(
                                                         child: Padding(
                                                       padding: EdgeInsets.only(
-                                                          top: 10.0,
+                                                          top: 0.0,
                                                           bottom: 0.0,
                                                           left: 20.0,
                                                           right: 20.0),
@@ -725,13 +745,6 @@ class WSPInProgressOrderDetailsState extends State {
                                                           style: TextStyle(
                                                               fontSize: 15.0)),
                                                     )),
-                                                    signaturesError == true
-                                                        ? Text(
-                                                            "Please submit atleast 1 signature photo.",
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.red))
-                                                        : Container(),
                                                     Padding(
                                                       padding: EdgeInsets.only(
                                                           right: 20.0),
@@ -786,7 +799,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                       ])),
                                                   Padding(
                                                     padding: EdgeInsets.only(
-                                                        top: 10.0,
+                                                        top: 0.0,
                                                         bottom: 0.0,
                                                         left: 20.0,
                                                         right: 20.0),

@@ -1594,165 +1594,215 @@ class ProofsAndSignaturesState extends State {
   Widget images(List<File> _images) {
     List<Widget> list = new List<Widget>();
 
-    _images.forEach((image) async {
-      list.add(Expanded(
-          child: ClipRRect(
-        // borderRadius: BorderRadius.circular(0),
-        child: Image.file(
-          image,
-          width: 100,
-          height: 100,
-          fit: BoxFit.fitHeight,
-        ),
-      )));
-    });
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ))))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  )))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(
+                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
+                  child: ClipRRect(
+                      child: Image.file(
+                    _images[i + 1],
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fill,
+                  ))))
+        ]));
+      }
+    }
+    ;
 
-    return new Row(children: list);
+    return new Column(children: list);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Row(children: [
-                Icon(
-                  Icons.account_circle,
-                  color: Colors.blue,
-                  size: 30.0,
-                  semanticLabel: 'First Name',
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),
-                    child:
-                        Text("Work Proofs", style: TextStyle(fontSize: 15.0)),
-                  ),
-                ),
-              ]),
-              Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(children: [
-                    proofsError == true
-                        ? Text("Please submit atleast 2 proof pics.",
+    return Container(
+        width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black12,
+          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+              Radius.circular(5.0) //                 <--- border radius here
+              ),
+        ),
+        child: Center(
+            child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                proofsError == true
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(top: 10.0, left: 10.0, bottom: 0.0),
+                        child: Text("Please submit atleast 2 proof pictures.",
                             style: TextStyle(
                               color: Colors.red,
-                            ))
-                        : Container(),
-                    RawMaterialButton(
-                      fillColor: Theme.of(context).accentColor,
-                      child: Icon(
+                            )))
+                    : Container(),
+                Row(children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                      child:
+                          Text("Work Proofs", style: TextStyle(fontSize: 15.0)),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: IconButton(
+                      icon: const Icon(
                         Icons.camera_alt,
-                        color: Colors.white,
+                        color: Colors.blue,
+                        size: 35.0,
+                        semanticLabel: 'Camera',
                       ),
-                      elevation: 8,
+                      tooltip: 'Click to add images',
                       onPressed: () {
                         _showPicker(context, _proofImages);
                       },
-                      padding: EdgeInsets.all(15),
-                      shape: CircleBorder(),
                     ),
-                    _proofImages.length != 0
-                        ? Text("Choosen images (" +
-                            _proofImages.length.toString() +
-                            ")")
-                        : Container(),
-                    _proofImages.length != 0
-                        ? images(_proofImages)
-                        : Container(),
-                  ])),
-              Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.account_circle,
-                      color: Colors.blue,
-                      size: 30.0,
-                      semanticLabel: 'First Name',
-                    ),
-                    Expanded(
-                        child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),
-                      child: Text("Customer Signatures",
-                          style: TextStyle(fontSize: 15.0)),
-                    ))
-                  ]),
-              Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(children: [
-                    signaturesError == true
-                        ? Text("Please submit atleast 1 signature photo.",
-                            style: TextStyle(color: Colors.red))
-                        : Container(),
-                    RawMaterialButton(
-                      fillColor: Theme.of(context).accentColor,
-                      child: Icon(
+                  )
+                ]),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+                    child: Column(children: [
+                      _proofImages.length != 0
+                          ? Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                  "Choosen images (" +
+                                      _proofImages.length.toString() +
+                                      ")",
+                                  style: TextStyle(fontSize: 15.0)))
+                          : Container(),
+                      _proofImages.length != 0
+                          ? images(_proofImages)
+                          : Container(),
+                    ])),
+                signaturesError == true
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+                        child: Text(
+                            "Please submit atleast 1 signature picture.",
+                            style: TextStyle(color: Colors.red)))
+                    : Container(),
+                Row(children: [
+                  Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.only(
+                        top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                    child: Text("Customer Signatures",
+                        style: TextStyle(fontSize: 15.0)),
+                  )),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: IconButton(
+                      icon: const Icon(
                         Icons.camera_alt,
-                        color: Colors.white,
+                        color: Colors.blue,
+                        size: 35.0,
+                        semanticLabel: 'Camera',
                       ),
-                      elevation: 8,
+                      tooltip: 'Click to add images',
                       onPressed: () {
                         _showPicker(context, _signaturesImages);
-                        // setState(() {});
                       },
-                      padding: EdgeInsets.all(15),
-                      shape: CircleBorder(),
                     ),
-                    _signaturesImages.length != 0
-                        ? Text("Choosen images (" +
-                            _signaturesImages.length.toString() +
-                            ")")
-                        : Container(),
-                    _signaturesImages.length != 0
-                        ? images(_signaturesImages)
-                        : Container(),
-                  ])),
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: isLoading
-                    ? CircularProgressIndicator()
-                    : RaisedButton(
-                        color: Colors.lightBlueAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(color: Colors.blue, width: 2)),
-                        onPressed: () {
-                          if (_signaturesImages.length == 0) {
-                            setState(() {
-                              signaturesError = true;
-                            });
-                          } else {
-                            setState(() {
-                              signaturesError = false;
-                            });
-                          }
-                          if (_proofImages.length < 2) {
-                            setState(() {
-                              proofsError = true;
-                            });
-                          } else {
-                            setState(() {
-                              proofsError = false;
-                            });
-                          }
-                          if (_formKey.currentState.validate() &&
-                              _proofImages.length >= 2 &&
-                              _signaturesImages.length >= 1) {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            submitProofs(orderId, placedOrderId, context);
-                            // Navigator.pop(context);
-                          }
-                        },
-                        child: Text('Submit'),
-                      ),
-              )
-            ])));
+                  )
+                ]),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+                    child: Column(children: [
+                      _signaturesImages.length != 0
+                          ? Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                  "Choosen images (" +
+                                      _signaturesImages.length.toString() +
+                                      ")",
+                                  style: TextStyle(fontSize: 15.0)))
+                          : Container(),
+                      _signaturesImages.length != 0
+                          ? images(_signaturesImages)
+                          : Container(),
+                    ])),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                  child: isLoading
+                      ? CircularProgressIndicator()
+                      : RaisedButton(
+                          color: Colors.lightBlueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: Colors.blue, width: 2)),
+                          onPressed: () {
+                            if (_signaturesImages.length == 0) {
+                              setState(() {
+                                signaturesError = true;
+                              });
+                            } else {
+                              setState(() {
+                                signaturesError = false;
+                              });
+                            }
+                            if (_proofImages.length < 2) {
+                              setState(() {
+                                proofsError = true;
+                              });
+                            } else {
+                              setState(() {
+                                proofsError = false;
+                              });
+                            }
+                            if (_formKey.currentState.validate() &&
+                                _proofImages.length >= 2 &&
+                                _signaturesImages.length >= 1) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              submitProofs(orderId, placedOrderId, context);
+                            }
+                          },
+                          child: Text('Submit'),
+                        ),
+                )
+              ])),
+        )));
   }
 }
