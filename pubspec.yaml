@@ -87,6 +87,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - images/preventive_measures/handwash_for_20_sec.jpg
+    - images/preventive_measures/use_soap_or_sanitizers.PNG
+    - images/preventive_measures/social_distancing.PNG
+    - images/preventive_measures/donot_touch_face_eyes_nose_mouth_with_dirty_hands.jpg
+    - images/preventive_measures/cover_nose_and_mouth_with_mask.PNG
+    - images/preventive_measures/isolation.jpg
     - images/sales/1.jpg
     - images/sales/2.jpg
     - images/sales/3.jpg

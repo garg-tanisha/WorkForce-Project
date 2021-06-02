@@ -48,16 +48,43 @@ class CustomerNewOrdersState extends State {
 
   Widget images(var _images) {
     List<Widget> list = new List<Widget>();
-    _images.forEach((image) async {
-      list.add(Expanded(
-          child: Image.network(
-        image,
-        width: 100,
-        height: 100,
-      )));
-    });
 
-    return new Row(children: list);
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  )))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i],
+                    width: 100,
+                    height: 100,
+                  ))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: Image.network(
+                    _images[i + 1],
+                    width: 100,
+                    height: 100,
+                  )))
+        ]));
+      }
+    }
+    ;
+
+    return new Column(children: list);
   }
 
   @override

@@ -22,6 +22,14 @@ List<String> listPathsLabels = [
   "Sofa Cleaning",
   "Women's Hair Cut and Spa"
 ];
+final List<String> preventCorona = [
+  "images/preventive_measures/handwash_for_20_sec.jpg",
+  "images/preventive_measures/use_soap_or_sanitizers.PNG",
+  "images/preventive_measures/social_distancing.PNG",
+  "images/preventive_measures/donot_touch_face_eyes_nose_mouth_with_dirty_hands.jpg",
+  "images/preventive_measures/cover_nose_and_mouth_with_mask.PNG",
+  "images/preventive_measures/isolation.jpg",
+];
 
 class WSPCompletedOrderDetails extends StatefulWidget {
   WSPCompletedOrderDetails({this.wspId, this.orderId, this.flag});
@@ -352,96 +360,132 @@ class WSPCompletedOrderDetailsState extends State {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  title: Text(
-                                      "Wash your hands timely for atleast 30 seconds.",
-                                      style: TextStyle(fontSize: 13.0)),
-                                  leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Wash your hands timely for atleast 20 seconds.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Image.asset(preventCorona[0],
                                       width: 40.0,
                                       height: 40.0,
                                       fit: BoxFit.cover),
                                 )),
-                          ),
+                          )),
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  title: Text(
-                                      "Use soaps or alcohol based sanitizers.",
-                                      style: TextStyle(fontSize: 13.0)),
-                                  leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Use soaps or alcohol based sanitizers.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Image.asset(preventCorona[1],
                                       width: 40.0,
                                       height: 40.0,
                                       fit: BoxFit.cover),
                                 )),
-                          )
+                          ))
                         ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  title: Text(
-                                      "Do social distancing. Avoid any close contact with sick people.",
-                                      style: TextStyle(fontSize: 13.0)),
-                                  leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Do social distancing. Avoid any close contact with sick people.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Image.asset(preventCorona[2],
                                       width: 40.0,
                                       height: 40.0,
                                       fit: BoxFit.cover),
                                 )),
-                          ),
+                          )),
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  title: Text(
-                                      "Avoid touching your nose, eyes or face with unclean hands.",
-                                      style: TextStyle(fontSize: 13.0)),
-                                  leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Avoid touching your nose, eyes or face with unclean hands.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Image.asset(preventCorona[3],
                                       width: 40.0,
                                       height: 40.0,
                                       fit: BoxFit.cover),
                                 )),
-                          )
+                          ))
                         ]),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                    title: Text(
-                                        "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Image.asset(preventCorona[4],
                                         width: 40.0,
                                         height: 40.0,
                                         fit: BoxFit.cover))),
-                          ),
+                          )),
                           Expanded(
-                            child: Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  title: Text(
-                                      "Isolation and social distancing are very important to stay safe.",
-                                      style: TextStyle(fontSize: 13.0)),
-                                  leading: Image.asset(imgList[0],
+                              child: Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                                title: Text(
+                                    "Isolation and social distancing are very important to stay safe.",
+                                    style: TextStyle(fontSize: 13.0)),
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Image.asset(preventCorona[5],
                                       width: 40.0,
                                       height: 40.0,
                                       fit: BoxFit.cover),
                                 )),
-                          )
+                          ))
                         ]),
                   ]))
             ]),
