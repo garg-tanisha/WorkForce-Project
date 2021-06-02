@@ -90,49 +90,49 @@
 //           onSelectTab: _selectTab,
 //           tabs: tabs,
 //         ),
-//         //  FFNavigationBar(
-//         //   theme: FFNavigationBarTheme(
-//         //     barBackgroundColor: Colors.blue,
-//         //     unselectedItemLabelColor: Colors.white,
-//         //     unselectedItemIconColor: Colors.white,
-//         //     selectedItemBorderColor: Colors.blue,
-//         //     selectedItemBackgroundColor: Colors.white,
-//         //     selectedItemIconColor: Colors.blue,
-//         //     selectedItemLabelColor: Colors.white,
-//         //     showSelectedItemShadow: false,
-//         //     barHeight: 60,
-//         //   ),
-//         //   selectedIndex: currentTab,
-//         //   onSelectTab: (index) {
-//         //     setState(() {
-//         //       // currentTab = index;
-//         //       _selectTab(index);
-//         //       // selectedIndex = index;
-//         //     });
-//         //   },
-//         //   items: [
-//         //     FFNavigationBarItem(
-//         //       iconData: Icons.home_outlined,
-//         //       label: 'Home',
-//         //     ),
-//         //     FFNavigationBarItem(
-//         //       iconData: Icons.add_shopping_cart_outlined,
-//         //       label: 'Place Order',
-//         //     ),
-//         //     FFNavigationBarItem(
-//         //       iconData: Icons.shopping_cart_outlined,
-//         //       label: 'New ',
-//         //     ),
-//         //     FFNavigationBarItem(
-//         //       iconData: Icons.hourglass_top_outlined,
-//         //       label: 'Progress',
-//         //     ),
-//         //     FFNavigationBarItem(
-//         //       iconData: Icons.check_circle_outline,
-//         //       label: 'Done',
-//         //     ),
-//         //   ],
-//         // ),
+//          FFNavigationBar(
+//           theme: FFNavigationBarTheme(
+//             barBackgroundColor: Colors.blue,
+//             unselectedItemLabelColor: Colors.white,
+//             unselectedItemIconColor: Colors.white,
+//             selectedItemBorderColor: Colors.blue,
+//             selectedItemBackgroundColor: Colors.white,
+//             selectedItemIconColor: Colors.blue,
+//             selectedItemLabelColor: Colors.white,
+//             showSelectedItemShadow: false,
+//             barHeight: 60,
+//           ),
+//           selectedIndex: currentTab,
+//           onSelectTab: (index) {
+//             setState(() {
+//               // currentTab = index;
+//               _selectTab(index);
+//               // selectedIndex = index;
+//             });
+//           },
+//           items: [
+//             FFNavigationBarItem(
+//               iconData: Icons.home_outlined,
+//               label: 'Home',
+//             ),
+//             FFNavigationBarItem(
+//               iconData: Icons.add_shopping_cart_outlined,
+//               label: 'Place Order',
+//             ),
+//             FFNavigationBarItem(
+//               iconData: Icons.shopping_cart_outlined,
+//               label: 'New ',
+//             ),
+//             FFNavigationBarItem(
+//               iconData: Icons.hourglass_top_outlined,
+//               label: 'Progress',
+//             ),
+//             FFNavigationBarItem(
+//               iconData: Icons.check_circle_outline,
+//               label: 'Done',
+//             ),
+//           ],
+//         ),
 //       ),
 //     );
 //   }

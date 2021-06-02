@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
-enum TabItem { red, green, blue }
+enum TabItem { home, placeOrder, newOrder, inProgress, completed }
 
 const Map<TabItem, String> tabName = {
-  TabItem.red: 'red',
-  TabItem.green: 'green',
-  TabItem.blue: 'blue',
+  TabItem.home: 'Home',
+  TabItem.placeOrder: 'Place Order',
+  TabItem.newOrder: 'New',
+  TabItem.inProgress: 'In Progress',
+  TabItem.completed: 'Done'
 };
 
 const Map<TabItem, MaterialColor> activeTabColor = {
-  TabItem.red: Colors.red,
-  TabItem.green: Colors.green,
-  TabItem.blue: Colors.blue,
+  TabItem.home: Colors.red,
+  TabItem.placeOrder: Colors.green,
+  TabItem.newOrder: Colors.blue,
+  TabItem.inProgress: Colors.green,
+  TabItem.completed: Colors.blue,
 };

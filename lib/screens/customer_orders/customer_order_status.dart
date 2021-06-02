@@ -1,15 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:workforce/screens/tabs/subtabs/bottom_navigation.dart';
+import 'package:workforce/screens/tabs/subtabs/tab_item.dart';
 import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'package:workforce/customer_home.dart';
 import 'package:workforce/screens/customer_orders/customer_in_progress_or_completed_orders.dart';
-import 'package:workforce/screens/customer_orders/customer_cancelled_orders.dart';
 import 'package:workforce/screens/customer_orders/customer_order_new.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:ff_navigation_bar/ff_navigation_bar.dart';
-import 'package:workforce/screens/tabs/tabItem.dart';
-import 'package:workforce/screens/tabs/screens.dart';
-import 'package:workforce/screens/tabs/subtabs/app.dart';
-import 'package:workforce/screens/tabs/bottomNavigation.dart';
 
 class CustomerOrderStatus extends StatefulWidget {
   CustomerOrderStatus({this.uid});
@@ -24,82 +20,132 @@ class CustomerOrderStatusState extends State {
   String uid;
   final String title = "Customer Home";
   final List<Map<dynamic, dynamic>> lists = [];
-  // int selectedIndex = 0;
-  // this is static property so other widget throughout the app
-  // can access it simply by AppState.currentTab
-  static int currentTab = 0;
+  var _currentTab = TabItem.home;
+  final _navigatorKeys = {
+    TabItem.home: GlobalKey<NavigatorState>(),
+    TabItem.placeOrder: GlobalKey<NavigatorState>(),
+    TabItem.newOrder: GlobalKey<NavigatorState>(),
+    TabItem.inProgress: GlobalKey<NavigatorState>(),
+    TabItem.completed: GlobalKey<NavigatorState>(),
+  };
 
-  // list tabs here
-  final List<TabItem> tabs = [
-    TabItem(
-      tabName: "Home",
-      icon: Icons.home,
-      page: HomeScreen(),
-    ),
-    TabItem(
-      tabName: "Settings",
-      icon: Icons.settings,
-      page: SettingsScreen(),
-    ),
-  ];
-  CustomerOrderStatusState(String uid) {
-    this.uid = uid;
-
-    tabs.asMap().forEach((index, details) {
-      details.setIndex(index);
-    });
+  void _selectTab(TabItem tabItem) {
+    if (tabItem == _currentTab) {
+      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() => _currentTab = tabItem);
+    }
   }
 
-  // sets current tab index
-  // and update state
-  void _selectTab(int index) {
-    if (index == currentTab) {
-      // pop to first route
-      // if the user taps on the active tab
-      tabs[index].key.currentState.popUntil((route) => route.isFirst);
-    } else {
-      // update the state
-      // in order to repaint
-      setState(() => currentTab = index);
-    }
+  CustomerOrderStatusState(String uid) {
+    this.uid = uid;
   }
 
   @override
   Widget build(BuildContext context) {
-    return App();
-    // WillPopScope handle android back btn
-    // return WillPopScope(
-    //   onWillPop: () async {
-    //     final isFirstRouteInCurrentTab =
-    //         !await tabs[currentTab].key.currentState.maybePop();
-    //     if (isFirstRouteInCurrentTab) {
-    //       // if not on the 'main' tab
-    //       if (currentTab != 0) {
-    //         // select 'main' tab
-    //         _selectTab(0);
-    //         // back button handled by app
-    //         return false;
-    //       }
-    //     }
-    //     // let system handle back button if we're on the first route
-    //     return isFirstRouteInCurrentTab;
-    //   },
-    //   // this is the base scaffold
-    //   // don't put appbar in here otherwise you might end up
-    //   // with multiple appbars on one screen
-    //   // eventually breaking the app
-    //   child: Scaffold(
-    //     // indexed stack shows only one child
-    //     body: IndexedStack(
-    //       index: currentTab,
-    //       children: tabs.map((e) => e.page).toList(),
-    //     ),
-    //     // Bottom navigation
-    //     bottomNavigationBar: BottomNavigation(
-    //       onSelectTab: _selectTab,
-    //       tabs: tabs,
-    //     ),
-    //   ),
-    // );
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentTab].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          if (_currentTab != TabItem.home) {
+            _selectTab(TabItem.home);
+            return false;
+          }
+        }
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(children: <Widget>[
+          _buildOffstageNavigator(TabItem.home),
+          _buildOffstageNavigator(TabItem.placeOrder),
+          _buildOffstageNavigator(TabItem.newOrder),
+          _buildOffstageNavigator(TabItem.inProgress),
+          _buildOffstageNavigator(TabItem.completed),
+        ]),
+        bottomNavigationBar: BottomNavigation(
+          currentTab: _currentTab,
+          onSelectTab: _selectTab,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOffstageNavigator(TabItem tabItem) {
+    return Offstage(
+      offstage: _currentTab != tabItem,
+      child:
+          // TabNavigator(
+          //   navigatorKey: _navigatorKeys[tabItem],
+          //   tabItem: tabItem,
+          // )
+          (tabItem == TabItem.home
+              ? CustomerHome(uid: uid)
+              : (tabItem == TabItem.placeOrder
+                  ? PlaceOrder(
+                      uid: uid,
+                    )
+                  : (tabItem == TabItem.newOrder
+                      ? CustomerNewOrders(uid: uid)
+                      : (tabItem == TabItem.inProgress
+                          ? CustomerInProgressOrCompletedOrders(
+                              uid: uid, status: "In Progress")
+                          : CustomerInProgressOrCompletedOrders(
+                              uid: uid, status: "Completed"))))),
+    );
+  }
+}
+
+class TabNavigatorRoutes {
+  static const String root = '/';
+  static const String detail = '/detail';
+  static const String responses = '/responses';
+}
+
+class TabNavigator extends StatelessWidget {
+  TabNavigator({this.navigatorKey, this.tabItem});
+  final GlobalKey<NavigatorState> navigatorKey;
+  final TabItem tabItem;
+
+  void _push(BuildContext context, {int materialIndex: 500}) {
+    var routeBuilders = _routeBuilders(context, materialIndex: materialIndex);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => routeBuilders[TabNavigatorRoutes.detail](context),
+      ),
+    );
+  }
+
+  Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
+      {int materialIndex: 500}) {
+    return {
+      // TabNavigatorRoutes.root: (context) => ColorsListPage(
+      //       // color: activeTabColor[tabItem],
+      //       title: tabName[tabItem],
+      //       onPush: (materialIndex) =>
+      //           _push(context, materialIndex: materialIndex),
+      //     ),
+      // TabNavigatorRoutes.detail: (context) => ColorDetailPage(
+      //       // color: activeTabColor[tabItem],
+      //       title: tabName[tabItem],
+      //       materialIndex: materialIndex,
+      //     ),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final routeBuilders = _routeBuilders(context);
+    return Navigator(
+      key: navigatorKey,
+      initialRoute: TabNavigatorRoutes.root,
+      onGenerateRoute: (routeSettings) {
+        return MaterialPageRoute(
+          builder: (context) => routeBuilders[routeSettings.name](context),
+        );
+      },
+    );
   }
 }
