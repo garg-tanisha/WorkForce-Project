@@ -7,7 +7,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:workforce/screens/tabs/tabItem.dart';
-import 'package:workforce/screens/tabs/screens.dart';
 import 'package:workforce/screens/tabs/bottomNavigation.dart';
 
 class CustomerOrderStatus extends StatefulWidget {
@@ -35,28 +34,26 @@ class CustomerOrderStatusState extends State {
         page: CustomerHome(uid: uid),
       ),
       TabItem(
-        tabName: "Place Order",
-        icon: Icons.add_shopping_cart_outlined,
-        page: HomeScreen(),
-      ),
+          tabName: "Place Order",
+          icon: Icons.add_shopping_cart_outlined,
+          page: PlaceOrder(
+            uid: uid,
+          )),
       TabItem(
           tabName: "New Order",
           icon: Icons.shopping_cart_outlined,
-          page: SettingsScreen()),
+          page: CustomerNewOrders(uid: uid)),
       TabItem(
-        tabName: "In Progress Order",
-        icon: Icons.hourglass_top_outlined,
-        page: HomeScreen(),
-      ),
+          tabName: "In Progress Order",
+          icon: Icons.hourglass_top_outlined,
+          page: CustomerInProgressOrCompletedOrders(
+              uid: uid, status: "In Progress")),
       TabItem(
           tabName: "Completed Order",
           icon: Icons.check_circle_outline,
-          page: SettingsScreen()),
+          page: CustomerInProgressOrCompletedOrders(
+              uid: uid, status: "Completed")),
     ];
-
-    tabs.asMap().forEach((index, details) {
-      details.setIndex(index);
-    });
   }
 
   void _selectTab(int index) {
@@ -69,6 +66,10 @@ class CustomerOrderStatusState extends State {
 
   @override
   Widget build(BuildContext context) {
+    tabs.asMap().forEach((index, details) {
+      details.setIndex(index);
+    });
+
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
