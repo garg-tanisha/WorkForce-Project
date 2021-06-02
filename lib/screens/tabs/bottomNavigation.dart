@@ -36,7 +36,6 @@ class BottomNavigation extends StatelessWidget {
         icon,
         color: _tabColor(index: index),
       ),
-      // ignore: deprecated_member_use
       title: Text(
         tabName,
         style: TextStyle(
