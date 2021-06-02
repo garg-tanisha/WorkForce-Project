@@ -260,34 +260,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -627,34 +627,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -994,34 +994,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -1361,34 +1361,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -1728,34 +1728,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -2095,34 +2095,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -2462,34 +2462,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -2829,34 +2829,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -3196,34 +3196,34 @@ class CustomerNewOrdersState extends State {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10.0,
-                                                                bottom: 00.0,
-                                                                left: 20.0,
-                                                                right: 10.0),
-                                                        child: RaisedButton(
-                                                          onPressed:
-                                                              () async {},
-                                                          child: const Text(
-                                                            "Order Details",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          30.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  width: 2)),
-                                                        ),
-                                                      ),
+                                                      // Padding(
+                                                      //   padding:
+                                                      //       EdgeInsets.only(
+                                                      //           top: 10.0,
+                                                      //           bottom: 00.0,
+                                                      //           left: 20.0,
+                                                      //           right: 10.0),
+                                                      //   child: RaisedButton(
+                                                      //     onPressed:
+                                                      //         () async {},
+                                                      //     child: const Text(
+                                                      //       "Order Details",
+                                                      //       style: TextStyle(
+                                                      //           fontSize: 15.0),
+                                                      //     ),
+                                                      //     color: Colors
+                                                      //         .lightBlueAccent,
+                                                      //     shape: RoundedRectangleBorder(
+                                                      //         borderRadius:
+                                                      //             BorderRadius
+                                                      //                 .circular(
+                                                      //                     30.0),
+                                                      //         side: BorderSide(
+                                                      //             color: Colors
+                                                      //                 .blue,
+                                                      //             width: 2)),
+                                                      //   ),
+                                                      // ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(

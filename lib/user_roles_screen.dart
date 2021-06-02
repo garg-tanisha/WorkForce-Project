@@ -45,39 +45,8 @@ class UserRoles extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Image.asset('images/workforce.png',
-                      height: 170.0, width: 170.0, fit: BoxFit.scaleDown),
+                      height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
                 ),
-                // CarouselSlider(
-                //   items: imageSliders,
-                //   options: CarouselOptions(
-                //       viewportFraction: 1,
-                //       autoPlay: true,
-                //       enlargeCenterPage: true,
-                //       aspectRatio: 2.0,
-                //       onPageChanged: (index, reason) {
-                //         setState(() {
-                //           _current = index;
-                //         });
-                //       }),
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: imgList.map((url) {
-                //     int index = imgList.indexOf(url);
-                //     return Container(
-                //       width: 8.0,
-                //       height: 8.0,
-                //       margin:
-                //           EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: _current == index
-                //             ? Color.fromRGBO(0, 0, 0, 0.9)
-                //             : Color.fromRGBO(0, 0, 0, 0.4),
-                //       ),
-                //     );
-                //   }).toList(),
-                // ),
                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text("Choose your role",

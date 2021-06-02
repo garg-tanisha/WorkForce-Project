@@ -47,13 +47,12 @@ class _EmailLogInState extends State<EmailLogIn> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Image.asset('images/workforce.png',
-                              height: 170.0,
-                              width: 170.0,
-                              fit: BoxFit.scaleDown),
-                        ),
+                        // Padding(
+                        // padding: EdgeInsets.all(10.0),
+                        // child:
+                        Image.asset('images/workforce.png',
+                            height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
+                        // ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),

@@ -126,134 +126,134 @@ class OrderHomeState extends State {
                 );
               }).toList(),
             ),
-            Container(
-                width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black12,
-                  ),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(
-                          5.0) //                 <--- border radius here
-                      ),
-                ),
-                child: Column(children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text("Order's Status",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16.0)),
-                    ),
-                  ),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.timer,
-                          color: Colors.blue,
-                          size: 30.0,
-                          semanticLabel: 'Order Confirmations Sent',
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_right_outlined,
-                          color: Colors.blue,
-                          size: 40.0,
-                          semanticLabel: 'Right Arrow',
-                        ),
-                        title: Text("Order Confirmations Sent"),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              //builder of MaterialPageRoute will call TodoDetail class
-                              MaterialPageRoute(
-                                builder: (context) => OrderConfirmationsSent(
-                                    uid: uid, role: role, flag: true),
-                              ));
-                        },
-                      )),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.blue,
-                          size: 30.0,
-                          semanticLabel: 'New Orders',
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_right_outlined,
-                          color: Colors.blue,
-                          size: 40.0,
-                          semanticLabel: 'Right Arrow',
-                        ),
-                        title: Text("New"),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Orders(uid: uid, role: role, flag: true),
-                              ));
-                        },
-                      )),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.hourglass_top_outlined,
-                          color: Colors.blue,
-                          size: 30.0,
-                          semanticLabel: 'In Progress Orders',
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_right_outlined,
-                          color: Colors.blue,
-                          size: 40.0,
-                          semanticLabel: 'Right Arrow',
-                        ),
-                        title: Text("In Progress"),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WSPInProgressOrders(
-                                    uid: uid, role: role, flag: true),
-                              ));
-                        },
-                      )),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.check_circle_outline,
-                          color: Colors.blue,
-                          size: 30.0,
-                          semanticLabel: 'Completed Orders',
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_right_outlined,
-                          color: Colors.blue,
-                          size: 40.0,
-                          semanticLabel: 'Right Arrow',
-                        ),
-                        title: Text("Completed"),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              //builder of MaterialPageRoute will call TodoDetail class
-                              MaterialPageRoute(
-                                builder: (context) => WSPCompletedOrders(
-                                    uid: uid, role: role, flag: true),
-                              ));
-                        },
-                      )),
-                ])),
+            // Container(
+            //     width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+            //     decoration: BoxDecoration(
+            //       border: Border.all(
+            //         color: Colors.black12,
+            //       ),
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.all(Radius.circular(
+            //               5.0) //                 <--- border radius here
+            //           ),
+            //     ),
+            //     child: Column(children: [
+            //       Align(
+            //         alignment: Alignment.centerLeft,
+            //         child: Padding(
+            //           padding: EdgeInsets.all(10.0),
+            //           child: Text("Order's Status",
+            //               style: TextStyle(
+            //                   fontWeight: FontWeight.bold, fontSize: 16.0)),
+            //         ),
+            //       ),
+            //       Card(
+            //           color: Colors.white,
+            //           elevation: 2.0,
+            //           child: ListTile(
+            //             leading: Icon(
+            //               Icons.timer,
+            //               color: Colors.blue,
+            //               size: 30.0,
+            //               semanticLabel: 'Order Confirmations Sent',
+            //             ),
+            //             trailing: Icon(
+            //               Icons.arrow_right_outlined,
+            //               color: Colors.blue,
+            //               size: 40.0,
+            //               semanticLabel: 'Right Arrow',
+            //             ),
+            //             title: Text("Order Confirmations Sent"),
+            //             onTap: () {
+            //               Navigator.push(
+            //                   context,
+            //                   //builder of MaterialPageRoute will call TodoDetail class
+            //                   MaterialPageRoute(
+            //                     builder: (context) => OrderConfirmationsSent(
+            //                         uid: uid, role: role, flag: true),
+            //                   ));
+            //             },
+            //           )),
+            //       Card(
+            //           color: Colors.white,
+            //           elevation: 2.0,
+            //           child: ListTile(
+            //             leading: Icon(
+            //               Icons.shopping_cart_outlined,
+            //               color: Colors.blue,
+            //               size: 30.0,
+            //               semanticLabel: 'New Orders',
+            //             ),
+            //             trailing: Icon(
+            //               Icons.arrow_right_outlined,
+            //               color: Colors.blue,
+            //               size: 40.0,
+            //               semanticLabel: 'Right Arrow',
+            //             ),
+            //             title: Text("New"),
+            //             onTap: () {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) =>
+            //                         Orders(uid: uid, role: role, flag: true),
+            //                   ));
+            //             },
+            //           )),
+            //       Card(
+            //           color: Colors.white,
+            //           elevation: 2.0,
+            //           child: ListTile(
+            //             leading: Icon(
+            //               Icons.hourglass_top_outlined,
+            //               color: Colors.blue,
+            //               size: 30.0,
+            //               semanticLabel: 'In Progress Orders',
+            //             ),
+            //             trailing: Icon(
+            //               Icons.arrow_right_outlined,
+            //               color: Colors.blue,
+            //               size: 40.0,
+            //               semanticLabel: 'Right Arrow',
+            //             ),
+            //             title: Text("In Progress"),
+            //             onTap: () {
+            //               Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => WSPInProgressOrders(
+            //                         uid: uid, role: role, flag: true),
+            //                   ));
+            //             },
+            //           )),
+            //       Card(
+            //           color: Colors.white,
+            //           elevation: 2.0,
+            //           child: ListTile(
+            //             leading: Icon(
+            //               Icons.check_circle_outline,
+            //               color: Colors.blue,
+            //               size: 30.0,
+            //               semanticLabel: 'Completed Orders',
+            //             ),
+            //             trailing: Icon(
+            //               Icons.arrow_right_outlined,
+            //               color: Colors.blue,
+            //               size: 40.0,
+            //               semanticLabel: 'Right Arrow',
+            //             ),
+            //             title: Text("Completed"),
+            //             onTap: () {
+            //               Navigator.push(
+            //                   context,
+            //                   //builder of MaterialPageRoute will call TodoDetail class
+            //                   MaterialPageRoute(
+            //                     builder: (context) => WSPCompletedOrders(
+            //                         uid: uid, role: role, flag: true),
+            //                   ));
+            //             },
+            //           )),
+            //     ])),
             Container(
               width: MediaQuery.of(context).size.width.roundToDouble(),
               decoration: BoxDecoration(

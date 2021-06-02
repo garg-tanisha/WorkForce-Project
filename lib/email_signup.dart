@@ -87,11 +87,12 @@ class _EmailSignUpState extends State<EmailSignUp> {
                     child: SingleChildScrollView(
                         child: Center(
                             child: Column(children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Image.asset('images/workforce.png',
-                            height: 170.0, width: 170.0, fit: BoxFit.scaleDown),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.all(10.0),
+                      // child:
+                      Image.asset('images/workforce.png',
+                          height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
+                      // ),
                       Container(
                         margin: const EdgeInsets.all(10.0),
                         padding: EdgeInsets.only(
