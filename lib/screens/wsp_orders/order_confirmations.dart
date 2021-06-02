@@ -166,11 +166,25 @@ class OrderConfirmationsSentState extends State {
                                               course["title"] != null
                                                   ? ListTile(
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       title: Text("Title: " +
                                                           course["title"]),
                                                       subtitle: Text(
@@ -414,11 +428,25 @@ class OrderConfirmationsSentState extends State {
                                               course["title"] != null
                                                   ? ListTile(
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       title: Text("Title: " +
                                                           course["title"]),
                                                       subtitle: Text(
@@ -662,11 +690,25 @@ class OrderConfirmationsSentState extends State {
                                               course["title"] != null
                                                   ? ListTile(
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       title: Text("Title: " +
                                                           course["title"]),
                                                       subtitle: Text(
@@ -910,11 +952,25 @@ class OrderConfirmationsSentState extends State {
                                               course["title"] != null
                                                   ? ListTile(
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       title: Text("Title: " +
                                                           course["title"]),
                                                       subtitle: Text(
@@ -1158,11 +1214,25 @@ class OrderConfirmationsSentState extends State {
                                               course["title"] != null
                                                   ? ListTile(
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       title: Text("Title: " +
                                                           course["title"]),
                                                       subtitle: Text(

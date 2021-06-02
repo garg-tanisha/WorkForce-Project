@@ -235,11 +235,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
+                                                        course["photos"][0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
+                                                        course["photos"][1],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   )
                                                 : ListTile(
                                                     title: RichText(
@@ -283,11 +297,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   ),
                                             status == "In Progress"
                                                 ? SingleChildScrollView(
@@ -491,16 +519,18 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(imgList[0],
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders in progress yet!",
@@ -681,11 +711,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
+                                                        course["photos"][0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
+                                                        course["photos"][1],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   )
                                                 : ListTile(
                                                     title: RichText(
@@ -729,11 +773,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   ),
                                             status == "In Progress"
                                                 ? SingleChildScrollView(
@@ -937,16 +995,18 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(imgList[0],
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders in progress yet!",
@@ -1127,11 +1187,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
+                                                        course["photos"][0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
+                                                        course["photos"][1],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   )
                                                 : ListTile(
                                                     title: RichText(
@@ -1175,11 +1249,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       ),
                                                     ),
                                                     leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                     trailing: Image.asset(
-                                                      imgList[0],
-                                                    ),
+                                                        imgList[0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
+                                                        fit: BoxFit.fill),
                                                   ),
                                             status == "In Progress"
                                                 ? SingleChildScrollView(
@@ -1383,16 +1471,18 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(imgList[0],
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders in progress yet!",
@@ -1589,11 +1679,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     )
                                                   : ListTile(
                                                       title: RichText(
@@ -1637,11 +1741,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: Image.asset(
-                                                        imgList[0],
-                                                      ),
+                                                          imgList[0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.asset(
-                                                        imgList[0],
-                                                      ),
+                                                          imgList[0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                               RaisedButton(
                                                 onPressed: () async {
@@ -1700,19 +1818,18 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset(
-                            imgList[0],
-                            width: 0.8 *
-                                MediaQuery.of(context)
-                                    .size
-                                    .width
-                                    .roundToDouble(),
-                            height: 0.3 *
-                                MediaQuery.of(context)
-                                    .size
-                                    .height
-                                    .roundToDouble(),
-                          ),
+                          Image.asset(imgList[0],
+                              width: 0.8 *
+                                  MediaQuery.of(context)
+                                      .size
+                                      .width
+                                      .roundToDouble(),
+                              height: 0.3 *
+                                  MediaQuery.of(context)
+                                      .size
+                                      .height
+                                      .roundToDouble(),
+                              fit: BoxFit.cover),
                           Padding(
                               padding: EdgeInsets.only(top: 10.0),
                               child: Text("No orders in progress yet!",
@@ -1909,11 +2026,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     )
                                                   : ListTile(
                                                       title: RichText(
@@ -1957,11 +2088,25 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: Image.asset(
-                                                        imgList[0],
-                                                      ),
+                                                          imgList[0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.asset(
-                                                        imgList[0],
-                                                      ),
+                                                          imgList[0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                               RaisedButton(
                                                 onPressed: () async {
@@ -2020,19 +2165,18 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset(
-                            imgList[0],
-                            width: 0.8 *
-                                MediaQuery.of(context)
-                                    .size
-                                    .width
-                                    .roundToDouble(),
-                            height: 0.3 *
-                                MediaQuery.of(context)
-                                    .size
-                                    .height
-                                    .roundToDouble(),
-                          ),
+                          Image.asset(imgList[0],
+                              width: 0.8 *
+                                  MediaQuery.of(context)
+                                      .size
+                                      .width
+                                      .roundToDouble(),
+                              height: 0.3 *
+                                  MediaQuery.of(context)
+                                      .size
+                                      .height
+                                      .roundToDouble(),
+                              fit: BoxFit.cover),
                           Padding(
                               padding: EdgeInsets.only(top: 10.0),
                               child: Text("No orders in progress yet!",
@@ -2049,13 +2193,12 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                Image.asset(
-                  imgList[0],
-                  width:
-                      0.8 * MediaQuery.of(context).size.width.roundToDouble(),
-                  height:
-                      0.3 * MediaQuery.of(context).size.height.roundToDouble(),
-                ),
+                Image.asset(imgList[0],
+                    width:
+                        0.8 * MediaQuery.of(context).size.width.roundToDouble(),
+                    height: 0.3 *
+                        MediaQuery.of(context).size.height.roundToDouble(),
+                    fit: BoxFit.cover),
                 Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text("Orders are in progress yet!",

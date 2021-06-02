@@ -213,11 +213,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 )
                                               : ListTile(
                                                   title: RichText(
@@ -260,11 +272,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                           RaisedButton(
                                             onPressed: () async {
@@ -304,13 +328,15 @@ class WSPCompletedOrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        noOrderImage,
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders completed yet!",
@@ -530,11 +556,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 )
                                               : ListTile(
                                                   title: RichText(
@@ -577,11 +615,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                           RaisedButton(
                                             onPressed: () async {
@@ -621,13 +671,15 @@ class WSPCompletedOrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        noOrderImage,
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders completed yet!",
@@ -847,11 +899,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 )
                                               : ListTile(
                                                   title: RichText(
@@ -894,11 +958,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                           RaisedButton(
                                             onPressed: () async {
@@ -938,13 +1014,15 @@ class WSPCompletedOrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        noOrderImage,
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders completed yet!",
@@ -1164,11 +1242,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 )
                                               : ListTile(
                                                   title: RichText(
@@ -1211,11 +1301,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                           RaisedButton(
                                             onPressed: () async {
@@ -1255,13 +1357,15 @@ class WSPCompletedOrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        noOrderImage,
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders completed yet!",
@@ -1481,11 +1585,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 )
                                               : ListTile(
                                                   title: RichText(
@@ -1528,11 +1644,23 @@ class WSPCompletedOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                           RaisedButton(
                                             onPressed: () async {
@@ -1572,13 +1700,15 @@ class WSPCompletedOrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        noOrderImage,
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(noOrderImage,
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders completed yet!",

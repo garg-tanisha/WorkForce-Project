@@ -70,8 +70,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
   @override
   Widget build(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Color(0xFF03A9F4), Color(0xff123456)],
-    ).createShader(new Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+      colors: <Color>[Color(0xFF64B5F6), Color(0xFF1976D2)],
+    ).createShader(new Rect.fromLTWH(0.0, 0.0, 70.0, 200.0));
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
         child: MaterialApp(

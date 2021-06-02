@@ -242,14 +242,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -482,16 +494,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -616,14 +630,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -856,16 +882,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -989,14 +1017,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -1229,16 +1269,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -1363,14 +1405,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -1603,16 +1657,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -1737,14 +1793,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -1977,16 +2045,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -2117,8 +2187,14 @@ class OrderResponsesState extends State {
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -2351,16 +2427,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",
@@ -2485,14 +2563,26 @@ class OrderResponsesState extends State {
                                               children: <Widget>[
                                                 ListTile(
                                                   leading: Image.asset(
-                                                    noOrderImage,
-                                                  ),
+                                                      noOrderImage,
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: recommendation(
                                                           course)
                                                       ? Image.asset(
                                                           "images/recommended.jpg",
-                                                          width: 50.0,
-                                                          height: 50.0)
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 50,
+                                                          fit: BoxFit.fill)
                                                       : Container(
                                                           width: 0.0,
                                                           height: 0.0),
@@ -2725,16 +2815,18 @@ class OrderResponsesState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrderImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrderImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No responses yet!",

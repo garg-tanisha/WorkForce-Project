@@ -115,30 +115,21 @@ class OrdersState extends State {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  ))),
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill))),
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i + 1],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       }
     }
@@ -285,16 +276,17 @@ class OrdersState extends State {
                                                       title: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 16.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -304,16 +296,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 14.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -321,10 +314,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -333,10 +327,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -345,31 +340,27 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -430,38 +421,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -606,13 +565,15 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders yet!",
@@ -877,11 +838,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -1112,13 +1087,15 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(
-                        imgList[0],
-                        width: 0.8 *
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        height: 0.3 *
-                            MediaQuery.of(context).size.height.roundToDouble(),
-                      ),
+                      Image.asset(imgList[0],
+                          width: 0.8 *
+                              MediaQuery.of(context).size.width.roundToDouble(),
+                          height: 0.3 *
+                              MediaQuery.of(context)
+                                  .size
+                                  .height
+                                  .roundToDouble(),
+                          fit: BoxFit.cover),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text("No orders yet!",
@@ -1382,11 +1359,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -1635,6 +1626,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -1899,11 +1891,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -2148,6 +2154,7 @@ class OrdersState extends State {
                         children: [
                       Image.asset(
                         imgList[0],
+                        fit: BoxFit.cover,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -2416,11 +2423,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -2669,6 +2690,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -2933,11 +2955,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -3186,6 +3222,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -3450,11 +3487,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -3703,6 +3754,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -3967,11 +4019,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -4220,6 +4286,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -4484,10 +4551,24 @@ class OrdersState extends State {
                                                       //                               .toString()),
                                                       leading: Image.network(
                                                         course["photos"][0],
+                                                        width: 0.2 *
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width
+                                                                .roundToDouble(),
+                                                        height: 100,
                                                       ),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -4736,6 +4817,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),
@@ -4999,11 +5081,25 @@ class OrdersState extends State {
                                                       //                                       .microsecondsSinceEpoch)
                                                       //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
-                                                        course["photos"][1],
-                                                      ),
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                     ),
                                                     // course["photos"] != null
                                                     //     ? images(course["photos"])
@@ -5252,6 +5348,7 @@ class OrdersState extends State {
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
                             MediaQuery.of(context).size.height.roundToDouble(),
+                        fit: BoxFit.cover,
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0),

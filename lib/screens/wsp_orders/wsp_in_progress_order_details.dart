@@ -201,30 +201,21 @@ class WSPInProgressOrderDetailsState extends State {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  ))),
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill))),
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i + 1],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       }
     }

@@ -47,30 +47,21 @@ class CustomerCancelledOrdersState extends State {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                  ))),
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill))),
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,
-                  )))
+                  child: Image.network(_images[i + 1],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       }
     }
@@ -236,11 +227,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -322,16 +325,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -495,11 +500,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -581,16 +598,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -754,11 +773,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -840,16 +871,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -1013,11 +1046,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1099,16 +1144,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -1272,11 +1319,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1358,16 +1417,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -1531,11 +1592,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1617,16 +1690,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -1790,11 +1865,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1876,16 +1963,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -2049,11 +2138,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -2135,16 +2236,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",
@@ -2308,11 +2411,23 @@ class CustomerCancelledOrdersState extends State {
                                                     ),
                                                   ),
                                                   leading: Image.network(
-                                                    course["photos"][0],
-                                                  ),
+                                                      course["photos"][0],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                   trailing: Image.network(
-                                                    course["photos"][1],
-                                                  ),
+                                                      course["photos"][1],
+                                                      width: 0.2 *
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width
+                                                              .roundToDouble(),
+                                                      height: 100,
+                                                      fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -2394,16 +2509,18 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(
-                          noOrdersImage,
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
+                        Image.asset(noOrdersImage,
+                            width: 0.8 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .width
+                                    .roundToDouble(),
+                            height: 0.3 *
+                                MediaQuery.of(context)
+                                    .size
+                                    .height
+                                    .roundToDouble(),
+                            fit: BoxFit.cover),
                         Padding(
                             padding: EdgeInsets.only(top: 10.0),
                             child: Text("No orders yet!",

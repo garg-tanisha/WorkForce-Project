@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 
 final List<String> imgList = [
   "images/sales/1.jpg",
-  "images/sales/2.jpg",
+  "images/sales/2.PNG",
   "images/sales/3.jpg",
   "images/sales/4.jpg",
   "images/sales/5.jpg",
@@ -38,7 +38,7 @@ final List<Widget> imageSliders = imgList
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
                       child: Image.asset(item,
-                          width: 1000.0, height: 700.0, fit: BoxFit.cover),
+                          width: 1000.0, height: 700.0, fit: BoxFit.fill),
                     ),
                     Positioned(
                       bottom: 0.0,
@@ -79,6 +79,9 @@ class HomeState extends State {
   int _current = 0;
   @override
   Widget build(BuildContext context) {
+    final Shader linearGradient = LinearGradient(
+      colors: <Color>[Color(0xFF64B5F6), Color(0xFF1976D2)],
+    ).createShader(new Rect.fromLTWH(0.0, 0.0, 70.0, 200.0));
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -107,10 +110,16 @@ class HomeState extends State {
                             child: Text(
                               'Greetings From WorkForce!',
                               style: new TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0,
-                                  color: Colors.blue),
+                                fontWeight: FontWeight.bold,
+                                foreground: new Paint()
+                                  ..shader = linearGradient,
+                                fontSize: 24.0,
+                                // color: Colors.blue.shade700
+                              ),
                             ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(5.0),
                           ),
                           CarouselSlider(
                             items: imageSliders,

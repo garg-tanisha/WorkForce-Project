@@ -303,7 +303,9 @@ class OrderHomeState extends State {
               ]),
             ),
             Container(
+              padding: EdgeInsets.only(top: 10.0),
               width: MediaQuery.of(context).size.width.roundToDouble(),
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.white,
@@ -326,9 +328,22 @@ class OrderHomeState extends State {
                           MediaQuery.of(context).size.height.roundToDouble(),
                       fit: BoxFit.cover),
                 ),
-                Card(
-                    color: Colors.white,
-                    elevation: 2.0,
+                Container(
+                    // width: 0.98 *
+                    //     MediaQuery.of(context)
+                    //         .size
+                    //         .width
+                    //         .roundToDouble(),
+                    // margin:
+                    //     const EdgeInsets.symmetric(horizontal: 10.0),
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black12,
+                      ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
                     child: ListTile(
                       title: RichText(
                         text: new TextSpan(

@@ -65,7 +65,7 @@ class CustomerInProgressOrderDetailsState extends State {
                   child: Image.network(
                     _images[i],
                     width: 100,
-                    height: 100,
+                    height: 100,fit: BoxFit.fill
                   )))
         ]));
       } else {
@@ -76,7 +76,7 @@ class CustomerInProgressOrderDetailsState extends State {
                   child: Image.network(
                     _images[i],
                     width: 100,
-                    height: 100,
+                    height: 100,fit: BoxFit.fill
                   ))),
           Expanded(
               child: Padding(
@@ -84,7 +84,7 @@ class CustomerInProgressOrderDetailsState extends State {
                   child: Image.network(
                     _images[i + 1],
                     width: 100,
-                    height: 100,
+                    height: 100,fit: BoxFit.fill
                   )))
         ]));
       }
