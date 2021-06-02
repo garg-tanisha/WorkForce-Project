@@ -14,17 +14,19 @@ final List<String> imgList = [
 ];
 
 class WSPInProgressOrderDetails extends StatefulWidget {
-  WSPInProgressOrderDetails({this.wspId, this.orderId});
+  WSPInProgressOrderDetails({this.wspId, this.orderId, this.flag});
   final String wspId;
   final String orderId;
+  final bool flag;
   @override
   State<StatefulWidget> createState() =>
-      WSPInProgressOrderDetailsState(wspId, orderId);
+      WSPInProgressOrderDetailsState(wspId, orderId, flag);
 }
 
 class WSPInProgressOrderDetailsState extends State {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool flag;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String wspId, orderId;
   List<File> _proofImages = [];
@@ -96,9 +98,10 @@ class WSPInProgressOrderDetailsState extends State {
     setState(() {});
   }
 
-  WSPInProgressOrderDetailsState(String wspId, String orderId) {
+  WSPInProgressOrderDetailsState(String wspId, String orderId, bool flag) {
     this.wspId = wspId;
     this.orderId = orderId;
+    this.flag = flag;
   }
 
   void _showPicker(context, List<File> _images) {
@@ -677,7 +680,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                           right: 20.0),
                                                       child: IconButton(
                                                         icon: const Icon(
-                                                          Icons.camera_alt,
+                                                          Icons.camera_outlined,
                                                           color: Colors.blue,
                                                           size: 35.0,
                                                           semanticLabel:
@@ -750,7 +753,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                           right: 20.0),
                                                       child: IconButton(
                                                         icon: const Icon(
-                                                          Icons.camera_alt,
+                                                          Icons.camera_outlined,
                                                           color: Colors.blue,
                                                           size: 35.0,
                                                           semanticLabel:

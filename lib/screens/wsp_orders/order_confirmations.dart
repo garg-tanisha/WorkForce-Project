@@ -1,13 +1,24 @@
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:workforce/screens/wsp_orders/wsp_in_progress_orders.dart';
+import 'wsp_new_orders.dart';
+import 'package:workforce/screens/wsp_orders/order_confirmations.dart';
+import 'wsp_completed_orders.dart';
+import 'package:workforce/screens/wsp_orders/wsp_orders_home.dart';
+
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderConfirmationsSent extends StatefulWidget {
-  OrderConfirmationsSent({this.uid, this.role});
+  OrderConfirmationsSent({this.uid, this.role, this.flag});
   final String uid;
   final String role;
+  final bool flag;
   @override
-  State<StatefulWidget> createState() => OrderConfirmationsSentState(uid, role);
+  State<StatefulWidget> createState() =>
+      OrderConfirmationsSentState(uid, role, flag);
 }
 
 class OrderConfirmationsSentState extends State {
@@ -16,6 +27,8 @@ class OrderConfirmationsSentState extends State {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String uid;
   String role;
+  bool flag = false;
+  int selectedIndex = 1;
   DocumentSnapshot orderDetails;
   final filters = [
     'No filter',
@@ -25,9 +38,10 @@ class OrderConfirmationsSentState extends State {
     'Response (Last Come First Serve)'
   ];
   String filter = 'No filter';
-  OrderConfirmationsSentState(String uid, String role) {
+  OrderConfirmationsSentState(String uid, String role, bool flag) {
     this.uid = uid;
     this.role = role;
+    this.flag = flag;
   }
 
   _onDropDownChanged(String value) {
@@ -53,7 +67,7 @@ class OrderConfirmationsSentState extends State {
     if (filter == 'No filter') {
       return Scaffold(
         appBar: AppBar(title: Text("Accepted Responses ( " + role + " )")),
-        body: StreamBuilder(
+        body: (StreamBuilder(
             stream: Firestore.instance
                 .collection('accepted responses')
                 .where("wsp id", isEqualTo: uid)
@@ -253,7 +267,50 @@ class OrderConfirmationsSentState extends State {
               } else {
                 return Text("No accepted resposes yet!");
               }
-            }),
+            })),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
       );
     } else if (filter == 'Price (Low To High)') {
       return Scaffold(
@@ -459,6 +516,49 @@ class OrderConfirmationsSentState extends State {
                 return Text("No accepted resposes yet!");
               }
             }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
       );
     } else if (filter == 'Price (High To Low)') {
       return Scaffold(
@@ -664,6 +764,49 @@ class OrderConfirmationsSentState extends State {
                 return Text("No accepted resposes yet!");
               }
             }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
       );
     } else if (filter == 'Reponse (First Come First Serve)') {
       return Scaffold(
@@ -869,6 +1012,49 @@ class OrderConfirmationsSentState extends State {
                 return Text("No accepted resposes yet!");
               }
             }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
       );
     } else if (filter == 'Response (Last Come First Serve)') {
       return Scaffold(
@@ -1074,6 +1260,49 @@ class OrderConfirmationsSentState extends State {
                 return Text("No accepted resposes yet!");
               }
             }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
       );
     }
   }

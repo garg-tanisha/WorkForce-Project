@@ -58,7 +58,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                               top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                           child: Row(children: [
                             Icon(
-                              Icons.email_rounded,
+                              Icons.email_outlined,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'Email address',
@@ -254,7 +254,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                     child: Column(children: <Widget>[
                       Row(children: [
                         Icon(
-                          Icons.email_rounded,
+                          Icons.email_outlined,
                           color: Colors.blue,
                           size: 30.0,
                           semanticLabel: 'Email address',

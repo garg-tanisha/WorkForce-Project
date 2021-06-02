@@ -88,7 +88,7 @@ class UserRoles extends StatelessWidget {
                     elevation: 2.0,
                     child: ListTile(
                       leading: Icon(
-                        Icons.add_location_alt_sharp,
+                        Icons.person_outline,
                         color: Colors.blue,
                         size: 30.0,
                         semanticLabel: 'Customer Role',
@@ -115,7 +115,7 @@ class UserRoles extends StatelessWidget {
                     elevation: 2.0,
                     child: ListTile(
                       leading: Icon(
-                        Icons.add_location_alt_sharp,
+                        Icons.person_outline,
                         color: Colors.blue,
                         size: 30.0,
                         semanticLabel: 'Service Provider Role',

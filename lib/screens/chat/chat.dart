@@ -68,13 +68,13 @@ class _ChatState extends State<ChatPage> {
               width: MediaQuery.of(context).size.width,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                color: Color(0x61000000),
+                color: Color(0x8A000000),
                 child: Row(
                   children: [
                     Expanded(
                         child: TextField(
                       controller: messageEditingController,
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                       decoration: InputDecoration(
                           hintText: "Message ...",
                           hintStyle: TextStyle(
@@ -90,24 +90,12 @@ class _ChatState extends State<ChatPage> {
                       onTap: () {
                         addMessage();
                       },
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0xFFFFFFFF),
-                                    const Color(0xFFFFFFFF)
-                                  ],
-                                  begin: FractionalOffset.topLeft,
-                                  end: FractionalOffset.bottomRight),
-                              borderRadius: BorderRadius.circular(40)),
-                          padding: EdgeInsets.all(12),
-                          child: Image.asset(
-                            "images/send.png",
-                            height: 25,
-                            width: 25,
-                          )),
+                      child: Icon(
+                        Icons.send_outlined,
+                        color: Colors.white,
+                        size: 30.0,
+                        semanticLabel: 'Send message',
+                      ),
                     ),
                   ],
                 ),
@@ -194,8 +182,8 @@ class MessageTile extends StatelessWidget {
                         bottomRight: Radius.circular(23)),
                 gradient: LinearGradient(
                   colors: sendByMe
-                      ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                      : [const Color(0x73000000), const Color(0x61000000)],
+                      ? [const Color(0xFF2196F3), const Color(0xFF2196F3)]
+                      : [const Color(0x8A000000), const Color(0x8A000000)],
                 )),
             child: Text(message,
                 textAlign: TextAlign.start,
@@ -214,8 +202,15 @@ class MessageTile extends StatelessWidget {
               padding: EdgeInsets.only(top: 5, bottom: 5, left: 7, right: 7),
               child: Text(
                   DateTime.fromMicrosecondsSinceEpoch(
-                          timeOfMessage.microsecondsSinceEpoch)
-                      .toString(),
+                              timeOfMessage.microsecondsSinceEpoch)
+                          .toString()
+                          .split(" ")[0] +
+                      " " +
+                      DateTime.fromMicrosecondsSinceEpoch(
+                              timeOfMessage.microsecondsSinceEpoch)
+                          .toString()
+                          .split(" ")[1]
+                          .split(".")[0],
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       color: Colors.black,

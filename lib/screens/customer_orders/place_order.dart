@@ -275,7 +275,7 @@ class PlaceOrderState extends State {
                                   RawMaterialButton(
                                     fillColor: Theme.of(context).accentColor,
                                     child: Icon(
-                                      Icons.camera_alt,
+                                      Icons.camera_outlined,
                                       color: Colors.white,
                                     ),
                                     elevation: 8,

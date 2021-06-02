@@ -116,7 +116,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
                         child: Row(children: [
                           Icon(
-                            Icons.account_circle,
+                            Icons.account_circle_outlined,
                             color: Colors.blue,
                             size: 30.0,
                             semanticLabel: 'First Name',
@@ -154,7 +154,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                         child: Row(children: [
                           Icon(
-                            Icons.account_circle,
+                            Icons.account_circle_outlined,
                             color: Colors.blue,
                             size: 30.0,
                             semanticLabel: 'Last Name',
@@ -191,7 +191,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
                         child: Row(children: [
                           Icon(
-                            Icons.email_rounded,
+                            Icons.email_outlined,
                             color: Colors.blue,
                             size: 30.0,
                             semanticLabel: 'Email',
@@ -263,7 +263,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                             top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                         child: Row(children: [
                           Icon(
-                            Icons.call,
+                            Icons.contact_phone_outlined,
                             color: Colors.blue,
                             size: 30.0,
                             semanticLabel: 'Phone Number',
@@ -302,7 +302,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                           child: Row(children: [
                             Icon(
-                              Icons.lock_sharp,
+                              Icons.lock_outlined,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'Password',
@@ -341,7 +341,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                           child: Row(children: [
                             Icon(
-                              Icons.lock_sharp,
+                              Icons.lock_outlined,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'Confirm Password',
@@ -430,7 +430,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                                   right: 20.0),
                               child: Row(children: [
                                 Icon(
-                                  Icons.lock_outlined,
+                                  Icons.category_outlined,
                                   color: Colors.blue,
                                   size: 30.0,
                                   semanticLabel: 'Service Roles',
@@ -491,7 +491,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                               top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
                           child: Row(children: [
                             Icon(
-                              Icons.add_location_alt_sharp,
+                              Icons.location_on_outlined,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'Address',

@@ -164,7 +164,7 @@ class CustomerHomeState extends State {
                       child: ListTile(
                         title: Text("Place Order"),
                         leading: Icon(
-                          Icons.add_shopping_cart_outlined,
+                          Icons.add_location_alt_sharp,
                           color: Colors.blue,
                           size: 30.0,
                           semanticLabel: 'Place Order',
@@ -211,7 +211,7 @@ class CustomerHomeState extends State {
                           elevation: 2.0,
                           child: ListTile(
                             leading: Icon(
-                              Icons.shopping_cart_outlined,
+                              Icons.add_location_alt_sharp,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'New Orders',
@@ -238,7 +238,7 @@ class CustomerHomeState extends State {
                           elevation: 2.0,
                           child: ListTile(
                             leading: Icon(
-                              Icons.hourglass_top_outlined,
+                              Icons.add_location_alt_sharp,
                               color: Colors.blue,
                               size: 30.0,
                               semanticLabel: 'In Progress Orders',
@@ -265,7 +265,7 @@ class CustomerHomeState extends State {
                           elevation: 2.0,
                           child: ListTile(
                             leading: Icon(
-                              Icons.check_circle_outline,
+                              Icons.arrow_right_outlined,
                               color: Colors.blue,
                               size: 40.0,
                               semanticLabel: 'Completed Orders',

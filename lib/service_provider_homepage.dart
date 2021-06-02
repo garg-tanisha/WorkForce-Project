@@ -1,3 +1,4 @@
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:workforce/screens/wsp_orders/wsp_order_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -69,433 +70,435 @@ final List<Widget> imageSliders = imgList
         ))
     .toList();
 
-class ServiceProviderHome extends StatelessWidget {
+class ServiceProviderHome extends StatefulWidget {
   ServiceProviderHome({this.uid});
   final String uid;
+  @override
+  State<StatefulWidget> createState() => ServiceProviderHomeState(uid);
+}
+
+class ServiceProviderHomeState extends State {
+  String uid;
   final String title = "WSP HomePage";
   List<dynamic> roles = [];
   List<dynamic> rating = [];
-
+  ServiceProviderHomeState(String uid) {
+    this.uid = uid;
+  }
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     int imageCount = (imgList.length / 2).round();
     return new WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.exit_to_app,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    FirebaseAuth auth = FirebaseAuth.instance;
-                    auth.signOut().then((res) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyApp()),
-                      );
-                    });
-                  },
-                )
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("Services",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0)),
-                  ),
-                  StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('users')
-                          .document(uid)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        roles.clear();
-                        if (!snapshot.hasData) {
-                          return new Text("Loading");
-                        }
+          appBar: AppBar(
+            title: Text(title),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text("Services",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.0)),
+                ),
+                StreamBuilder(
+                    stream: Firestore.instance
+                        .collection('users')
+                        .document(uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      roles.clear();
+                      if (!snapshot.hasData) {
+                        return new Text("Loading");
+                      }
 
-                        var roles_check = snapshot.data;
-                        var userDocument = snapshot.data["roles"];
+                      var roles_check = snapshot.data;
+                      var userDocument = snapshot.data["roles"];
 
-                        if (roles_check == null ||
-                            snapshot.data["role"] == "Customer")
-                          return Center(child: Text("No specific roles!"));
+                      if (roles_check == null ||
+                          snapshot.data["role"] == "Customer")
+                        return Center(child: Text("No specific roles!"));
 
-                        for (var key in userDocument.keys) {
-                          roles.add(key);
-                        }
+                      for (var key in userDocument.keys) {
+                        roles.add(key);
+                      }
 
-                        for (var value in userDocument.values) {
-                          rating.add(value);
-                        }
+                      for (var value in userDocument.values) {
+                        rating.add(value);
+                      }
 
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: roles.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Card(
-                                color: Colors.white,
-                                elevation: 2.0,
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.add_location_alt_sharp,
-                                    color: Colors.blue,
-                                    size: 30.0,
-                                    semanticLabel: 'Customer Role',
-                                  ),
-                                  trailing: Icon(
-                                    Icons.arrow_right_outlined,
-                                    color: Colors.blue,
-                                    size: 40.0,
-                                    semanticLabel: 'Right Arrow',
-                                  ),
-                                  title: Text(roles[index]),
-                                  subtitle: rating[index] != "null"
-                                      ? "(Rating: " + rating[index] + " )"
-                                      : Text("(Rating: No rating yet)"),
-                                  onTap: () {
-                                    print(roles[index]);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => OrderHistory(
-                                              uid: uid, role: roles[index]),
-                                        ));
-                                  },
-                                ),
-                                //   ],
-                                // ),
-                              );
-                            });
-                      }),
-                  Card(
-                      color: Colors.white,
-                      elevation: 2.0,
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.add_location_alt_sharp,
-                          color: Colors.blue,
-                          size: 30.0,
-                          semanticLabel: 'Customer Role',
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_right_outlined,
-                          color: Colors.blue,
-                          size: 40.0,
-                          semanticLabel: 'Right Arrow',
-                        ),
-                        title: Text("Other"),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    OrderHistory(uid: uid, role: "Other"),
-                              ));
-                        },
-                      )),
-                  Container(
-                    width: MediaQuery.of(context).size.width.roundToDouble(),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              5.0) //                 <--- border radius here
-                          ),
-                    ),
-                    child: Column(children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text("Preventive Measures To Fight Covid",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.0)),
-                        ),
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                    title: Text(
-                                        "Wash your hands timely for atleast 30 seconds.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover),
-                                  )),
-                            ),
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                    title: Text(
-                                        "Use soaps or alcohol based sanitizers.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover),
-                                  )),
-                            )
-                          ]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                    title: Text(
-                                        "Do social distancing. Avoid any close contact with sick people.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover),
-                                  )),
-                            ),
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                    title: Text(
-                                        "Avoid touching your nose, eyes or face with unclean hands.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover),
-                                  )),
-                            )
-                          ]),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                      title: Text(
-                                          "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                          style: TextStyle(fontSize: 13.0)),
-                                      leading: Image.asset(imgList[0],
-                                          width: 40.0,
-                                          height: 40.0,
-                                          fit: BoxFit.cover))),
-                            ),
-                            Expanded(
-                              child: Card(
-                                  color: Colors.white,
-                                  elevation: 2.0,
-                                  child: ListTile(
-                                    title: Text(
-                                        "Isolation and social distancing are very important to stay safe.",
-                                        style: TextStyle(fontSize: 13.0)),
-                                    leading: Image.asset(imgList[0],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover),
-                                  )),
-                            )
-                          ]),
-                      Container(
-                        width:
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(
-                                  5.0) //                 <--- border radius here
-                              ,
-                              topRight: Radius.circular(
-                                  5.0) //                 <--- border radius here
-                              ),
-                        ),
-                        child: Column(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                                "images/customer_home/contact_us.jpg",
-                                width: MediaQuery.of(context)
-                                    .size
-                                    .width
-                                    .roundToDouble(),
-                                height: 0.25 *
-                                    MediaQuery.of(context)
-                                        .size
-                                        .height
-                                        .roundToDouble(),
-                                fit: BoxFit.cover),
-                          ),
-                          Card(
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: roles.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
                               color: Colors.white,
                               elevation: 2.0,
                               child: ListTile(
-                                title: RichText(
-                                  text: new TextSpan(
-                                    style: new TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                    ),
-                                    children: <TextSpan>[
-                                      new TextSpan(
-                                          text:
-                                              'For any questions or enquires '),
-                                      new TextSpan(
-                                          text: 'contact us or whatsapp us',
-                                          style: new TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      new TextSpan(text: ' at 98xxxxxxxx'),
-                                    ],
-                                  ),
-                                ),
-                                leading: Icon(
-                                  Icons.call_outlined,
+                                // leading: Icon(
+                                //   Icons.add_location_alt_sharp,
+                                //   color: Colors.blue,
+                                //   size: 30.0,
+                                //   semanticLabel: 'Customer Role',
+                                // ),
+                                trailing: Icon(
+                                  Icons.arrow_right_outlined,
                                   color: Colors.blue,
-                                  size: 30.0,
-                                  semanticLabel: 'Query',
+                                  size: 40.0,
+                                  semanticLabel: 'Right Arrow',
                                 ),
-                              )),
-                        ]),
-                      ),
-                      Container(
-                        width:
-                            MediaQuery.of(context).size.width.roundToDouble(),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  5.0) //                 <--- border radius here
+                                title: Text(roles[index]),
+                                subtitle: rating[index] != "null"
+                                    ? "(Rating: " + rating[index] + " )"
+                                    : Text("(Rating: No rating yet)"),
+                                onTap: () {
+                                  print(roles[index]);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OrderHistory(
+                                            uid: uid, role: roles[index]),
+                                      ));
+                                },
                               ),
+                            );
+                          });
+                    }),
+                Card(
+                    color: Colors.white,
+                    elevation: 2.0,
+                    child: ListTile(
+                      // leading: Icon(
+                      //   Icons.add_location_alt_sharp,
+                      //   color: Colors.blue,
+                      //   size: 30.0,
+                      //   semanticLabel: 'Customer Role',
+                      // ),
+                      trailing: Icon(
+                        Icons.arrow_right_outlined,
+                        color: Colors.blue,
+                        size: 40.0,
+                        semanticLabel: 'Right Arrow',
+                      ),
+                      title: Text("Other"),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  OrderHistory(uid: uid, role: "Other"),
+                            ));
+                      },
+                    )),
+                Container(
+                  width: MediaQuery.of(context).size.width.roundToDouble(),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            5.0) //                 <--- border radius here
                         ),
-                        child: Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Text("In Demand Services",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16.0)),
-                            ),
+                  ),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text("Preventive Measures To Fight Covid",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16.0)),
+                      ),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Wash your hands timely for atleast 30 seconds.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
                           ),
-                          Container(
-                              margin: const EdgeInsets.all(10.0),
-                              child: CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  aspectRatio: 2.0,
-                                  enlargeCenterPage: false,
-                                  viewportFraction: 1,
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Use soaps or alcohol based sanitizers.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Do social distancing. Avoid any close contact with sick people.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          ),
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Avoid touching your nose, eyes or face with unclean hands.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                    title: Text(
+                                        "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
+                                        style: TextStyle(fontSize: 13.0)),
+                                    leading: Image.asset(imgList[0],
+                                        width: 40.0,
+                                        height: 40.0,
+                                        fit: BoxFit.cover))),
+                          ),
+                          Expanded(
+                            child: Card(
+                                color: Colors.white,
+                                elevation: 2.0,
+                                child: ListTile(
+                                  title: Text(
+                                      "Isolation and social distancing are very important to stay safe.",
+                                      style: TextStyle(fontSize: 13.0)),
+                                  leading: Image.asset(imgList[0],
+                                      width: 40.0,
+                                      height: 40.0,
+                                      fit: BoxFit.cover),
+                                )),
+                          )
+                        ]),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ,
+                            topRight: Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.asset(
+                              "images/customer_home/contact_us.jpg",
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width
+                                  .roundToDouble(),
+                              height: 0.25 *
+                                  MediaQuery.of(context)
+                                      .size
+                                      .height
+                                      .roundToDouble(),
+                              fit: BoxFit.cover),
+                        ),
+                        Card(
+                            color: Colors.white,
+                            elevation: 2.0,
+                            child: ListTile(
+                              title: RichText(
+                                text: new TextSpan(
+                                  style: new TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    new TextSpan(
+                                        text: 'For any questions or enquires '),
+                                    new TextSpan(
+                                        text: 'contact us or whatsapp us',
+                                        style: new TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    new TextSpan(text: ' at 98xxxxxxxx'),
+                                  ],
                                 ),
-                                itemCount: imageCount,
-                                itemBuilder: (context, index) {
-                                  final int first = index * 2;
-                                  int second;
-                                  imgList.length % 2 == 0
-                                      ? (second = index <= imageCount - 1
-                                          ? first + 1
-                                          : null)
-                                      : (second = index < imageCount - 1
-                                          ? first + 1
-                                          : null);
-                                  return Row(
-                                    children: [first, second].map((idx) {
-                                      return idx != null
-                                          ? Expanded(
-                                              flex: 1,
-                                              child: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                                  child:
-                                                      Stack(children: <Widget>[
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      child: Image.asset(
-                                                          imgList[idx],
-                                                          width: 1000.0,
-                                                          height: 700.0,
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                    Positioned(
-                                                      bottom: 0.0,
-                                                      left: 0.0,
-                                                      right: 0.0,
-                                                      child: Container(
-                                                        height: 60.0,
-                                                        decoration:
-                                                            BoxDecoration(
+                              ),
+                              leading: Icon(
+                                Icons.call_outlined,
+                                color: Colors.blue,
+                                size: 30.0,
+                                semanticLabel: 'Query',
+                              ),
+                            )),
+                      ]),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width.roundToDouble(),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                        ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                                5.0) //                 <--- border radius here
+                            ),
+                      ),
+                      child: Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text("In Demand Services",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0)),
+                          ),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.all(10.0),
+                            child: CarouselSlider.builder(
+                              options: CarouselOptions(
+                                aspectRatio: 2.0,
+                                enlargeCenterPage: false,
+                                viewportFraction: 1,
+                              ),
+                              itemCount: imageCount,
+                              itemBuilder: (context, index) {
+                                final int first = index * 2;
+                                int second;
+                                imgList.length % 2 == 0
+                                    ? (second = index <= imageCount - 1
+                                        ? first + 1
+                                        : null)
+                                    : (second = index < imageCount - 1
+                                        ? first + 1
+                                        : null);
+                                return Row(
+                                  children: [first, second].map((idx) {
+                                    return idx != null
+                                        ? Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                child: Stack(children: <Widget>[
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    child: Image.asset(
+                                                        imgList[idx],
+                                                        width: 1000.0,
+                                                        height: 700.0,
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                  Positioned(
+                                                    bottom: 0.0,
+                                                    left: 0.0,
+                                                    right: 0.0,
+                                                    child: Container(
+                                                      height: 60.0,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.black,
+                                                        border: Border.all(
                                                           color: Colors.black,
-                                                          border: Border.all(
-                                                            color: Colors.black,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          10.0) //                 <--- border radius here
-                                                                  ,
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          10.0) //                 <--- border radius here
-                                                                  ),
                                                         ),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 10.0,
-                                                                horizontal:
-                                                                    20.0),
-                                                        child: Text(
-                                                          listPathsLabels[idx],
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 14.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        10.0) //                 <--- border radius here
+                                                                ,
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        10.0) //                 <--- border radius here
+                                                                ),
+                                                      ),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10.0,
+                                                              horizontal: 20.0),
+                                                      child: Text(
+                                                        listPathsLabels[idx],
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                       ),
                                                     ),
-                                                  ])))
-                                          : Container();
-                                    }).toList(),
-                                  );
-                                },
-                              )),
-                        ]),
-                      )
-                    ]),
-                  ),
-                ],
-              ),
+                                                  ),
+                                                ])))
+                                        : Container();
+                                  }).toList(),
+                                );
+                              },
+                            )),
+                      ]),
+                    )
+                  ]),
+                ),
+              ],
             ),
-            drawer: NavigateDrawer(uid: this.uid)));
+          ),
+          drawer: NavigateDrawer(uid: this.uid),
+        ));
   }
 }
 

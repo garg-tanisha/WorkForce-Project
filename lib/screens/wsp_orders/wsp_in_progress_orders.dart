@@ -1,3 +1,4 @@
+import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:workforce/screens/chat/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +21,13 @@ final List<String> imgList = [
 ];
 
 class WSPInProgressOrders extends StatefulWidget {
-  WSPInProgressOrders({this.uid, this.role});
+  WSPInProgressOrders({this.uid, this.role, this.flag});
   final String uid;
   final String role;
+  final bool flag;
   @override
-  State<StatefulWidget> createState() => WSPInProgressOrdersState(uid, role);
+  State<StatefulWidget> createState() =>
+      WSPInProgressOrdersState(uid, role, flag);
 }
 
 class WSPInProgressOrdersState extends State {
@@ -32,16 +35,19 @@ class WSPInProgressOrdersState extends State {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String uid;
   String role;
+  bool flag = false;
   final filters = [
     'No Filter',
     'Price (Low To High)',
     'Price (High To Low)',
   ];
   String filter = 'No Filter';
+  int selectedIndex = 3;
   final List<Map<dynamic, dynamic>> lists = [];
 
-  WSPInProgressOrdersState(String uid, String role) {
+  WSPInProgressOrdersState(String uid, String role, bool flag) {
     this.uid = uid;
+    this.flag = flag;
     this.role = role;
   }
 
@@ -58,314 +64,271 @@ class WSPInProgressOrdersState extends State {
   Widget build(BuildContext context) {
     if (filter == 'No Filter') {
       return Scaffold(
-          appBar:
-              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
-          body: StreamBuilder(
-              stream: Firestore.instance
-                  .collection('placed orders')
-                  .where("wsp id", isEqualTo: uid)
-                  .where("status", isEqualTo: "In Progress")
-                  .where("service type", isEqualTo: role)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.active) {
-                if (!(snapshot.data == null ||
-                    snapshot.data.documents == null)) {
-                  return Column(children: [
-                    Container(
-                      width: 0.98 *
-                          MediaQuery.of(context).size.width.roundToDouble(),
-                      color: Colors.black,
-                      margin: const EdgeInsets.all(20.0),
-                      padding: EdgeInsets.only(
-                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
+        appBar: AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+        body: StreamBuilder(
+            stream: Firestore.instance
+                .collection('placed orders')
+                .where("wsp id", isEqualTo: uid)
+                .where("status", isEqualTo: "In Progress")
+                .where("service type", isEqualTo: role)
+                .snapshots(),
+            builder: (context, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.active) {
+              if (!(snapshot.data == null || snapshot.data.documents == null)) {
+                return Column(children: [
+                  Container(
+                    width: 0.98 *
+                        MediaQuery.of(context).size.width.roundToDouble(),
+                    color: Colors.black,
+                    margin: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Center(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 10.0,
+                                    right: 0.0),
+                                child: Text("Filter",
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.white)),
+                              ),
+                              Padding(
                                   padding: EdgeInsets.only(
                                       top: 0.0,
                                       bottom: 0.0,
                                       left: 10.0,
-                                      right: 0.0),
-                                  child: Text("Filter",
-                                      style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 10.0,
-                                        right: 10.0),
-                                    child: Card(
-                                      child: DropdownButton<String>(
-                                        //create an array of strings
-                                        items: filters.map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 0.0,
-                                                  bottom: 0.0,
-                                                  left: 10.0,
-                                                  right: 0.0),
-                                              child: Text(value,
-                                                  style: TextStyle(
-                                                      fontSize: 14.0,
-                                                      color: Colors.black)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        value: filter,
-                                        onChanged: (String value) {
-                                          _onDropDownChanged(value);
-                                        },
-                                      ),
-                                    )),
-                              ]),
-                        ),
+                                      right: 10.0),
+                                  child: Card(
+                                    child: DropdownButton<String>(
+                                      //create an array of strings
+                                      items: filters.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.0,
+                                                bottom: 0.0,
+                                                left: 10.0,
+                                                right: 0.0),
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black)),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      value: filter,
+                                      onChanged: (String value) {
+                                        _onDropDownChanged(value);
+                                      },
+                                    ),
+                                  )),
+                            ]),
                       ),
                     ),
-                    Expanded(
-                        // height: 200.0,
-                        child: ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) {
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                return new Text('Error: ${snapshot.error}');
-                              } else {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return CircularProgressIndicator();
-                                  default:
-                                    {
-                                      if (!snapshot.hasData)
-                                        return Text("Loading orders...");
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      return Container(
-                                        width: 0.98 *
-                                            MediaQuery.of(context)
-                                                .size
-                                                .width
-                                                .roundToDouble(),
-                                        // height: double.infinity,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black12,
-                                          ),
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(
-                                                  5.0) //                 <--- border radius here
-                                              ),
+                  ),
+                  Expanded(
+                      // height: 200.0,
+                      child: ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            if (snapshot.hasError) {
+                              print(snapshot.error);
+                              return new Text('Error: ${snapshot.error}');
+                            } else {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return CircularProgressIndicator();
+                                default:
+                                  {
+                                    if (!snapshot.hasData)
+                                      return Text("Loading orders...");
+                                    DocumentSnapshot course =
+                                        snapshot.data.documents[index];
+                                    return Container(
+                                      width: 0.98 *
+                                          MediaQuery.of(context)
+                                              .size
+                                              .width
+                                              .roundToDouble(),
+                                      // height: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.black12,
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            course["title"] != null
-                                                ? ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "title"]),
-                                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                5.0) //                 <--- border radius here
+                                            ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          course["title"] != null
+                                              ? ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
-                                                    trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
-                                                  )
-                                                : ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "order id"]),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
-                                                    trailing: Image.asset(
-                                                      imgList[0],
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Title: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "title"]),
+                                                      ],
                                                     ),
                                                   ),
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          print("Call");
-                                                          print(Firestore
-                                                              .instance
-                                                              .collection(
-                                                                  'users')
-                                                              .document(course[
-                                                                  "user id"])
-                                                              .get()
-                                                              .then((value) =>
-                                                                  _makingPhoneCall(
-                                                                      value["phone no"]
-                                                                          .toString())));
-                                                        },
-                                                        child: const Text(
-                                                          "Call",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nService Date and Time: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                    course["service date and time"]
+                                                                        .microsecondsSinceEpoch)
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nDistance: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "distance"]
+                                                                .toStringAsFixed(
+                                                                    4)),
+                                                      ],
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                          onPressed: () async {
-                                                            print(
-                                                                "Gives a platform to chat with customer");
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => ChatPage(
-                                                                      placedOrderId:
-                                                                          course
-                                                                              .documentID,
-                                                                      userId:
-                                                                          uid)),
-                                                            );
-                                                          },
-                                                          child: const Text(
-                                                            "Chat",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
+                                                  ),
+                                                  leading: Image.network(
+                                                    course["photos"][0],
+                                                  ),
+                                                  trailing: Image.network(
+                                                    course["photos"][1],
+                                                  ),
+                                                )
+                                              : ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Order Id: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "order id"]),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                  trailing: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                ),
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print("Call");
+                                                        print(Firestore.instance
+                                                            .collection('users')
+                                                            .document(course[
+                                                                "user id"])
+                                                            .get()
+                                                            .then((value) =>
+                                                                _makingPhoneCall(
+                                                                    value["phone no"]
+                                                                        .toString())));
+                                                      },
+                                                      child: const Text(
+                                                        "Call",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -373,65 +336,32 @@ class WSPInProgressOrdersState extends State {
                                                               side: BorderSide(
                                                                   color: Colors
                                                                       .blue,
-                                                                  width: 2))),
+                                                                  width: 2)),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          Navigator.push(
-                                                              context,
-                                                              //builder of MaterialPageRoute will call TodoDetail class
-                                                              MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    WSPInProgressOrderDetails(
-                                                                        wspId:
-                                                                            uid,
-                                                                        orderId:
-                                                                            course["order id"]),
-                                                              ));
-                                                        },
-                                                        child: const Text(
-                                                          "Order Details",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 0.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
                                                         onPressed: () async {
                                                           print(
-                                                              "Submitting the proofs and signatures of customer. Order gets completed and db changes");
-                                                          await _asyncSimpleDialog(
-                                                              context,
-                                                              course[
-                                                                  "order id"],
-                                                              course
-                                                                  .documentID);
+                                                              "Gives a platform to chat with customer");
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => ChatPage(
+                                                                    placedOrderId:
+                                                                        course
+                                                                            .documentID,
+                                                                    userId:
+                                                                        uid)),
+                                                          );
                                                         },
                                                         child: const Text(
-                                                          "Submit Proofs",
+                                                          "Chat",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
@@ -445,353 +375,424 @@ class WSPInProgressOrdersState extends State {
                                                             side: BorderSide(
                                                                 color:
                                                                     Colors.blue,
-                                                                width: 2)),
+                                                                width: 2))),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            //builder of MaterialPageRoute will call TodoDetail class
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  WSPInProgressOrderDetails(
+                                                                      wspId:
+                                                                          uid,
+                                                                      orderId:
+                                                                          course[
+                                                                              "order id"]),
+                                                            ));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
                                                       ),
-                                                    )
-                                                  ]),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                }
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 0.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print(
+                                                            "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                        await _asyncSimpleDialog(
+                                                            context,
+                                                            course["order id"],
+                                                            course.documentID);
+                                                      },
+                                                      child: const Text(
+                                                        "Submit Proofs",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
+                                                ]),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
                               }
-                            })),
-                  ]);
-                } else {
-                  return Center(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: Text("No orders in progress yet!",
-                                style: TextStyle(fontSize: 15.0)))
-                      ]));
-                }
-              }));
+                            }
+                          })),
+                ]);
+              } else {
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders in progress yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
+              }
+            }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
+      );
     } else if (filter == 'Price (Low To High)') {
       return Scaffold(
-          appBar:
-              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
-          body: StreamBuilder(
-              stream: Firestore.instance
-                  .collection('placed orders')
-                  .where("wsp id", isEqualTo: uid)
-                  .where("status", isEqualTo: "In Progress")
-                  .where("service type", isEqualTo: role)
-                  .orderBy("price")
-                  .snapshots(),
-              builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.active) {
-                if (!(snapshot.data == null ||
-                    snapshot.data.documents == null)) {
-                  return Column(children: [
-                    Container(
-                      width: 0.98 *
-                          MediaQuery.of(context).size.width.roundToDouble(),
-                      color: Colors.black,
-                      margin: const EdgeInsets.all(20.0),
-                      padding: EdgeInsets.only(
-                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
+        appBar: AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+        body: StreamBuilder(
+            stream: Firestore.instance
+                .collection('placed orders')
+                .where("wsp id", isEqualTo: uid)
+                .where("status", isEqualTo: "In Progress")
+                .where("service type", isEqualTo: role)
+                .orderBy("price")
+                .snapshots(),
+            builder: (context, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.active) {
+              if (!(snapshot.data == null || snapshot.data.documents == null)) {
+                return Column(children: [
+                  Container(
+                    width: 0.98 *
+                        MediaQuery.of(context).size.width.roundToDouble(),
+                    color: Colors.black,
+                    margin: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Center(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 10.0,
+                                    right: 0.0),
+                                child: Text("Filter",
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.white)),
+                              ),
+                              Padding(
                                   padding: EdgeInsets.only(
                                       top: 0.0,
                                       bottom: 0.0,
                                       left: 10.0,
-                                      right: 0.0),
-                                  child: Text("Filter",
-                                      style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 10.0,
-                                        right: 10.0),
-                                    child: Card(
-                                      child: DropdownButton<String>(
-                                        //create an array of strings
-                                        items: filters.map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 0.0,
-                                                  bottom: 0.0,
-                                                  left: 10.0,
-                                                  right: 0.0),
-                                              child: Text(value,
-                                                  style: TextStyle(
-                                                      fontSize: 14.0,
-                                                      color: Colors.black)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        value: filter,
-                                        onChanged: (String value) {
-                                          _onDropDownChanged(value);
-                                        },
-                                      ),
-                                    )),
-                              ]),
-                        ),
+                                      right: 10.0),
+                                  child: Card(
+                                    child: DropdownButton<String>(
+                                      //create an array of strings
+                                      items: filters.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.0,
+                                                bottom: 0.0,
+                                                left: 10.0,
+                                                right: 0.0),
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black)),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      value: filter,
+                                      onChanged: (String value) {
+                                        _onDropDownChanged(value);
+                                      },
+                                    ),
+                                  )),
+                            ]),
                       ),
                     ),
-                    Expanded(
-                        // height: 200.0,
-                        child: ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) {
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                return new Text('Error: ${snapshot.error}');
-                              } else {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return CircularProgressIndicator();
-                                  default:
-                                    {
-                                      if (!snapshot.hasData)
-                                        return Text("Loading orders...");
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      return Container(
-                                        width: 0.98 *
-                                            MediaQuery.of(context)
-                                                .size
-                                                .width
-                                                .roundToDouble(),
-                                        // height: double.infinity,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black12,
-                                          ),
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(
-                                                  5.0) //                 <--- border radius here
-                                              ),
+                  ),
+                  Expanded(
+                      // height: 200.0,
+                      child: ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            if (snapshot.hasError) {
+                              print(snapshot.error);
+                              return new Text('Error: ${snapshot.error}');
+                            } else {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return CircularProgressIndicator();
+                                default:
+                                  {
+                                    if (!snapshot.hasData)
+                                      return Text("Loading orders...");
+                                    DocumentSnapshot course =
+                                        snapshot.data.documents[index];
+                                    return Container(
+                                      width: 0.98 *
+                                          MediaQuery.of(context)
+                                              .size
+                                              .width
+                                              .roundToDouble(),
+                                      // height: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.black12,
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            course["title"] != null
-                                                ? ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "title"]),
-                                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                5.0) //                 <--- border radius here
+                                            ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          course["title"] != null
+                                              ? ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
-                                                    trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
-                                                  )
-                                                : ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "order id"]),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
-                                                    trailing: Image.asset(
-                                                      imgList[0],
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Title: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "title"]),
+                                                      ],
                                                     ),
                                                   ),
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          print("Call");
-                                                          print(Firestore
-                                                              .instance
-                                                              .collection(
-                                                                  'users')
-                                                              .document(course[
-                                                                  "user id"])
-                                                              .get()
-                                                              .then((value) =>
-                                                                  _makingPhoneCall(
-                                                                      value["phone no"]
-                                                                          .toString())));
-                                                        },
-                                                        child: const Text(
-                                                          "Call",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nService Date and Time: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                    course["service date and time"]
+                                                                        .microsecondsSinceEpoch)
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nDistance: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "distance"]
+                                                                .toStringAsFixed(
+                                                                    4)),
+                                                      ],
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                          onPressed: () async {
-                                                            print(
-                                                                "Gives a platform to chat with customer");
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => ChatPage(
-                                                                      placedOrderId:
-                                                                          course
-                                                                              .documentID,
-                                                                      userId:
-                                                                          uid)),
-                                                            );
-                                                          },
-                                                          child: const Text(
-                                                            "Chat",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
+                                                  ),
+                                                  leading: Image.network(
+                                                    course["photos"][0],
+                                                  ),
+                                                  trailing: Image.network(
+                                                    course["photos"][1],
+                                                  ),
+                                                )
+                                              : ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Order Id: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "order id"]),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                  trailing: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                ),
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print("Call");
+                                                        print(Firestore.instance
+                                                            .collection('users')
+                                                            .document(course[
+                                                                "user id"])
+                                                            .get()
+                                                            .then((value) =>
+                                                                _makingPhoneCall(
+                                                                    value["phone no"]
+                                                                        .toString())));
+                                                      },
+                                                      child: const Text(
+                                                        "Call",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -799,65 +800,32 @@ class WSPInProgressOrdersState extends State {
                                                               side: BorderSide(
                                                                   color: Colors
                                                                       .blue,
-                                                                  width: 2))),
+                                                                  width: 2)),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          Navigator.push(
-                                                              context,
-                                                              //builder of MaterialPageRoute will call TodoDetail class
-                                                              MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    WSPInProgressOrderDetails(
-                                                                        wspId:
-                                                                            uid,
-                                                                        orderId:
-                                                                            course["order id"]),
-                                                              ));
-                                                        },
-                                                        child: const Text(
-                                                          "Order Details",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 10.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
                                                         onPressed: () async {
                                                           print(
-                                                              "Submitting the proofs and signatures of customer. Order gets completed and db changes");
-                                                          await _asyncSimpleDialog(
-                                                              context,
-                                                              course[
-                                                                  "order id"],
-                                                              course
-                                                                  .documentID);
+                                                              "Gives a platform to chat with customer");
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => ChatPage(
+                                                                    placedOrderId:
+                                                                        course
+                                                                            .documentID,
+                                                                    userId:
+                                                                        uid)),
+                                                          );
                                                         },
                                                         child: const Text(
-                                                          "Submit Proofs",
+                                                          "Chat",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
@@ -871,372 +839,443 @@ class WSPInProgressOrdersState extends State {
                                                             side: BorderSide(
                                                                 color:
                                                                     Colors.blue,
-                                                                width: 2)),
+                                                                width: 2))),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            //builder of MaterialPageRoute will call TodoDetail class
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  WSPInProgressOrderDetails(
+                                                                      wspId:
+                                                                          uid,
+                                                                      orderId:
+                                                                          course[
+                                                                              "order id"]),
+                                                            ));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
                                                       ),
-                                                    )
-                                                  ]),
-                                            ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.all(0.0),
-                                            //   child: Row(
-                                            //     mainAxisAlignment:
-                                            //         MainAxisAlignment.center,
-                                            //     children: [
-                                            //       Icon(
-                                            //         Icons.arrow_left_outlined,
-                                            //         color: Colors.blue,
-                                            //         size: 30.0,
-                                            //       ),
-                                            //       Icon(
-                                            //         Icons.arrow_right_outlined,
-                                            //         color: Colors.blue,
-                                            //         size: 30.0,
-                                            //       ),
-                                            //     ],
-                                            //   ),
-                                            // )
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                }
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 10.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print(
+                                                            "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                        await _asyncSimpleDialog(
+                                                            context,
+                                                            course["order id"],
+                                                            course.documentID);
+                                                      },
+                                                      child: const Text(
+                                                        "Submit Proofs",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
+                                                ]),
+                                          ),
+                                          // Padding(
+                                          //   padding: EdgeInsets.all(0.0),
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.center,
+                                          //     children: [
+                                          //       Icon(
+                                          //         Icons.arrow_left_outlined,
+                                          //         color: Colors.blue,
+                                          //         size: 30.0,
+                                          //       ),
+                                          //       Icon(
+                                          //         Icons.arrow_right_outlined,
+                                          //         color: Colors.blue,
+                                          //         size: 30.0,
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
+                                    );
+                                  }
                               }
-                            })),
-                  ]);
-                } else {
-                  return Center(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: Text("No orders in progress yet!",
-                                style: TextStyle(fontSize: 15.0)))
-                      ]));
-                }
-              }));
+                            }
+                          })),
+                ]);
+              } else {
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders in progress yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
+              }
+            }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
+      );
     } else if (filter == 'Price (High To Low)') {
       return Scaffold(
-          appBar:
-              AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
-          body: StreamBuilder(
-              stream: Firestore.instance
-                  .collection('placed orders')
-                  .where("wsp id", isEqualTo: uid)
-                  .where("status", isEqualTo: "In Progress")
-                  .where("service type", isEqualTo: role)
-                  .orderBy("price", descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                // if (snapshot.connectionState == ConnectionState.active) {
-                if (!(snapshot.data == null ||
-                    snapshot.data.documents == null)) {
-                  return Column(children: [
-                    Container(
-                      width: 0.98 *
-                          MediaQuery.of(context).size.width.roundToDouble(),
-                      color: Colors.black,
-                      margin: const EdgeInsets.all(20.0),
-                      padding: EdgeInsets.only(
-                          top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Center(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
+        appBar: AppBar(title: Text("Orders In Progress" + " ( " + role + " )")),
+        body: StreamBuilder(
+            stream: Firestore.instance
+                .collection('placed orders')
+                .where("wsp id", isEqualTo: uid)
+                .where("status", isEqualTo: "In Progress")
+                .where("service type", isEqualTo: role)
+                .orderBy("price", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.active) {
+              if (!(snapshot.data == null || snapshot.data.documents == null)) {
+                return Column(children: [
+                  Container(
+                    width: 0.98 *
+                        MediaQuery.of(context).size.width.roundToDouble(),
+                    color: Colors.black,
+                    margin: const EdgeInsets.all(20.0),
+                    padding: EdgeInsets.only(
+                        top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Center(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 10.0,
+                                    right: 0.0),
+                                child: Text("Filter",
+                                    style: TextStyle(
+                                        fontSize: 16.0, color: Colors.white)),
+                              ),
+                              Padding(
                                   padding: EdgeInsets.only(
                                       top: 0.0,
                                       bottom: 0.0,
                                       left: 10.0,
-                                      right: 0.0),
-                                  child: Text("Filter",
-                                      style: TextStyle(
-                                          fontSize: 16.0, color: Colors.white)),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 10.0,
-                                        right: 10.0),
-                                    child: Card(
-                                      child: DropdownButton<String>(
-                                        //create an array of strings
-                                        items: filters.map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 0.0,
-                                                  bottom: 0.0,
-                                                  left: 10.0,
-                                                  right: 0.0),
-                                              child: Text(value,
-                                                  style: TextStyle(
-                                                      fontSize: 14.0,
-                                                      color: Colors.black)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        value: filter,
-                                        onChanged: (String value) {
-                                          _onDropDownChanged(value);
-                                        },
-                                      ),
-                                    )),
-                              ]),
-                        ),
+                                      right: 10.0),
+                                  child: Card(
+                                    child: DropdownButton<String>(
+                                      //create an array of strings
+                                      items: filters.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.0,
+                                                bottom: 0.0,
+                                                left: 10.0,
+                                                right: 0.0),
+                                            child: Text(value,
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black)),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      value: filter,
+                                      onChanged: (String value) {
+                                        _onDropDownChanged(value);
+                                      },
+                                    ),
+                                  )),
+                            ]),
                       ),
                     ),
-                    Expanded(
-                        // height: 200.0,
-                        child: ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) {
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                return new Text('Error: ${snapshot.error}');
-                              } else {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return CircularProgressIndicator();
-                                  default:
-                                    {
-                                      if (!snapshot.hasData)
-                                        return Text("Loading orders...");
-                                      DocumentSnapshot course =
-                                          snapshot.data.documents[index];
-                                      return Container(
-                                        width: 0.98 *
-                                            MediaQuery.of(context)
-                                                .size
-                                                .width
-                                                .roundToDouble(),
-                                        // height: double.infinity,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black12,
-                                          ),
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(
-                                                  5.0) //                 <--- border radius here
-                                              ),
+                  ),
+                  Expanded(
+                      // height: 200.0,
+                      child: ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            if (snapshot.hasError) {
+                              print(snapshot.error);
+                              return new Text('Error: ${snapshot.error}');
+                            } else {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return CircularProgressIndicator();
+                                default:
+                                  {
+                                    if (!snapshot.hasData)
+                                      return Text("Loading orders...");
+                                    DocumentSnapshot course =
+                                        snapshot.data.documents[index];
+                                    return Container(
+                                      width: 0.98 *
+                                          MediaQuery.of(context)
+                                              .size
+                                              .width
+                                              .roundToDouble(),
+                                      // height: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.black12,
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            course["title"] != null
-                                                ? ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "title"]),
-                                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                5.0) //                 <--- border radius here
+                                            ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          course["title"] != null
+                                              ? ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "distance"]
-                                                                  .toStringAsFixed(
-                                                                      4))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.network(
-                                                      course["photos"][0],
-                                                    ),
-                                                    trailing: Image.network(
-                                                      course["photos"][1],
-                                                    ),
-                                                  )
-                                                : ListTile(
-                                                    title: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                  "order id"]),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    subtitle: RichText(
-                                                      text: new TextSpan(
-                                                        style: new TextStyle(
-                                                          fontSize: 20.0,
-                                                          color: Colors.black,
-                                                        ),
-                                                        children: <TextSpan>[
-                                                          new TextSpan(
-                                                              text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: course[
-                                                                      "price"]
-                                                                  .toString()),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    leading: Image.asset(
-                                                      imgList[0],
-                                                    ),
-                                                    trailing: Image.asset(
-                                                      imgList[0],
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Title: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "title"]),
+                                                      ],
                                                     ),
                                                   ),
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          print("Call");
-                                                          print(Firestore
-                                                              .instance
-                                                              .collection(
-                                                                  'users')
-                                                              .document(course[
-                                                                  "user id"])
-                                                              .get()
-                                                              .then((value) =>
-                                                                  _makingPhoneCall(
-                                                                      value["phone no"]
-                                                                          .toString())));
-                                                        },
-                                                        child: const Text(
-                                                          "Call",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
                                                       ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nService Date and Time: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: DateTime.fromMicrosecondsSinceEpoch(
+                                                                    course["service date and time"]
+                                                                        .microsecondsSinceEpoch)
+                                                                .toString()),
+                                                        new TextSpan(
+                                                            text:
+                                                                "\nDistance: ",
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "distance"]
+                                                                .toStringAsFixed(
+                                                                    4))
+                                                      ],
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                          onPressed: () async {
-                                                            print(
-                                                                "Gives a platform to chat with customer");
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => ChatPage(
-                                                                      placedOrderId:
-                                                                          course
-                                                                              .documentID,
-                                                                      userId:
-                                                                          uid)),
-                                                            );
-                                                          },
-                                                          child: const Text(
-                                                            "Chat",
-                                                            style: TextStyle(
-                                                                fontSize: 15.0),
-                                                          ),
-                                                          color: Colors
-                                                              .lightBlueAccent,
-                                                          shape: RoundedRectangleBorder(
+                                                  ),
+                                                  leading: Image.network(
+                                                    course["photos"][0],
+                                                  ),
+                                                  trailing: Image.network(
+                                                    course["photos"][1],
+                                                  ),
+                                                )
+                                              : ListTile(
+                                                  title: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Order Id: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                "order id"]),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  subtitle: RichText(
+                                                    text: new TextSpan(
+                                                      style: new TextStyle(
+                                                        fontSize: 20.0,
+                                                        color: Colors.black,
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        new TextSpan(
+                                                            text: 'Price: ',
+                                                            style: new TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        new TextSpan(
+                                                            text: course[
+                                                                    "price"]
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                  trailing: Image.asset(
+                                                    imgList[0],
+                                                  ),
+                                                ),
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print("Call");
+                                                        print(Firestore.instance
+                                                            .collection('users')
+                                                            .document(course[
+                                                                "user id"])
+                                                            .get()
+                                                            .then((value) =>
+                                                                _makingPhoneCall(
+                                                                    value["phone no"]
+                                                                        .toString())));
+                                                      },
+                                                      child: const Text(
+                                                        "Call",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -1244,65 +1283,32 @@ class WSPInProgressOrdersState extends State {
                                                               side: BorderSide(
                                                                   color: Colors
                                                                       .blue,
-                                                                  width: 2))),
+                                                                  width: 2)),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 00.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
-                                                        onPressed: () async {
-                                                          Navigator.push(
-                                                              context,
-                                                              //builder of MaterialPageRoute will call TodoDetail class
-                                                              MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    WSPInProgressOrderDetails(
-                                                                        wspId:
-                                                                            uid,
-                                                                        orderId:
-                                                                            course["order id"]),
-                                                              ));
-                                                        },
-                                                        child: const Text(
-                                                          "Order Details",
-                                                          style: TextStyle(
-                                                              fontSize: 15.0),
-                                                        ),
-                                                        color: Colors
-                                                            .lightBlueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0),
-                                                            side: BorderSide(
-                                                                color:
-                                                                    Colors.blue,
-                                                                width: 2)),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          bottom: 10.0,
-                                                          left: 20.0,
-                                                          right: 10.0),
-                                                      child: RaisedButton(
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
                                                         onPressed: () async {
                                                           print(
-                                                              "Submitting the proofs and signatures of customer. Order gets completed and db changes");
-                                                          await _asyncSimpleDialog(
-                                                              context,
-                                                              course[
-                                                                  "order id"],
-                                                              course
-                                                                  .documentID);
+                                                              "Gives a platform to chat with customer");
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => ChatPage(
+                                                                    placedOrderId:
+                                                                        course
+                                                                            .documentID,
+                                                                    userId:
+                                                                        uid)),
+                                                          );
                                                         },
                                                         child: const Text(
-                                                          "Submit Proofs",
+                                                          "Chat",
                                                           style: TextStyle(
                                                               fontSize: 15.0),
                                                         ),
@@ -1316,61 +1322,175 @@ class WSPInProgressOrdersState extends State {
                                                             side: BorderSide(
                                                                 color:
                                                                     Colors.blue,
-                                                                width: 2)),
+                                                                width: 2))),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 00.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        Navigator.push(
+                                                            context,
+                                                            //builder of MaterialPageRoute will call TodoDetail class
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  WSPInProgressOrderDetails(
+                                                                      wspId:
+                                                                          uid,
+                                                                      orderId:
+                                                                          course[
+                                                                              "order id"]),
+                                                            ));
+                                                      },
+                                                      child: const Text(
+                                                        "Order Details",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
                                                       ),
-                                                    )
-                                                  ]),
-                                            ),
-                                            // Padding(
-                                            //   padding: EdgeInsets.all(0.0),
-                                            //   child: Row(
-                                            //     mainAxisAlignment:
-                                            //         MainAxisAlignment.center,
-                                            //     children: [
-                                            //       Icon(
-                                            //         Icons.arrow_left_outlined,
-                                            //         color: Colors.blue,
-                                            //         size: 30.0,
-                                            //       ),
-                                            //       Icon(
-                                            //         Icons.arrow_right_outlined,
-                                            //         color: Colors.blue,
-                                            //         size: 30.0,
-                                            //       ),
-                                            //     ],
-                                            //   ),
-                                            // )
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                }
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.0,
+                                                        bottom: 10.0,
+                                                        left: 20.0,
+                                                        right: 10.0),
+                                                    child: RaisedButton(
+                                                      onPressed: () async {
+                                                        print(
+                                                            "Submitting the proofs and signatures of customer. Order gets completed and db changes");
+                                                        await _asyncSimpleDialog(
+                                                            context,
+                                                            course["order id"],
+                                                            course.documentID);
+                                                      },
+                                                      child: const Text(
+                                                        "Submit Proofs",
+                                                        style: TextStyle(
+                                                            fontSize: 15.0),
+                                                      ),
+                                                      color: Colors
+                                                          .lightBlueAccent,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  width: 2)),
+                                                    ),
+                                                  )
+                                                ]),
+                                          ),
+                                          // Padding(
+                                          //   padding: EdgeInsets.all(0.0),
+                                          //   child: Row(
+                                          //     mainAxisAlignment:
+                                          //         MainAxisAlignment.center,
+                                          //     children: [
+                                          //       Icon(
+                                          //         Icons.arrow_left_outlined,
+                                          //         color: Colors.blue,
+                                          //         size: 30.0,
+                                          //       ),
+                                          //       Icon(
+                                          //         Icons.arrow_right_outlined,
+                                          //         color: Colors.blue,
+                                          //         size: 30.0,
+                                          //       ),
+                                          //     ],
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
+                                    );
+                                  }
                               }
-                            })),
-                  ]);
-                } else {
-                  return Center(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        Image.asset(
-                          imgList[0],
-                          width: 0.8 *
-                              MediaQuery.of(context).size.width.roundToDouble(),
-                          height: 0.3 *
-                              MediaQuery.of(context)
-                                  .size
-                                  .height
-                                  .roundToDouble(),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child: Text("No orders in progress yet!",
-                                style: TextStyle(fontSize: 15.0)))
-                      ]));
-                }
-              }));
+                            }
+                          })),
+                ]);
+              } else {
+                return Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Image.asset(
+                        imgList[0],
+                        width: 0.8 *
+                            MediaQuery.of(context).size.width.roundToDouble(),
+                        height: 0.3 *
+                            MediaQuery.of(context).size.height.roundToDouble(),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0),
+                          child: Text("No orders in progress yet!",
+                              style: TextStyle(fontSize: 15.0)))
+                    ]));
+              }
+            }),
+        bottomNavigationBar: Visibility(
+            visible: flag == true,
+            child: FFNavigationBar(
+              theme: FFNavigationBarTheme(
+                barBackgroundColor: Colors.blue,
+                unselectedItemLabelColor: Colors.white,
+                unselectedItemIconColor: Colors.white,
+                selectedItemBorderColor: Colors.blue,
+                selectedItemBackgroundColor: Colors.white,
+                selectedItemIconColor: Colors.blue,
+                selectedItemLabelColor: Colors.white,
+                showSelectedItemShadow: false,
+                barHeight: 60,
+              ),
+              selectedIndex: selectedIndex,
+              onSelectTab: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              items: [
+                FFNavigationBarItem(
+                  iconData: Icons.home_outlined,
+                  label: 'Home',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.timer,
+                  label: 'Status',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.shopping_cart_outlined,
+                  label: 'New ',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.hourglass_top_outlined,
+                  label: 'Progress',
+                ),
+                FFNavigationBarItem(
+                  iconData: Icons.check_circle_outline,
+                  label: 'Done',
+                ),
+              ],
+            )),
+      );
     }
   }
 
@@ -1644,165 +1764,161 @@ class ProofsAndSignaturesState extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
-        margin: const EdgeInsets.symmetric(horizontal: 10.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black12,
-          ),
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-              Radius.circular(5.0) //                 <--- border radius here
-              ),
+      width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black12,
         ),
-        child: Center(
-            child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                proofsError == true
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+            Radius.circular(5.0) //                 <--- border radius here
+            ),
+      ),
+      child: Center(
+          child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+          proofsError == true
+              ? Padding(
+                  padding: EdgeInsets.only(top: 10.0, left: 10.0, bottom: 0.0),
+                  child: Text("Please submit atleast 2 proof pictures.",
+                      style: TextStyle(
+                        color: Colors.red,
+                      )))
+              : Container(),
+          Row(children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                child: Text("Work Proofs", style: TextStyle(fontSize: 15.0)),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.camera_outlined,
+                  color: Colors.blue,
+                  size: 35.0,
+                  semanticLabel: 'Camera',
+                ),
+                tooltip: 'Click to add images',
+                onPressed: () {
+                  _showPicker(context, _proofImages);
+                },
+              ),
+            )
+          ]),
+          Padding(
+              padding: EdgeInsets.only(
+                  top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+              child: Column(children: [
+                _proofImages.length != 0
                     ? Padding(
-                        padding:
-                            EdgeInsets.only(top: 10.0, left: 10.0, bottom: 0.0),
-                        child: Text("Please submit atleast 2 proof pictures.",
-                            style: TextStyle(
-                              color: Colors.red,
-                            )))
-                    : Container(),
-                Row(children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                      child:
-                          Text("Work Proofs", style: TextStyle(fontSize: 15.0)),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 20.0),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.blue,
-                        size: 35.0,
-                        semanticLabel: 'Camera',
-                      ),
-                      tooltip: 'Click to add images',
-                      onPressed: () {
-                        _showPicker(context, _proofImages);
-                      },
-                    ),
-                  )
-                ]),
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
-                    child: Column(children: [
-                      _proofImages.length != 0
-                          ? Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(
-                                  "Choosen images (" +
-                                      _proofImages.length.toString() +
-                                      ")",
-                                  style: TextStyle(fontSize: 15.0)))
-                          : Container(),
-                      _proofImages.length != 0
-                          ? images(_proofImages)
-                          : Container(),
-                    ])),
-                signaturesError == true
-                    ? Padding(
-                        padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+                        padding: EdgeInsets.all(5.0),
                         child: Text(
-                            "Please submit atleast 1 signature picture.",
-                            style: TextStyle(color: Colors.red)))
+                            "Choosen images (" +
+                                _proofImages.length.toString() +
+                                ")",
+                            style: TextStyle(fontSize: 15.0)))
                     : Container(),
-                Row(children: [
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                    child: Text("Customer Signatures",
-                        style: TextStyle(fontSize: 15.0)),
-                  )),
-                  Padding(
-                    padding: EdgeInsets.only(right: 20.0),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.blue,
-                        size: 35.0,
-                        semanticLabel: 'Camera',
-                      ),
-                      tooltip: 'Click to add images',
-                      onPressed: () {
-                        _showPicker(context, _signaturesImages);
-                      },
-                    ),
-                  )
-                ]),
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
-                    child: Column(children: [
-                      _signaturesImages.length != 0
-                          ? Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(
-                                  "Choosen images (" +
-                                      _signaturesImages.length.toString() +
-                                      ")",
-                                  style: TextStyle(fontSize: 15.0)))
-                          : Container(),
-                      _signaturesImages.length != 0
-                          ? images(_signaturesImages)
-                          : Container(),
-                    ])),
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                  child: isLoading
-                      ? CircularProgressIndicator()
-                      : RaisedButton(
-                          color: Colors.lightBlueAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(color: Colors.blue, width: 2)),
-                          onPressed: () {
-                            if (_signaturesImages.length == 0) {
-                              setState(() {
-                                signaturesError = true;
-                              });
-                            } else {
-                              setState(() {
-                                signaturesError = false;
-                              });
-                            }
-                            if (_proofImages.length < 2) {
-                              setState(() {
-                                proofsError = true;
-                              });
-                            } else {
-                              setState(() {
-                                proofsError = false;
-                              });
-                            }
-                            if (_formKey.currentState.validate() &&
-                                _proofImages.length >= 2 &&
-                                _signaturesImages.length >= 1) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              submitProofs(orderId, placedOrderId, context);
-                            }
-                          },
-                          child: Text('Submit'),
-                        ),
-                )
+                _proofImages.length != 0 ? images(_proofImages) : Container(),
               ])),
-        )));
+          signaturesError == true
+              ? Padding(
+                  padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
+                  child: Text("Please submit atleast 1 signature picture.",
+                      style: TextStyle(color: Colors.red)))
+              : Container(),
+          Row(children: [
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.only(
+                  top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+              child:
+                  Text("Customer Signatures", style: TextStyle(fontSize: 15.0)),
+            )),
+            Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.camera_outlined,
+                  color: Colors.blue,
+                  size: 35.0,
+                  semanticLabel: 'Camera',
+                ),
+                tooltip: 'Click to add images',
+                onPressed: () {
+                  _showPicker(context, _signaturesImages);
+                },
+              ),
+            )
+          ]),
+          Padding(
+              padding: EdgeInsets.only(
+                  top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+              child: Column(children: [
+                _signaturesImages.length != 0
+                    ? Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                            "Choosen images (" +
+                                _signaturesImages.length.toString() +
+                                ")",
+                            style: TextStyle(fontSize: 15.0)))
+                    : Container(),
+                _signaturesImages.length != 0
+                    ? images(_signaturesImages)
+                    : Container(),
+              ])),
+          Padding(
+            padding:
+                EdgeInsets.only(top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+            child: isLoading
+                ? CircularProgressIndicator()
+                : RaisedButton(
+                    color: Colors.lightBlueAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                        side: BorderSide(color: Colors.blue, width: 2)),
+                    onPressed: () {
+                      if (_signaturesImages.length == 0) {
+                        setState(() {
+                          signaturesError = true;
+                        });
+                      } else {
+                        setState(() {
+                          signaturesError = false;
+                        });
+                      }
+                      if (_proofImages.length < 2) {
+                        setState(() {
+                          proofsError = true;
+                        });
+                      } else {
+                        setState(() {
+                          proofsError = false;
+                        });
+                      }
+                      if (_formKey.currentState.validate() &&
+                          _proofImages.length >= 2 &&
+                          _signaturesImages.length >= 1) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        submitProofs(orderId, placedOrderId, context);
+                      }
+                    },
+                    child: Text('Submit'),
+                  ),
+          )
+        ])),
+      )),
+    );
   }
 }

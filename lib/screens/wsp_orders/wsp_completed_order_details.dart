@@ -24,26 +24,29 @@ List<String> listPathsLabels = [
 ];
 
 class WSPCompletedOrderDetails extends StatefulWidget {
-  WSPCompletedOrderDetails({this.wspId, this.orderId});
+  WSPCompletedOrderDetails({this.wspId, this.orderId, this.flag});
   // final String uid;
   final String wspId;
+  final bool flag;
   final String orderId;
   @override
   State<StatefulWidget> createState() =>
-      WSPCompletedOrderDetailsState(wspId, orderId);
+      WSPCompletedOrderDetailsState(wspId, orderId, flag);
 }
 
 class WSPCompletedOrderDetailsState extends State {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool flag = false;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String wspId, orderId;
 
-  WSPCompletedOrderDetailsState(String wspId, String orderId) {
+  WSPCompletedOrderDetailsState(String wspId, String orderId, bool flag) {
     this.wspId = wspId;
+    this.flag = flag;
     this.orderId = orderId;
   }
-
+  // int selectedIndex = 6;
   _makingPhoneCall(String phoneNo) async {
     String url = 'tel:' + phoneNo;
     if (await canLaunch(url)) {
