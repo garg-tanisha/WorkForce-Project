@@ -4,7 +4,7 @@ import 'package:splashscreen/splashscreen.dart';
 import 'service_provider_homepage.dart';
 import 'package:flutter/material.dart';
 import 'user_roles_screen.dart';
-import 'customer_home.dart';
+import 'package:workforce/screens/customer_orders/customer_order_status.dart';
 import 'email_login.dart';
 import 'home.dart';
 
@@ -45,7 +45,7 @@ class _IntroScreenState extends State<IntroScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CustomerHome(uid: res.uid)),
+                    builder: (context) => CustomerOrderStatus(uid: res.uid)),
               );
             } else if (doc["role"] == "Service Provider") {
               Navigator.pushReplacement(

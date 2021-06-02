@@ -5,7 +5,6 @@ import 'package:workforce/screens/customer_orders/place_order.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 

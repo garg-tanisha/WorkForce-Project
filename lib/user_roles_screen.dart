@@ -1,3 +1,4 @@
+import 'package:workforce/screens/customer_orders/customer_order_status.dart';
 import 'package:workforce/service_provider_homepage.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -104,7 +105,7 @@ class UserRoles extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CustomerHome(
+                              builder: (context) => CustomerOrderStatus(
                                 uid: uid,
                               ),
                             ));

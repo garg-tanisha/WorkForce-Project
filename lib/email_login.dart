@@ -1,3 +1,4 @@
+import 'package:workforce/screens/customer_orders/customer_order_status.dart';
 import 'package:flutter_recaptcha_v2/flutter_recaptcha_v2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -360,7 +361,8 @@ class _EmailLogInState extends State<EmailLogIn> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => CustomerHome(uid: result.user.uid)),
+                  builder: (context) =>
+                      CustomerOrderStatus(uid: result.user.uid)),
             );
           } else if (doc["role"] == "Service Provider") {
             Navigator.pushReplacement(
