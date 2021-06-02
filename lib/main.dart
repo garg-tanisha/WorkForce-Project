@@ -85,7 +85,7 @@ class _IntroScreenState extends State<IntroScreen> {
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
         image: Image.asset('images/workforce.png',
-            height: 170.0, width: 170.0, fit: BoxFit.scaleDown),
+            height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,

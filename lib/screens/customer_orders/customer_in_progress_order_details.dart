@@ -62,30 +62,21 @@ class CustomerInProgressOrderDetailsState extends State {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,fit: BoxFit.fill
-                  )))
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i],
-                    width: 100,
-                    height: 100,fit: BoxFit.fill
-                  ))),
+                  child: Image.network(_images[i],
+                      width: 100, height: 100, fit: BoxFit.fill))),
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,fit: BoxFit.fill
-                  )))
+                  child: Image.network(_images[i + 1],
+                      width: 100, height: 100, fit: BoxFit.fill)))
         ]));
       }
     }
@@ -136,27 +127,34 @@ class CustomerInProgressOrderDetailsState extends State {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     ListTile(
+                      title: RichText(
+                          text: new TextSpan(
+                              style: new TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.black,
+                              ),
+                              children: <TextSpan>[
+                            new TextSpan(text: 'Title: '),
+                            new TextSpan(text: userDocument["title"]),
+                          ])),
                       subtitle: RichText(
                         text: new TextSpan(
                           style: new TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: Colors.black,
                           ),
                           children: <TextSpan>[
                             new TextSpan(
-                                text: 'Title: ',
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
-                            new TextSpan(text: userDocument["title"]),
-                            new TextSpan(
                                 text: '\nOrder #: ',
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                style: new TextStyle(
+                                  color: Colors.black54,
+                                )),
                             new TextSpan(text: orderId),
                             new TextSpan(
                                 text: '\nDate Of Ordering: ',
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                style: new TextStyle(
+                                  color: Colors.black54,
+                                )),
                             new TextSpan(
                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                         userDocument["date time"]
@@ -164,8 +162,9 @@ class CustomerInProgressOrderDetailsState extends State {
                                     .toString()),
                             new TextSpan(
                                 text: "\nService Date and Time: ",
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                style: new TextStyle(
+                                  color: Colors.black54,
+                                )),
                             new TextSpan(
                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                         userDocument["service date and time"]
@@ -173,8 +172,9 @@ class CustomerInProgressOrderDetailsState extends State {
                                     .toString()),
                             new TextSpan(
                                 text: "\nPrice: ",
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                style: new TextStyle(
+                                  color: Colors.black54,
+                                )),
                             new TextSpan(text: userDocument["price"].toString())
                           ],
                         ),
@@ -244,6 +244,17 @@ class CustomerInProgressOrderDetailsState extends State {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         ListTile(
+                                          title: RichText(
+                                              text: new TextSpan(
+                                                  style: new TextStyle(
+                                                    fontSize: 20.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                new TextSpan(text: 'WSP Id: '),
+                                                new TextSpan(
+                                                    text: course["wsp id"])
+                                              ])),
                                           subtitle: RichText(
                                             text: new TextSpan(
                                               style: new TextStyle(
@@ -252,17 +263,10 @@ class CustomerInProgressOrderDetailsState extends State {
                                               ),
                                               children: <TextSpan>[
                                                 new TextSpan(
-                                                    text: 'WSP Id: ',
-                                                    style: new TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                new TextSpan(
-                                                    text: course["wsp id"]),
-                                                new TextSpan(
                                                     text: '\nDescription: ',
                                                     style: new TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
+                                                      color: Colors.black54,
+                                                    )),
                                                 course["description"] != ""
                                                     ? new TextSpan(
                                                         text: course[
@@ -271,16 +275,16 @@ class CustomerInProgressOrderDetailsState extends State {
                                                 new TextSpan(
                                                     text: '\nPrice: ',
                                                     style: new TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
+                                                      color: Colors.black54,
+                                                    )),
                                                 new TextSpan(
                                                     text: course["price"]
                                                         .toString()),
                                                 new TextSpan(
                                                     text: "\nDistance: ",
                                                     style: new TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold)),
+                                                      color: Colors.black54,
+                                                    )),
                                                 new TextSpan(
                                                     text: course["distance"]
                                                             .toStringAsFixed(

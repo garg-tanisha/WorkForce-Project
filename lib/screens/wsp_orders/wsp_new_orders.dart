@@ -276,7 +276,7 @@ class OrdersState extends State {
                                                       title: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 16.0,
+                                                            fontSize: 20.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
@@ -296,7 +296,7 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 14.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
@@ -565,7 +565,7 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(imgList[0],
+                      Image.asset("images/no_orders.jpg",
                           width: 0.8 *
                               MediaQuery.of(context).size.width.roundToDouble(),
                           height: 0.3 *
@@ -769,11 +769,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -783,16 +784,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -800,10 +802,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -812,10 +815,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -824,19 +828,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -858,214 +849,189 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
-                                                    SingleChildScrollView(
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10.0,
-                                                                    bottom:
-                                                                        10.0,
-                                                                    left: 20.0,
-                                                                    right:
-                                                                        10.0),
-                                                            child: RaisedButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                print(
-                                                                    "REMOVE from feed and move to confirmations sent page/tab.");
-                                                                await _asyncSimpleDialog(
-                                                                    context,
-                                                                    course
-                                                                        .documentID,
-                                                                    calculateDistance(
-                                                                        course[
-                                                                            "latitude"],
-                                                                        course[
-                                                                            "longitude"],
-                                                                        wsp_latitude,
-                                                                        wsp_longitude),
-                                                                    course);
-                                                              },
-                                                              child: const Text(
-                                                                "Accept",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15.0),
+                                                    Center(
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "REMOVE from feed and move to confirmations sent page/tab.");
+                                                                  await _asyncSimpleDialog(
+                                                                      context,
+                                                                      course
+                                                                          .documentID,
+                                                                      calculateDistance(
+                                                                          course[
+                                                                              "latitude"],
+                                                                          course[
+                                                                              "longitude"],
+                                                                          wsp_latitude,
+                                                                          wsp_longitude),
+                                                                      course);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Accept",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .green,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .green
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
                                                               ),
-                                                              color:
-                                                                  Colors.green,
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              30.0),
-                                                                  side: BorderSide(
-                                                                      color: Colors
-                                                                          .green
-                                                                          .shade600,
-                                                                      width:
-                                                                          2)),
                                                             ),
-                                                          ),
-                                                          // Padding(
-                                                          //   padding:
-                                                          //       EdgeInsets.only(
-                                                          //           top: 10.0,
-                                                          //           bottom:
-                                                          //               10.0,
-                                                          //           left: 20.0,
-                                                          //           right:
-                                                          //               10.0),
-                                                          //   child: RaisedButton(
-                                                          //     child: const Text(
-                                                          //       "Order Details",
-                                                          //       style: TextStyle(
-                                                          //           fontSize:
-                                                          //               15.0),
-                                                          //     ),
-                                                          //     color: Colors
-                                                          //         .lightBlueAccent,
-                                                          //     shape: RoundedRectangleBorder(
-                                                          //         borderRadius:
-                                                          //             BorderRadius
-                                                          //                 .circular(
-                                                          //                     30.0),
-                                                          //         side: BorderSide(
-                                                          //             color: Colors
-                                                          //                 .blue,
-                                                          //             width:
-                                                          //                 2)),
-                                                          //     onPressed: () =>
-                                                          //         {},
-                                                          //   ),
-                                                          // ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 10.0,
-                                                                    bottom:
-                                                                        10.0,
-                                                                    left: 20.0,
-                                                                    right:
-                                                                        10.0),
-                                                            child: RaisedButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                print(
-                                                                    "Remove from feed!");
-                                                                Firestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        "orders")
-                                                                    .document(course
-                                                                        .documentID)
-                                                                    .collection(
-                                                                        "responses")
-                                                                    .document(
-                                                                        uid)
-                                                                    .setData({
-                                                                  "wsp response":
-                                                                      "rejected",
-                                                                });
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          10.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print(
+                                                                      "Remove from feed!");
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "orders")
+                                                                      .document(
+                                                                          course
+                                                                              .documentID)
+                                                                      .collection(
+                                                                          "responses")
+                                                                      .document(
+                                                                          uid)
+                                                                      .setData({
+                                                                    "wsp response":
+                                                                        "rejected",
+                                                                  });
 
-                                                                Firestore
-                                                                    .instance
-                                                                    .collection(
-                                                                        "rejected responses")
-                                                                    .add({
-                                                                  "wsp id": uid,
-                                                                  "order id": course
-                                                                      .documentID,
-                                                                  "date time":
-                                                                      DateTime
-                                                                          .now()
-                                                                }).then((res) {
-                                                                  isLoading =
-                                                                      false;
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                        return AlertDialog(
-                                                                          content:
-                                                                              Text("Rejected Order"),
-                                                                          actions: [
-                                                                            FlatButton(
-                                                                              child: Text("Ok"),
-                                                                              onPressed: () {
-                                                                                Navigator.of(context).pop();
-                                                                              },
-                                                                            )
-                                                                          ],
-                                                                        );
-                                                                      });
+                                                                  Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "rejected responses")
+                                                                      .add({
+                                                                    "wsp id":
+                                                                        uid,
+                                                                    "order id":
+                                                                        course
+                                                                            .documentID,
+                                                                    "date time":
+                                                                        DateTime
+                                                                            .now()
+                                                                  }).then(
+                                                                          (res) {
+                                                                    isLoading =
+                                                                        false;
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            content:
+                                                                                Text("Rejected Order"),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
 
-                                                                  setState(
-                                                                      () {});
-                                                                }).catchError(
-                                                                        (err) {
-                                                                  print(err
-                                                                      .message);
-                                                                  showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                        return AlertDialog(
-                                                                          title:
-                                                                              Text("Error"),
-                                                                          content:
-                                                                              Text(err.message),
-                                                                          actions: [
-                                                                            FlatButton(
-                                                                              child: Text("Ok"),
-                                                                              onPressed: () {
-                                                                                Navigator.of(context).pop();
-                                                                              },
-                                                                            )
-                                                                          ],
-                                                                        );
-                                                                      });
-                                                                });
-                                                              },
-                                                              child: const Text(
-                                                                "Reject",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15.0),
+                                                                    setState(
+                                                                        () {});
+                                                                  }).catchError(
+                                                                          (err) {
+                                                                    print(err
+                                                                        .message);
+                                                                    showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                          return AlertDialog(
+                                                                            title:
+                                                                                Text("Error"),
+                                                                            content:
+                                                                                Text(err.message),
+                                                                            actions: [
+                                                                              FlatButton(
+                                                                                child: Text("Ok"),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              )
+                                                                            ],
+                                                                          );
+                                                                        });
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Reject",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color:
+                                                                    Colors.red,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .red
+                                                                            .shade600,
+                                                                        width:
+                                                                            2)),
                                                               ),
-                                                              color: Colors.red,
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              30.0),
-                                                                  side: BorderSide(
-                                                                      color: Colors
-                                                                          .red
-                                                                          .shade600,
-                                                                      width:
-                                                                          2)),
-                                                            ),
-                                                          )
-                                                        ],
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
+                                                    )
                                                   ]));
                                         } else {
                                           return Container(
@@ -1087,7 +1053,7 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset(imgList[0],
+                      Image.asset("images/no_orders.jpg",
                           width: 0.8 *
                               MediaQuery.of(context).size.width.roundToDouble(),
                           height: 0.3 *
@@ -1290,11 +1256,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -1304,16 +1271,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -1321,10 +1289,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -1333,10 +1302,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -1345,19 +1315,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -1379,11 +1336,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -1444,38 +1396,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -1621,7 +1541,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -1822,11 +1742,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -1836,16 +1757,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -1853,10 +1775,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -1865,10 +1788,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -1877,19 +1801,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -1911,11 +1822,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -1976,38 +1882,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -2153,7 +2027,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         fit: BoxFit.cover,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
@@ -2354,11 +2228,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -2368,16 +2243,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -2385,10 +2261,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -2397,10 +2274,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -2409,19 +2287,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -2443,11 +2308,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -2508,38 +2368,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -2685,7 +2513,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -2886,11 +2714,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -2900,16 +2729,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -2917,10 +2747,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -2929,10 +2760,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -2941,19 +2773,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -2975,11 +2794,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -3040,38 +2854,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -3217,7 +2999,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -3418,11 +3200,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -3432,16 +3215,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -3449,10 +3233,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -3461,10 +3246,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -3473,19 +3259,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -3507,11 +3280,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -3572,38 +3340,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -3749,7 +3485,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -3950,11 +3686,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -3964,16 +3701,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -3981,10 +3719,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -3993,10 +3732,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -4005,19 +3745,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -4039,11 +3766,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -4104,38 +3826,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -4281,7 +3971,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -4481,11 +4171,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -4495,16 +4186,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -4512,10 +4204,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -4524,10 +4217,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -4536,29 +4230,16 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
-                                                        course["photos"][0],
-                                                        width: 0.2 *
-                                                            MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width
-                                                                .roundToDouble(),
-                                                        height: 100,
-                                                      ),
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                       trailing: Image.network(
                                                           course["photos"][1],
                                                           width: 0.2 *
@@ -4570,11 +4251,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -4635,38 +4311,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -4812,7 +4456,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -5012,11 +4656,12 @@ class OrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                              // style: new TextStyle(
+                                                              //     fontWeight:
+                                                              //         FontWeight
+                                                              //             .bold)
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -5026,16 +4671,17 @@ class OrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -5043,10 +4689,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["service date and time"]
@@ -5055,10 +4702,11 @@ class OrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nTime Window: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: DateTime.fromMicrosecondsSinceEpoch(
                                                                         course["time window"]
@@ -5067,19 +4715,6 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                      // Text("Price: " +
-                                                      //                           course["price"]
-                                                      //                               .toString() +
-                                                      //                           "\nService Date and Time: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["service date and time"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString() +
-                                                      //                           "\nTime Window: " +
-                                                      //                           DateTime.fromMicrosecondsSinceEpoch(
-                                                      //                                   course["time window"]
-                                                      //                                       .microsecondsSinceEpoch)
-                                                      //                               .toString()),
                                                       leading: Image.network(
                                                           course["photos"][0],
                                                           width: 0.2 *
@@ -5101,11 +4736,6 @@ class OrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                                    // course["photos"] != null
-                                                    //     ? images(course["photos"])
-                                                    //     : Container(
-                                                    //         width: 0.0,
-                                                    //         height: 0.0),
                                                     Center(
                                                       child:
                                                           SingleChildScrollView(
@@ -5166,38 +4796,6 @@ class OrdersState extends State {
                                                                             2)),
                                                               ),
                                                             ),
-                                                            // Padding(
-                                                            //   padding:
-                                                            //       EdgeInsets.only(
-                                                            //           top: 10.0,
-                                                            //           bottom:
-                                                            //               10.0,
-                                                            //           left: 20.0,
-                                                            //           right:
-                                                            //               10.0),
-                                                            //   child: RaisedButton(
-                                                            //     child: const Text(
-                                                            //       "Order Details",
-                                                            //       style: TextStyle(
-                                                            //           fontSize:
-                                                            //               15.0),
-                                                            //     ),
-                                                            //     color: Colors
-                                                            //         .lightBlueAccent,
-                                                            //     shape: RoundedRectangleBorder(
-                                                            //         borderRadius:
-                                                            //             BorderRadius
-                                                            //                 .circular(
-                                                            //                     30.0),
-                                                            //         side: BorderSide(
-                                                            //             color: Colors
-                                                            //                 .blue,
-                                                            //             width:
-                                                            //                 2)),
-                                                            //     onPressed: () =>
-                                                            //         {},
-                                                            //   ),
-                                                            // ),
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -5343,7 +4941,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        imgList[0],
+                        "images/no_orders.jpg",
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *

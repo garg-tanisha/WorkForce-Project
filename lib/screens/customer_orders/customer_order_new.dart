@@ -202,11 +202,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -216,16 +213,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -233,10 +231,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -245,10 +244,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -263,24 +263,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                  leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -441,7 +470,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -583,11 +612,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -597,16 +623,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -614,10 +641,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -626,10 +654,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -822,7 +851,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -964,11 +993,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -978,16 +1004,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -995,10 +1022,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -1007,10 +1035,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -1203,7 +1232,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1345,11 +1374,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -1359,16 +1385,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -1376,10 +1403,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -1388,10 +1416,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -1584,7 +1613,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1726,11 +1755,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -1740,16 +1766,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -1757,10 +1784,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -1769,10 +1797,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -1965,7 +1994,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2107,11 +2136,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -2121,16 +2147,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -2138,10 +2165,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -2150,10 +2178,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -2346,7 +2375,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2488,11 +2517,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -2502,16 +2528,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -2519,10 +2546,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -2531,10 +2559,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -2727,7 +2756,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2869,11 +2898,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -2883,16 +2909,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -2900,10 +2927,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -2912,10 +2940,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -3108,7 +3137,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -3250,11 +3279,8 @@ class CustomerNewOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -3264,16 +3290,17 @@ class CustomerNewOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -3281,10 +3308,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.fromMicrosecondsSinceEpoch(
                                                                     course["service date and time"]
@@ -3293,10 +3321,11 @@ class CustomerNewOrdersState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nTime Left: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: DateTime.parse(course[
                                                                             "time window"]
@@ -3489,7 +3518,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size

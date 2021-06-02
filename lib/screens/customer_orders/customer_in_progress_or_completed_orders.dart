@@ -179,11 +179,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Title: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "title"]),
@@ -193,39 +190,42 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
                                                                   .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
+                                                          // new TextSpan(
+                                                          //     text:
+                                                          //         "\nService Date and Time: ",
+                                                          //     style:
+                                                          //         new TextStyle(
+                                                          //       color: Colors
+                                                          //           .black54,
+                                                          //     )),
+                                                          // new TextSpan(
+                                                          //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                          //             course["service date and time"]
+                                                          //                 .microsecondsSinceEpoch)
+                                                          //         .toString()),
                                                           new TextSpan(
                                                               text:
                                                                   "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "distance"]
@@ -264,12 +264,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Order Id: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "order id"]),
@@ -279,16 +275,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
@@ -519,7 +516,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -655,11 +652,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Title: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "title"]),
@@ -669,39 +663,42 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
                                                                   .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
+                                                          // new TextSpan(
+                                                          //     text:
+                                                          //         "\nService Date and Time: ",
+                                                          //     style:
+                                                          //         new TextStyle(
+                                                          //       color: Colors
+                                                          //           .black54,
+                                                          //     )),
+                                                          // new TextSpan(
+                                                          //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                          //             course["service date and time"]
+                                                          //                 .microsecondsSinceEpoch)
+                                                          //         .toString()),
                                                           new TextSpan(
                                                               text:
                                                                   "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "distance"]
@@ -740,12 +737,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Order Id: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "order id"]),
@@ -755,16 +748,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
@@ -995,7 +989,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1131,11 +1125,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text: 'Title: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Title: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "title"]),
@@ -1145,16 +1136,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
@@ -1162,22 +1154,24 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           new TextSpan(
                                                               text:
                                                                   "\nService Date and Time: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                          new TextSpan(
-                                                              text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                      course["service date and time"]
-                                                                          .microsecondsSinceEpoch)
-                                                                  .toString()),
-                                                          new TextSpan(
-                                                              text:
-                                                                  "\nDistance: ",
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
+                                                          // new TextSpan(
+                                                          //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                          //             course["service date and time"]
+                                                          //                 .microsecondsSinceEpoch)
+                                                          //         .toString()),
+                                                          // new TextSpan(
+                                                          //     text:
+                                                          //         "\nDistance: ",
+                                                          //     style:
+                                                          //         new TextStyle(
+                                                          //       color: Colors
+                                                          //           .black54,
+                                                          //     )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "distance"]
@@ -1216,12 +1210,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
-                                                              text:
-                                                                  'Order Id: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                            text: 'Order Id: ',
+                                                          ),
                                                           new TextSpan(
                                                               text: course[
                                                                   "order id"]),
@@ -1231,16 +1221,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                     subtitle: RichText(
                                                       text: new TextSpan(
                                                         style: new TextStyle(
-                                                          fontSize: 20.0,
+                                                          fontSize: 18.0,
                                                           color: Colors.black,
                                                         ),
                                                         children: <TextSpan>[
                                                           new TextSpan(
                                                               text: 'Price: ',
-                                                              style: new TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
+                                                              style:
+                                                                  new TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                              )),
                                                           new TextSpan(
                                                               text: course[
                                                                       "price"]
@@ -1471,7 +1462,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(imgList[0],
+                        Image.asset("images/no_orders.jpg",
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1623,11 +1614,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -1637,16 +1625,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -1654,22 +1643,24 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                            new TextSpan(
-                                                                text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                        course["service date and time"]
-                                                                            .microsecondsSinceEpoch)
-                                                                    .toString()),
-                                                            new TextSpan(
-                                                                text:
-                                                                    "\nDistance: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            // new TextSpan(
+                                                            //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                            //             course["service date and time"]
+                                                            //                 .microsecondsSinceEpoch)
+                                                            //         .toString()),
+                                                            // new TextSpan(
+                                                            //     text:
+                                                            //         "\nDistance: ",
+                                                            //     style:
+                                                            //         new TextStyle(
+                                                            //       color: Colors
+                                                            //           .black54,
+                                                            //     )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "distance"]
@@ -1708,12 +1699,9 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text:
-                                                                    'Order Id: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text:
+                                                                  'Order Id: ',
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "order id"]),
@@ -1723,16 +1711,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -1761,49 +1750,193 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                              RaisedButton(
-                                                onPressed: () async {
-                                                  if (status == "In Progress") {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CustomerInProgressOrderDetails(
-                                                            uid: uid,
-                                                            wspId: course[
-                                                                "wsp id"],
-                                                            orderId: course[
-                                                                "order id"],
-                                                          ),
-                                                        ));
-                                                  } else {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                CustomerCompletedOrderDetails(
-                                                                  uid: uid,
-                                                                  wspId: course[
-                                                                      "wsp id"],
-                                                                  orderId: course[
-                                                                      "order id"],
-                                                                )));
-                                                  }
-                                                },
-                                                child: const Text(
-                                                  "See Details",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
-                                                ),
-                                                color: Colors.lightBlueAccent,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    side: BorderSide(
-                                                        color: Colors.blue,
-                                                        width: 2)),
-                                              ),
+                                              status == "In Progress"
+                                                  ? SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print("Call");
+                                                                  print(Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'users')
+                                                                      .document(
+                                                                          course[
+                                                                              "user id"])
+                                                                      .get()
+                                                                      .then((value) =>
+                                                                          _makingPhoneCall(
+                                                                              value["phone no"].toString())));
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Call",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        print(
+                                                                            "Gives a platform to chat with customer");
+                                                                        Navigator
+                                                                            .push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => ChatPage(placedOrderId: course.documentID, userId: uid)),
+                                                                        );
+                                                                      },
+                                                                      child:
+                                                                          const Text(
+                                                                        "Chat",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15.0),
+                                                                      ),
+                                                                      color: Colors
+                                                                          .lightBlueAccent,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              30.0),
+                                                                          side: BorderSide(
+                                                                              color: Colors.blue,
+                                                                              width: 2))),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      //builder of MaterialPageRoute will call TodoDetail class
+                                                                      MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                CustomerInProgressOrderDetails(
+                                                                          uid:
+                                                                              uid,
+                                                                          wspId:
+                                                                              course["wsp id"],
+                                                                          orderId:
+                                                                              course["order id"],
+                                                                        ),
+                                                                      ));
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                          ]),
+                                                    )
+                                                  : Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          bottom: 00.0,
+                                                          left: 20.0,
+                                                          right: 10.0),
+                                                      child: RaisedButton(
+                                                        onPressed: () async {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          CustomerCompletedOrderDetails(
+                                                                            uid:
+                                                                                uid,
+                                                                            wspId:
+                                                                                course["wsp id"],
+                                                                            orderId:
+                                                                                course["order id"],
+                                                                          )));
+                                                        },
+                                                        child: const Text(
+                                                          "Order Details",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        color: Colors
+                                                            .lightBlueAccent,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30.0),
+                                                            side: BorderSide(
+                                                                color:
+                                                                    Colors.blue,
+                                                                width: 2)),
+                                                      ),
+                                                    )
                                             ],
                                           ),
                                         );
@@ -1970,11 +2103,8 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text: 'Title: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text: 'Title: ',
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "title"]),
@@ -1984,16 +2114,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -2001,22 +2132,24 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                             new TextSpan(
                                                                 text:
                                                                     "\nService Date and Time: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                            new TextSpan(
-                                                                text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                        course["service date and time"]
-                                                                            .microsecondsSinceEpoch)
-                                                                    .toString()),
-                                                            new TextSpan(
-                                                                text:
-                                                                    "\nDistance: ",
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            // new TextSpan(
+                                                            //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                            //             course["service date and time"]
+                                                            //                 .microsecondsSinceEpoch)
+                                                            //         .toString()),
+                                                            // new TextSpan(
+                                                            //     text:
+                                                            //         "\nDistance: ",
+                                                            //     style:
+                                                            //         new TextStyle(
+                                                            //       color: Colors
+                                                            //           .black54,
+                                                            //     )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "distance"]
@@ -2055,12 +2188,9 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
-                                                                text:
-                                                                    'Order Id: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                              text:
+                                                                  'Order Id: ',
+                                                            ),
                                                             new TextSpan(
                                                                 text: course[
                                                                     "order id"]),
@@ -2070,16 +2200,17 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                       subtitle: RichText(
                                                         text: new TextSpan(
                                                           style: new TextStyle(
-                                                            fontSize: 20.0,
+                                                            fontSize: 18.0,
                                                             color: Colors.black,
                                                           ),
                                                           children: <TextSpan>[
                                                             new TextSpan(
                                                                 text: 'Price: ',
-                                                                style: new TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
                                                             new TextSpan(
                                                                 text: course[
                                                                         "price"]
@@ -2108,49 +2239,193 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill),
                                                     ),
-                                              RaisedButton(
-                                                onPressed: () async {
-                                                  if (status == "In Progress") {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CustomerInProgressOrderDetails(
-                                                            uid: uid,
-                                                            wspId: course[
-                                                                "wsp id"],
-                                                            orderId: course[
-                                                                "order id"],
-                                                          ),
-                                                        ));
-                                                  } else {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                CustomerCompletedOrderDetails(
-                                                                  uid: uid,
-                                                                  wspId: course[
-                                                                      "wsp id"],
-                                                                  orderId: course[
-                                                                      "order id"],
-                                                                )));
-                                                  }
-                                                },
-                                                child: const Text(
-                                                  "See Details",
-                                                  style:
-                                                      TextStyle(fontSize: 15.0),
-                                                ),
-                                                color: Colors.lightBlueAccent,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    side: BorderSide(
-                                                        color: Colors.blue,
-                                                        width: 2)),
-                                              ),
+                                              status == "In Progress"
+                                                  ? SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  print("Call");
+                                                                  print(Firestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          'users')
+                                                                      .document(
+                                                                          course[
+                                                                              "user id"])
+                                                                      .get()
+                                                                      .then((value) =>
+                                                                          _makingPhoneCall(
+                                                                              value["phone no"].toString())));
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Call",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        print(
+                                                                            "Gives a platform to chat with customer");
+                                                                        Navigator
+                                                                            .push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => ChatPage(placedOrderId: course.documentID, userId: uid)),
+                                                                        );
+                                                                      },
+                                                                      child:
+                                                                          const Text(
+                                                                        "Chat",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15.0),
+                                                                      ),
+                                                                      color: Colors
+                                                                          .lightBlueAccent,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              30.0),
+                                                                          side: BorderSide(
+                                                                              color: Colors.blue,
+                                                                              width: 2))),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 10.0,
+                                                                      bottom:
+                                                                          00.0,
+                                                                      left:
+                                                                          20.0,
+                                                                      right:
+                                                                          10.0),
+                                                              child:
+                                                                  RaisedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      //builder of MaterialPageRoute will call TodoDetail class
+                                                                      MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                CustomerInProgressOrderDetails(
+                                                                          uid:
+                                                                              uid,
+                                                                          wspId:
+                                                                              course["wsp id"],
+                                                                          orderId:
+                                                                              course["order id"],
+                                                                        ),
+                                                                      ));
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                  "Order Details",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15.0),
+                                                                ),
+                                                                color: Colors
+                                                                    .lightBlueAccent,
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30.0),
+                                                                    side: BorderSide(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        width:
+                                                                            2)),
+                                                              ),
+                                                            ),
+                                                          ]),
+                                                    )
+                                                  : Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          bottom: 00.0,
+                                                          left: 20.0,
+                                                          right: 10.0),
+                                                      child: RaisedButton(
+                                                        onPressed: () async {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          CustomerCompletedOrderDetails(
+                                                                            uid:
+                                                                                uid,
+                                                                            wspId:
+                                                                                course["wsp id"],
+                                                                            orderId:
+                                                                                course["order id"],
+                                                                          )));
+                                                        },
+                                                        child: const Text(
+                                                          "Order Details",
+                                                          style: TextStyle(
+                                                              fontSize: 15.0),
+                                                        ),
+                                                        color: Colors
+                                                            .lightBlueAccent,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30.0),
+                                                            side: BorderSide(
+                                                                color:
+                                                                    Colors.blue,
+                                                                width: 2)),
+                                                      ),
+                                                    )
                                             ],
                                           ),
                                         );
@@ -2188,22 +2463,78 @@ class CustomerInProgressOrCompletedOrdersState extends State {
     } else {
       return Scaffold(
           appBar: AppBar(title: Text("Orders (" + status + " )")),
-          body: Center(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                Image.asset(imgList[0],
-                    width:
-                        0.8 * MediaQuery.of(context).size.width.roundToDouble(),
-                    height: 0.3 *
-                        MediaQuery.of(context).size.height.roundToDouble(),
-                    fit: BoxFit.cover),
-                Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text("Orders are in progress yet!",
-                        style: TextStyle(fontSize: 15.0)))
-              ])));
+          // body: Center(
+          //     child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //       Padding(
+          //         padding: EdgeInsets.only(
+          //             top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+          //         child: Text("Filter",
+          //             style: TextStyle(fontSize: 16.0, color: Colors.white)),
+          //       ),
+          body: Column(children: [
+            Container(
+              width: 0.98 * MediaQuery.of(context).size.width.roundToDouble(),
+              color: Colors.black,
+              margin: const EdgeInsets.all(20.0),
+              padding:
+                  EdgeInsets.only(top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                    child: Text("Filter",
+                        style: TextStyle(fontSize: 16.0, color: Colors.white)),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
+                      child: Card(
+                        child: DropdownButton<String>(
+                          //create an array of strings
+                          items: filters.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 10.0,
+                                    right: 0.0),
+                                child: Text(value,
+                                    style: TextStyle(
+                                        fontSize: 14.0, color: Colors.black)),
+                              ),
+                            );
+                          }).toList(),
+                          value: filter,
+                          onChanged: (String value) {
+                            _onDropDownChanged(value);
+                          },
+                        ),
+                      )),
+                ]),
+              ),
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Column(children: [
+                  Image.asset("images/no_orders.jpg",
+                      width: 0.8 *
+                          MediaQuery.of(context).size.width.roundToDouble(),
+                      height: 0.3 *
+                          MediaQuery.of(context).size.height.roundToDouble(),
+                      fit: BoxFit.cover),
+                  Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: Text("Orders are in progress yet!",
+                          style: TextStyle(fontSize: 14.0)))
+                ]))
+          ]));
     }
   }
 

@@ -185,35 +185,136 @@ class OrderConfirmationsSentState extends State {
                                                                   .roundToDouble(),
                                                           height: 100,
                                                           fit: BoxFit.fill),
-                                                      title: Text("Title: " +
-                                                          course["title"]),
-                                                      subtitle: Text(
-                                                          "Price (Customer): " +
-                                                              course["price_by_customer"]
-                                                                  .toString() +
-                                                              "\nPrice (SP): " +
-                                                              course["price"]
-                                                                  .toString() +
-                                                              "\nDistance: " +
-                                                              course["distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)
-                                                                  .toString() +
-                                                              " km"),
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text: 'Title: ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "title"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price (Customer): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price_by_customer"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    '\nPrice (SP): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
                                                   : ListTile(
-                                                      title: Text("Order Id: " +
-                                                          course["order id"]),
-                                                      subtitle: Text(
-                                                        "Price: " +
-                                                            course["price"]
-                                                                .toString() +
-                                                            "\nDistance: " +
-                                                            course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4)
-                                                                .toString() +
-                                                            " km",
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    "Order Id: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "order id"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price : ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                               Padding(
@@ -447,35 +548,136 @@ class OrderConfirmationsSentState extends State {
                                                                   .roundToDouble(),
                                                           height: 100,
                                                           fit: BoxFit.fill),
-                                                      title: Text("Title: " +
-                                                          course["title"]),
-                                                      subtitle: Text(
-                                                          "Price (Customer): " +
-                                                              course["price_by_customer"]
-                                                                  .toString() +
-                                                              "\nPrice (SP): " +
-                                                              course["price"]
-                                                                  .toString() +
-                                                              "\nDistance: " +
-                                                              course["distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)
-                                                                  .toString() +
-                                                              " km"),
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text: 'Title: ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "title"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price (Customer): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price_by_customer"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    '\nPrice (SP): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
                                                   : ListTile(
-                                                      title: Text("Order Id: " +
-                                                          course["order id"]),
-                                                      subtitle: Text(
-                                                        "Price: " +
-                                                            course["price"]
-                                                                .toString() +
-                                                            "\nDistance: " +
-                                                            course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4)
-                                                                .toString() +
-                                                            " km",
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    "Order Id: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "order id"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price : ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                               Padding(
@@ -709,35 +911,136 @@ class OrderConfirmationsSentState extends State {
                                                                   .roundToDouble(),
                                                           height: 100,
                                                           fit: BoxFit.fill),
-                                                      title: Text("Title: " +
-                                                          course["title"]),
-                                                      subtitle: Text(
-                                                          "Price (Customer): " +
-                                                              course["price_by_customer"]
-                                                                  .toString() +
-                                                              "\nPrice (SP): " +
-                                                              course["price"]
-                                                                  .toString() +
-                                                              "\nDistance: " +
-                                                              course["distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)
-                                                                  .toString() +
-                                                              " km"),
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text: 'Title: ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "title"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price (Customer): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price_by_customer"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    '\nPrice (SP): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
                                                   : ListTile(
-                                                      title: Text("Order Id: " +
-                                                          course["order id"]),
-                                                      subtitle: Text(
-                                                        "Price: " +
-                                                            course["price"]
-                                                                .toString() +
-                                                            "\nDistance: " +
-                                                            course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4)
-                                                                .toString() +
-                                                            " km",
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    "Order Id: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "order id"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price : ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                               Padding(
@@ -971,35 +1274,136 @@ class OrderConfirmationsSentState extends State {
                                                                   .roundToDouble(),
                                                           height: 100,
                                                           fit: BoxFit.fill),
-                                                      title: Text("Title: " +
-                                                          course["title"]),
-                                                      subtitle: Text(
-                                                          "Price (Customer): " +
-                                                              course["price_by_customer"]
-                                                                  .toString() +
-                                                              "\nPrice (SP): " +
-                                                              course["price"]
-                                                                  .toString() +
-                                                              "\nDistance: " +
-                                                              course["distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)
-                                                                  .toString() +
-                                                              " km"),
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text: 'Title: ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "title"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price (Customer): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price_by_customer"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    '\nPrice (SP): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
                                                   : ListTile(
-                                                      title: Text("Order Id: " +
-                                                          course["order id"]),
-                                                      subtitle: Text(
-                                                        "Price: " +
-                                                            course["price"]
-                                                                .toString() +
-                                                            "\nDistance: " +
-                                                            course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4)
-                                                                .toString() +
-                                                            " km",
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    "Order Id: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "order id"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price : ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                               Padding(
@@ -1233,35 +1637,136 @@ class OrderConfirmationsSentState extends State {
                                                                   .roundToDouble(),
                                                           height: 100,
                                                           fit: BoxFit.fill),
-                                                      title: Text("Title: " +
-                                                          course["title"]),
-                                                      subtitle: Text(
-                                                          "Price (Customer): " +
-                                                              course["price_by_customer"]
-                                                                  .toString() +
-                                                              "\nPrice (SP): " +
-                                                              course["price"]
-                                                                  .toString() +
-                                                              "\nDistance: " +
-                                                              course["distance"]
-                                                                  .toStringAsFixed(
-                                                                      4)
-                                                                  .toString() +
-                                                              " km"),
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text: 'Title: ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "title"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price (Customer): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price_by_customer"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    '\nPrice (SP): ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
+                                                      ),
                                                     )
                                                   : ListTile(
-                                                      title: Text("Order Id: " +
-                                                          course["order id"]),
-                                                      subtitle: Text(
-                                                        "Price: " +
-                                                            course["price"]
-                                                                .toString() +
-                                                            "\nDistance: " +
-                                                            course["distance"]
-                                                                .toStringAsFixed(
-                                                                    4)
-                                                                .toString() +
-                                                            " km",
+                                                      title: RichText(
+                                                          text: new TextSpan(
+                                                              style:
+                                                                  new TextStyle(
+                                                                fontSize: 20.0,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                              children: <
+                                                                  TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    "Order Id: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                    "order id"])
+                                                          ])),
+                                                      subtitle: RichText(
+                                                        text: new TextSpan(
+                                                          style: new TextStyle(
+                                                            fontSize: 18.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    'Price : ',
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                        "price"]
+                                                                    .toString()),
+                                                            new TextSpan(
+                                                                text:
+                                                                    "\nDistance: ",
+                                                                style:
+                                                                    new TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                )),
+                                                            new TextSpan(
+                                                                text: course[
+                                                                            "distance"]
+                                                                        .toStringAsFixed(
+                                                                            4)
+                                                                        .toString() +
+                                                                    " km"),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                               Padding(

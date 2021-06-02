@@ -195,7 +195,11 @@ class ServiceProviderHomeState extends State {
                                 ),
                                 title: Text(roles[index]),
                                 subtitle: rating[index] != "null"
-                                    ? "(Rating: " + rating[index] + " )"
+                                    ? Text(
+                                        "(Rating: " +
+                                            rating[index].toString() +
+                                            " )",
+                                      )
                                     : Text("(Rating: No rating yet)"),
                                 onTap: () {
                                   print(roles[index]);
@@ -494,11 +498,13 @@ class ServiceProviderHomeState extends State {
                                   ),
                                   children: <TextSpan>[
                                     new TextSpan(
-                                        text: 'For any questions or enquires '),
+                                        text: 'For any questions or enquires ',
+                                        style: TextStyle(fontSize: 18.0)),
                                     new TextSpan(
                                         text: 'contact us or whatsapp us',
                                         style: new TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0)),
                                     new TextSpan(text: ' at 98xxxxxxxx'),
                                   ],
                                 ),

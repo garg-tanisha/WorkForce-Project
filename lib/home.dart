@@ -82,129 +82,125 @@ class HomeState extends State {
     final Shader linearGradient = LinearGradient(
       colors: <Color>[Color(0xFF64B5F6), Color(0xFF1976D2)],
     ).createShader(new Rect.fromLTWH(0.0, 0.0, 70.0, 200.0));
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/home_page_background_image.jpg"),
-                  fit: BoxFit.fill)),
-          child: Center(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                  constraints: BoxConstraints(),
-                  child: IntrinsicHeight(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Image.asset('images/workforce.png',
-                                height: 220.0,
-                                width: 220.0,
-                                fit: BoxFit.scaleDown),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 30.0),
-                            child: Text(
-                              'Greetings From WorkForce!',
-                              style: new TextStyle(
-                                fontWeight: FontWeight.bold,
-                                foreground: new Paint()
-                                  ..shader = linearGradient,
-                                fontSize: 24.0,
-                                // color: Colors.blue.shade700
-                              ),
+    return Scaffold(
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/home_page_background_image.jpg"),
+                fit: BoxFit.fill)),
+        child: Center(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+                constraints: BoxConstraints(),
+                child: IntrinsicHeight(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Image.asset('images/workforce.png',
+                              height: 220.0,
+                              width: 220.0,
+                              fit: BoxFit.scaleDown),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30.0),
+                          child: Text(
+                            'Greetings From WorkForce!',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              foreground: new Paint()..shader = linearGradient,
+                              fontSize: 24.0,
+                              // color: Colors.blue.shade700
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(5.0),
-                          ),
-                          CarouselSlider(
-                            items: imageSliders,
-                            options: CarouselOptions(
-                                viewportFraction: 1,
-                                autoPlay: true,
-                                enlargeCenterPage: true,
-                                aspectRatio: 2.0,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                }),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: imgList.map((url) {
-                              int index = imgList.indexOf(url);
-                              return Container(
-                                width: 8.0,
-                                height: 8.0,
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 2.0),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _current == index
-                                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                                      : Color.fromRGBO(0, 0, 0, 0.4),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 30.0),
-                            child: Column(
-                                // Vertically center the widget inside the column
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: SignInButton(
-                                        Buttons.Email,
-                                        text: "Sign up with Email",
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EmailSignUp()),
-                                          );
-                                        },
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: SignInButton(
-                                        Buttons.Email,
-                                        text: "Log In Using Email",
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EmailLogIn()),
-                                          );
-                                        },
-                                      )),
-                                  Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: GestureDetector(
-                                          child: Text(
-                                            "T & C",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue),
-                                          ),
-                                          onTap: () {})),
-                                ]),
-                          )
-                        ]),
-                  )),
-            ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                        ),
+                        CarouselSlider(
+                          items: imageSliders,
+                          options: CarouselOptions(
+                              viewportFraction: 1,
+                              autoPlay: true,
+                              enlargeCenterPage: true,
+                              aspectRatio: 2.0,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: imgList.map((url) {
+                            int index = imgList.indexOf(url);
+                            return Container(
+                              width: 8.0,
+                              height: 8.0,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 2.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _current == index
+                                    ? Color.fromRGBO(0, 0, 0, 0.9)
+                                    : Color.fromRGBO(0, 0, 0, 0.4),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30.0),
+                          child: Column(
+                              // Vertically center the widget inside the column
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: SignInButton(
+                                      Buttons.Email,
+                                      text: "Sign up with Email",
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmailSignUp()),
+                                        );
+                                      },
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: SignInButton(
+                                      Buttons.Email,
+                                      text: "Log In Using Email",
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmailLogIn()),
+                                        );
+                                      },
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: GestureDetector(
+                                        child: Text(
+                                          "T & C",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue),
+                                        ),
+                                        onTap: () {})),
+                              ]),
+                        )
+                      ]),
+                )),
           ),
         ),
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -14,25 +14,82 @@ class IsEmailVerified extends StatefulWidget {
       IsEmailVerifiedState(email, password, role);
 }
 
+final List<String> imgList = [
+  "images/sales/1.jpg",
+  "images/sales/2.PNG",
+  "images/sales/3.jpg",
+  "images/sales/4.jpg",
+  "images/sales/5.jpg",
+  "images/sales/6.jpg",
+];
+
+List<String> listPathsLabels = [
+  "Avail service anywhere ",
+  "Cut a deal on charges",
+  "Nearby service providers available",
+  "Several services to avail from",
+  "Recommendations are provided",
+  "Advanced search filters",
+];
+final List<Widget> imageSliders = imgList
+    .map((item) => Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(item,
+                          width: 1000.0, height: 700.0, fit: BoxFit.fill),
+                    ),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0)
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Text(
+                          listPathsLabels[imgList.indexOf(item)],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ))
+    .toList();
+
 class IsEmailVerifiedState extends State {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String _role, email, password;
   int currentPos = 0;
-  List<String> listPaths = [
-    "Avail service anywhere ",
-    "Cut a deal on charges",
-    "Nearby service providers available",
-    "Several services to avail from",
-    "Recommendations are provided",
-    "Advanced search filters",
-  ];
+
   IsEmailVerifiedState(String email, String password, String _role) {
     this.email = email;
     this.password = password;
     this._role = _role;
   }
+  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -73,48 +130,24 @@ class IsEmailVerifiedState extends State {
                 children: [
                   Align(
                     alignment: Alignment.topCenter,
-                    child: CarouselSlider.builder(
-                      itemCount: listPaths.length,
+                    child: CarouselSlider(
+                      items: imageSliders,
                       options: CarouselOptions(
+                          viewportFraction: 1,
                           autoPlay: true,
+                          enlargeCenterPage: true,
+                          aspectRatio: 2.0,
                           onPageChanged: (index, reason) {
                             setState(() {
-                              currentPos = index;
+                              _current = index;
                             });
                           }),
-                      itemBuilder: (context, index) {
-                        return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              border: Border.all(
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            margin:
-                                const EdgeInsets.only(top: 10.0, bottom: 0.0),
-                            child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Container(
-                                    width: 200,
-                                    height: 50,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(listPaths[index],
-                                          style: TextStyle(
-                                              // fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 20.0)),
-                                    ))));
-                      },
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: listPaths.map((url) {
-                      int index = listPaths.indexOf(url);
+                    children: imgList.map((url) {
+                      int index = imgList.indexOf(url);
                       return Container(
                         width: 8.0,
                         height: 8.0,
@@ -122,7 +155,7 @@ class IsEmailVerifiedState extends State {
                             vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: currentPos == index
+                          color: _current == index
                               ? Color.fromRGBO(0, 0, 0, 0.9)
                               : Color.fromRGBO(0, 0, 0, 0.4),
                         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final String noOrdersImage = "images/customer_home/carpenter.jpg";
+final String noOrdersImage = "images/no_orders.jpg";
 
 class CustomerCancelledOrders extends StatefulWidget {
   CustomerCancelledOrders({this.uid});
@@ -282,35 +282,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -555,35 +555,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        //   Padding(
+                                                        //     padding:
+                                                        //         EdgeInsets.only(
+                                                        //             top: 10.0,
+                                                        //             bottom: 00.0,
+                                                        //             left: 20.0,
+                                                        //             right: 10.0),
+                                                        //     child: RaisedButton(
+                                                        //       onPressed:
+                                                        //           () async {},
+                                                        //       child: const Text(
+                                                        //         "Reopen Order",
+                                                        //         style: TextStyle(
+                                                        //             fontSize:
+                                                        //                 15.0),
+                                                        //       ),
+                                                        //       color: Colors
+                                                        //           .lightBlueAccent,
+                                                        //       shape: RoundedRectangleBorder(
+                                                        //           borderRadius:
+                                                        //               BorderRadius
+                                                        //                   .circular(
+                                                        //                       30.0),
+                                                        //           side: BorderSide(
+                                                        //               color: Colors
+                                                        //                   .blue,
+                                                        //               width: 2)),
+                                                        //     ),
+                                                        //   ),
                                                       ]),
                                                 ),
                                               ]));
@@ -828,35 +828,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        //         Padding(
+                                                        //           padding:
+                                                        //               EdgeInsets.only(
+                                                        //                   top: 10.0,
+                                                        //                   bottom: 00.0,
+                                                        //                   left: 20.0,
+                                                        //                   right: 10.0),
+                                                        //           child: RaisedButton(
+                                                        //             onPressed:
+                                                        //                 () async {},
+                                                        //             child: const Text(
+                                                        //               "Reopen Order",
+                                                        //               style: TextStyle(
+                                                        //                   fontSize:
+                                                        //                       15.0),
+                                                        //             ),
+                                                        //             color: Colors
+                                                        //                 .lightBlueAccent,
+                                                        //             shape: RoundedRectangleBorder(
+                                                        //                 borderRadius:
+                                                        //                     BorderRadius
+                                                        //                         .circular(
+                                                        //                             30.0),
+                                                        //                 side: BorderSide(
+                                                        //                     color: Colors
+                                                        //                         .blue,
+                                                        //                     width: 2)),
+                                                        //           ),
+                                                        //         ),
                                                       ]),
                                                 ),
                                               ]));
@@ -1101,35 +1101,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -1374,35 +1374,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -1647,35 +1647,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -1920,35 +1920,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -2193,35 +2193,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));
@@ -2466,35 +2466,35 @@ class CustomerCancelledOrdersState extends State {
                                                                     width: 2)),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10.0,
-                                                                  bottom: 00.0,
-                                                                  left: 20.0,
-                                                                  right: 10.0),
-                                                          child: RaisedButton(
-                                                            onPressed:
-                                                                () async {},
-                                                            child: const Text(
-                                                              "Reopen Order",
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0),
-                                                            ),
-                                                            color: Colors
-                                                                .lightBlueAccent,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            30.0),
-                                                                side: BorderSide(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    width: 2)),
-                                                          ),
-                                                        ),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.only(
+                                                        //           top: 10.0,
+                                                        //           bottom: 00.0,
+                                                        //           left: 20.0,
+                                                        //           right: 10.0),
+                                                        //   child: RaisedButton(
+                                                        //     onPressed:
+                                                        //         () async {},
+                                                        //     child: const Text(
+                                                        //       "Reopen Order",
+                                                        //       style: TextStyle(
+                                                        //           fontSize:
+                                                        //               15.0),
+                                                        //     ),
+                                                        //     color: Colors
+                                                        //         .lightBlueAccent,
+                                                        //     shape: RoundedRectangleBorder(
+                                                        //         borderRadius:
+                                                        //             BorderRadius
+                                                        //                 .circular(
+                                                        //                     30.0),
+                                                        //         side: BorderSide(
+                                                        //             color: Colors
+                                                        //                 .blue,
+                                                        //             width: 2)),
+                                                        //   ),
+                                                        // ),
                                                       ]),
                                                 ),
                                               ]));

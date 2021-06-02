@@ -223,531 +223,505 @@ class PlaceOrderState extends State {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: Scaffold(
-                appBar: AppBar(title: Text("Place Order")),
-                body: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                        child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 0.0,
-                                bottom: 10.0,
-                                left: 20.0,
-                                right: 20.0),
-                            child: Row(children: [
-                              Icon(
-                                Icons.title_outlined,
-                                color: Colors.blue,
-                                size: 30.0,
-                                semanticLabel: 'First Name',
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 10.0,
-                                      bottom: 10.0,
-                                      left: 20.0,
-                                      right: 20.0),
-                                  child: TextFormField(
-                                    controller: titleController,
-                                    decoration: InputDecoration(
-                                      labelText: "Enter Title",
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.text,
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Enter Title';
-                                      }
-                                      return null;
-                                    },
+        child: Scaffold(
+            appBar: AppBar(title: Text("Place Order")),
+            body: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                    child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.title_outlined,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'First Name',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                controller: titleController,
+                                decoration: InputDecoration(
+                                  labelText: "Enter Title",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter Title';
+                                  }
+                                  return null;
+                                },
                               ),
-                            ]),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(2.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.category_outlined,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Service Type',
                           ),
                           Container(
                             margin: const EdgeInsets.all(10.0),
                             padding: const EdgeInsets.all(2.0),
-                            child: Row(children: [
-                              Icon(
-                                Icons.category_outlined,
-                                color: Colors.blue,
-                                size: 30.0,
-                                semanticLabel: 'Service Type',
-                              ),
-                              Container(
-                                margin: const EdgeInsets.all(10.0),
-                                padding: const EdgeInsets.all(2.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0)),
-                                ),
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0.0,
-                                            bottom: 0.0,
-                                            left: 20.0,
-                                            right: 20.0),
-                                        child: Text("Service Type",
-                                            style: TextStyle(fontSize: 16.0)),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 0.0,
-                                            bottom: 0.0,
-                                            left: 20.0,
-                                            right: 20.0),
-                                        child: DropdownButton<String>(
-                                          items:
-                                              _serviceTypes.map((String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                          value: _serviceType,
-                                          onChanged: (String value) {
-                                            _onDropDownChanged(value);
-                                          },
-                                        ),
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                            child: Row(children: [
-                              Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.blue,
-                                size: 30.0,
-                                semanticLabel: 'Phone Number',
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20.0,
-                                      bottom: 10.0,
-                                      left: 20.0,
-                                      right: 20.0),
-                                  child: TextFormField(
-                                    controller: distanceController,
-                                    decoration: InputDecoration(
-                                      labelText: "Distance (in km)",
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    // The validator receives the text that the user has entered.
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Please select a distance range.';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              )
-                            ]),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                            child: Row(children: [
-                              Icon(
-                                Icons.monetization_on,
-                                color: Colors.blue,
-                                size: 30.0,
-                                semanticLabel: 'Phone Number',
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20.0,
-                                      bottom: 10.0,
-                                      left: 20.0,
-                                      right: 20.0),
-                                  child: TextFormField(
-                                    controller: priceController,
-                                    decoration: InputDecoration(
-                                      labelText: "Price (In Rupees)",
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    // The validator receives the text that the user has entered.
-                                    validator: (value) {
-                                      if (value.isEmpty && _images.length < 2) {
-                                        return 'Please select at least 2 images \nEnter a Price you are willing to pay';
-                                      } else if (value.contains('-') &&
-                                          _images.length < 2) {
-                                        return 'Please select at least 2 images \nPlease enter a valid price';
-                                      } else if (value.isEmpty) {
-                                        return 'Enter a Price you are willing to pay';
-                                      } else if (value.contains('-')) {
-                                        return 'Please enter a valid price';
-                                      } else if (_images.length < 2) {
-                                        return 'Please select at least 2 images';
-                                      }
-
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              )
-                            ]),
-                          ),
-
-                          Center(
-                            child: Container(
-                                margin: const EdgeInsets.all(10.0),
-                                padding: const EdgeInsets.all(2.0),
-                                alignment: Alignment(0.0, 0.0),
-                                child: Row(children: [
-                                  Icon(
-                                    Icons.star_rounded,
-                                    color: Colors.blue,
-                                    size: 30.0,
-                                    semanticLabel: 'Confirm Password',
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.all(20.0),
-                                    padding: EdgeInsets.only(
-                                        top: 5.0,
-                                        bottom: 5.0,
-                                        left: 0.0,
-                                        right: 0.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                      ),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0)),
-                                    ),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                          // mainAxisAlignment: MainAxisAlignment.start,
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 0.0,
-                                                  bottom: 0.0,
-                                                  left: 20.0,
-                                                  right: 20.0),
-                                              child: Text("Ratings",
-                                                  style: TextStyle(
-                                                      fontSize: 16.0)),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 0.0,
-                                                  bottom: 0.0,
-                                                  left: 20.0,
-                                                  right: 20.0),
-                                              child: DropdownButton<String>(
-                                                //create an array of strings
-                                                items:
-                                                    ratings.map((String value) {
-                                                  return DropdownMenuItem<
-                                                      String>(
-                                                    value: value,
-                                                    child: Text(value),
-                                                  );
-                                                }).toList(),
-                                                //value property
-                                                value: rating,
-                                                //without it nothing will be updated
-                                                onChanged: (String value) {
-                                                  _onRatingDropDownChanged(
-                                                      value);
-                                                },
-                                              ),
-                                            ),
-                                          ]),
-                                    ),
-                                  ),
-                                ])),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(15.0),
-                            padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(
-                                      15.0) //                 <--- border radius here
-                                  ),
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Column(children: <Widget>[
-                                  Text(
-                                      'Service date and time (${dateTimeFormat.pattern})'),
-                                  DateTimeField(
-                                    initialValue: DateTime.now(),
-                                    format: dateTimeFormat,
-                                    onShowPicker:
-                                        (context, currentValue) async {
-                                      final date = await showDatePicker(
-                                          context: context,
-                                          firstDate: DateTime(1900),
-                                          initialDate:
-                                              currentValue ?? DateTime.now(),
-                                          lastDate: DateTime(2100));
-                                      if (date != null) {
-                                        final time = await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.fromDateTime(
-                                              currentValue ?? DateTime.now()),
-                                        );
-                                        serviceDateTime =
-                                            DateTimeField.combine(date, time);
-                                        setState(() {});
-                                        return DateTimeField.combine(
-                                            date, time);
-                                      } else {
-                                        return currentValue;
-                                      }
-                                    },
-                                    validator: (val) {
-                                      if (val
-                                              .difference(DateTime.now())
-                                              .inMinutes <=
-                                          0) {
-                                        return 'Service Date Time Field should be after current date time.';
-                                      } else if (val != null) {
-                                        return null;
-                                      } else {
-                                        return 'Date Field is Empty';
-                                      }
-                                    },
-                                  ),
-                                ])),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(15.0),
-                            padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(
-                                      15.0) //                 <--- border radius here
-                                  ),
-                            ),
-                            child: Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: Column(children: <Widget>[
-                                  Text(
-                                      'Time Window (${dateTimeFormat.pattern})'),
-                                  DateTimeField(
-                                    initialValue: DateTime.now(),
-                                    format: dateTimeFormat,
-                                    onShowPicker:
-                                        (context, currentValue) async {
-                                      final date = await showDatePicker(
-                                          context: context,
-                                          firstDate: DateTime(1900),
-                                          initialDate:
-                                              currentValue ?? DateTime.now(),
-                                          lastDate: DateTime(2100));
-                                      if (date != null) {
-                                        final time = await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.fromDateTime(
-                                              currentValue ?? DateTime.now()),
-                                        );
-                                        timeWindow =
-                                            DateTimeField.combine(date, time);
-                                        setState(() {});
-                                        return DateTimeField.combine(
-                                            date, time);
-                                      } else {
-                                        return currentValue;
-                                      }
-                                    },
-                                    validator: (val) {
-                                      if (val
-                                                  .difference(DateTime.now())
-                                                  .inMinutes <=
-                                              0 ||
-                                          serviceDateTime
-                                                  .difference(val)
-                                                  .inMinutes <=
-                                              0) {
-                                        return 'Time Window should be earlier than service date and time, and current time';
-                                      } else if (val != null) {
-                                        return null;
-                                      } else {
-                                        return 'Time Window Field is Empty';
-                                      }
-                                    },
-                                  ),
-                                ])),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                ),
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        15.0) //                 <--- border radius here
-                                    ),
-                              ),
-                              child: Column(children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 20.0, right: 20.0, top: 20.0),
-                                  child: Text(
-                                      "Upload at least 2 pictures of the device etc."),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.all(20.0),
-                                    child: Column(children: [
-                                      RawMaterialButton(
-                                        fillColor:
-                                            Theme.of(context).accentColor,
-                                        child: Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.white,
-                                        ),
-                                        elevation: 8,
-                                        onPressed: () {
-                                          _showPicker(context);
-                                        },
-                                        padding: EdgeInsets.all(15),
-                                        shape: CircleBorder(),
-                                      ),
-                                      _images.length != 0
-                                          ? Text("Choosen images (" +
-                                              _images.length.toString() +
-                                              ")")
-                                          : Container(),
-                                      _images.length != 0
-                                          ? images(_images)
-                                          : Container(),
-                                    ])),
-                              ])),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  top: 0.0,
-                                  bottom: 0.0,
-                                  left: 20.0,
-                                  right: 20.0),
-                              child: Row(children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: Colors.blue,
-                                  size: 30.0,
-                                  semanticLabel: 'Address',
-                                ),
-                                Expanded(
-                                    child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 10.0,
-                                      bottom: 10.0,
-                                      left: 20.0,
-                                      right: 20.0),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        "Address(Current Location or Search Location)",
-                                        style: TextStyle(fontSize: 16.0)),
-                                  ),
-                                ))
-                              ])),
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 10.0, bottom: 10.0, left: 5.0, right: 5.0),
-                            padding: EdgeInsets.only(
-                                top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.black,
                               ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
+                                  BorderRadius.all(Radius.circular(15.0)),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  height: 400,
-                                  child: MapsScreen(
-                                    tableName: 'orders',
-                                    callback: (val) =>
-                                        setState(() => location = val),
-                                  )),
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Container(
-                          //       height: 400,
-                          //       child: MapsScreen(
-                          //         tableName: "orders",
-                          //         callback: (val) => setState(() => location = val),
-                          //       )),
-                          // ),
-
-                          Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: isLoading
-                                ? CircularProgressIndicator()
-                                : RaisedButton(
-                                    color: Colors.lightBlueAccent,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        side: BorderSide(
-                                            color: Colors.blue, width: 2)),
-                                    onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        placeOrder(uid);
-                                      }
-                                    },
-                                    child: Text('Place Order'),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 0.0,
+                                        bottom: 0.0,
+                                        left: 20.0,
+                                        right: 20.0),
+                                    child: Text("Service Type",
+                                        style: TextStyle(fontSize: 16.0)),
                                   ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 0.0,
+                                        bottom: 0.0,
+                                        left: 20.0,
+                                        right: 20.0),
+                                    child: DropdownButton<String>(
+                                      items: _serviceTypes.map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      value: _serviceType,
+                                      onChanged: (String value) {
+                                        _onDropDownChanged(value);
+                                      },
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
                           ),
-                        ]))))));
+                        ]),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Phone Number',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20.0,
+                                  bottom: 20.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                controller: distanceController,
+                                decoration: InputDecoration(
+                                  labelText: "Distance (in km)",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please select a distance range.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.monetization_on,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Phone Number',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                controller: priceController,
+                                decoration: InputDecoration(
+                                  labelText: "Price (In Rupees)",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty && _images.length < 2) {
+                                    return 'Please select at least 2 images \nEnter a Price you are willing to pay';
+                                  } else if (value.contains('-') &&
+                                      _images.length < 2) {
+                                    return 'Please select at least 2 images \nPlease enter a valid price';
+                                  } else if (value.isEmpty) {
+                                    return 'Enter a Price you are willing to pay';
+                                  } else if (value.contains('-')) {
+                                    return 'Please enter a valid price';
+                                  } else if (_images.length < 2) {
+                                    return 'Please select at least 2 images';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
+                        ]),
+                      ),
+
+                      Center(
+                        child: Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            alignment: Alignment(0.0, 0.0),
+                            child: Row(children: [
+                              Icon(
+                                Icons.star_rounded,
+                                color: Colors.blue,
+                                size: 30.0,
+                                semanticLabel: 'Confirm Password',
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(20.0),
+                                padding: EdgeInsets.only(
+                                    top: 5.0,
+                                    bottom: 5.0,
+                                    left: 0.0,
+                                    right: 0.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
+                                ),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0.0,
+                                              bottom: 0.0,
+                                              left: 20.0,
+                                              right: 20.0),
+                                          child: Text("Ratings",
+                                              style: TextStyle(fontSize: 16.0)),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0.0,
+                                              bottom: 0.0,
+                                              left: 20.0,
+                                              right: 20.0),
+                                          child: DropdownButton<String>(
+                                            //create an array of strings
+                                            items: ratings.map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                            //value property
+                                            value: rating,
+                                            //without it nothing will be updated
+                                            onChanged: (String value) {
+                                              _onRatingDropDownChanged(value);
+                                            },
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                              ),
+                            ])),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(children: <Widget>[
+                              Text(
+                                  'Service date and time (${dateTimeFormat.pattern})'),
+                              DateTimeField(
+                                initialValue: DateTime.now(),
+                                format: dateTimeFormat,
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    serviceDateTime =
+                                        DateTimeField.combine(date, time);
+                                    setState(() {});
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                validator: (val) {
+                                  if (val
+                                          .difference(DateTime.now())
+                                          .inMinutes <=
+                                      0) {
+                                    return 'Service Date Time Field should be after current date time.';
+                                  } else if (val != null) {
+                                    return null;
+                                  } else {
+                                    return 'Date Field is Empty';
+                                  }
+                                },
+                              ),
+                            ])),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 30.0, bottom: 30.0, left: 15.0, right: 15.0),
+                        padding: const EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  15.0) //                 <--- border radius here
+                              ),
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(children: <Widget>[
+                              Text('Time Window (${dateTimeFormat.pattern})'),
+                              DateTimeField(
+                                initialValue: DateTime.now(),
+                                format: dateTimeFormat,
+                                onShowPicker: (context, currentValue) async {
+                                  final date = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1900),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      lastDate: DateTime(2100));
+                                  if (date != null) {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(
+                                          currentValue ?? DateTime.now()),
+                                    );
+                                    timeWindow =
+                                        DateTimeField.combine(date, time);
+                                    setState(() {});
+                                    return DateTimeField.combine(date, time);
+                                  } else {
+                                    return currentValue;
+                                  }
+                                },
+                                validator: (val) {
+                                  if (val
+                                              .difference(DateTime.now())
+                                              .inMinutes <=
+                                          0 ||
+                                      serviceDateTime
+                                              .difference(val)
+                                              .inMinutes <=
+                                          0) {
+                                    return 'Time Window should be earlier than service date and time, and current time';
+                                  } else if (val != null) {
+                                    return null;
+                                  } else {
+                                    return 'Time Window Field is Empty';
+                                  }
+                                },
+                              ),
+                            ])),
+                      ),
+                      Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(2.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                    15.0) //                 <--- border radius here
+                                ),
+                          ),
+                          child: Column(children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 20.0, right: 20.0, top: 20.0),
+                              child: Text(
+                                  "Upload at least 2 pictures of the device etc."),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Column(children: [
+                                  RawMaterialButton(
+                                    fillColor: Theme.of(context).accentColor,
+                                    child: Icon(
+                                      Icons.camera_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    elevation: 8,
+                                    onPressed: () {
+                                      _showPicker(context);
+                                    },
+                                    padding: EdgeInsets.all(15),
+                                    shape: CircleBorder(),
+                                  ),
+                                  _images.length != 0
+                                      ? Text("Choosen images (" +
+                                          _images.length.toString() +
+                                          ")")
+                                      : Container(),
+                                  _images.length != 0
+                                      ? images(_images)
+                                      : Container(),
+                                ])),
+                          ])),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                          child: Row(children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.blue,
+                              size: 30.0,
+                              semanticLabel: 'Address',
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "Address(Current Location or Search Location)",
+                                    style: TextStyle(fontSize: 16.0)),
+                              ),
+                            ))
+                          ])),
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 5.0, right: 5.0),
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 5.0, left: 0.0, right: 0.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: 400,
+                              child: MapsScreen(
+                                tableName: 'orders',
+                                callback: (val) =>
+                                    setState(() => location = val),
+                              )),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Container(
+                      //       height: 400,
+                      //       child: MapsScreen(
+                      //         tableName: "orders",
+                      //         callback: (val) => setState(() => location = val),
+                      //       )),
+                      // ),
+
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : RaisedButton(
+                                color: Colors.lightBlueAccent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: BorderSide(
+                                        color: Colors.blue, width: 2)),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    placeOrder(uid);
+                                  }
+                                },
+                                child: Text('Place Order'),
+                              ),
+                      ),
+                    ])))));
   }
 
   void placeOrder(String uid) {
@@ -777,6 +751,7 @@ class PlaceOrderState extends State {
         distanceController.text = "";
         timeWindowController.text = "";
         ratingValue = "0";
+        _images = [];
         timeWindow = DateTime.now();
         serviceDateTime = DateTime.now();
         setState(() {});

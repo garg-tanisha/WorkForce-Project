@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:workforce/screens/wsp_orders/wsp_completed_order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final String noOrderImage = "images/customer_home/carpenter.jpg";
+final String noOrderImage = "images/no_orders.jpg";
 
 class WSPCompletedOrders extends StatefulWidget {
   WSPCompletedOrders({this.uid, this.role, this.flag});
@@ -157,11 +157,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -171,39 +168,42 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                    course["service date and time"]
-                                                                        .microsecondsSinceEpoch)
-                                                                .toString()),
+                                                        // new TextSpan(
+                                                        //     text:
+                                                        //         "\nService Date and Time: ",
+                                                        //     style:
+                                                        //         new TextStyle(
+                                                        //       color: Colors
+                                                        //           .black54,
+                                                        //     )),
+                                                        // new TextSpan(
+                                                        //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                        //             course["service date and time"]
+                                                        //                 .microsecondsSinceEpoch)
+                                                        //         .toString()),
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "distance"]
@@ -240,11 +240,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Order Id: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Order Id: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "order id"]),
@@ -254,16 +251,17 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -500,11 +498,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -514,39 +509,42 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                    course["service date and time"]
-                                                                        .microsecondsSinceEpoch)
-                                                                .toString()),
+                                                        // new TextSpan(
+                                                        //     text:
+                                                        //         "\nService Date and Time: ",
+                                                        //     style:
+                                                        //         new TextStyle(
+                                                        //       color: Colors
+                                                        //           .black54,
+                                                        //     )),
+                                                        // new TextSpan(
+                                                        //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                        //             course["service date and time"]
+                                                        //                 .microsecondsSinceEpoch)
+                                                        //         .toString()),
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "distance"]
@@ -583,11 +581,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Order Id: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Order Id: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "order id"]),
@@ -597,16 +592,17 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -843,11 +839,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -857,39 +850,42 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                    course["service date and time"]
-                                                                        .microsecondsSinceEpoch)
-                                                                .toString()),
+                                                        // new TextSpan(
+                                                        //     text:
+                                                        //         "\nService Date and Time: ",
+                                                        //     style:
+                                                        //         new TextStyle(
+                                                        //       color: Colors
+                                                        //           .black54,
+                                                        //     )),
+                                                        // new TextSpan(
+                                                        //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                        //             course["service date and time"]
+                                                        //                 .microsecondsSinceEpoch)
+                                                        //         .toString()),
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "distance"]
@@ -926,11 +922,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Order Id: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Order Id: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "order id"]),
@@ -940,16 +933,17 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -1186,11 +1180,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -1200,39 +1191,42 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                    course["service date and time"]
-                                                                        .microsecondsSinceEpoch)
-                                                                .toString()),
+                                                        // new TextSpan(
+                                                        //     text:
+                                                        //         "\nService Date and Time: ",
+                                                        //     style:
+                                                        //         new TextStyle(
+                                                        //       color: Colors
+                                                        //           .black54,
+                                                        //     )),
+                                                        // new TextSpan(
+                                                        //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                        //             course["service date and time"]
+                                                        //                 .microsecondsSinceEpoch)
+                                                        //         .toString()),
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "distance"]
@@ -1269,11 +1263,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Order Id: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Order Id: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "order id"]),
@@ -1283,16 +1274,17 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -1529,11 +1521,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Title: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Title: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "title"]),
@@ -1543,39 +1532,42 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
-                                                        new TextSpan(
-                                                            text:
-                                                                "\nService Date and Time: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
-                                                        new TextSpan(
-                                                            text: DateTime.fromMicrosecondsSinceEpoch(
-                                                                    course["service date and time"]
-                                                                        .microsecondsSinceEpoch)
-                                                                .toString()),
+                                                        // new TextSpan(
+                                                        //     text:
+                                                        //         "\nService Date and Time: ",
+                                                        //     style:
+                                                        //         new TextStyle(
+                                                        //       color: Colors
+                                                        //           .black54,
+                                                        //     )),
+                                                        // new TextSpan(
+                                                        //     text: DateTime.fromMicrosecondsSinceEpoch(
+                                                        //             course["service date and time"]
+                                                        //                 .microsecondsSinceEpoch)
+                                                        //         .toString()),
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "distance"]
@@ -1612,11 +1604,8 @@ class WSPCompletedOrdersState extends State {
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
-                                                            text: 'Order Id: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                          text: 'Order Id: ',
+                                                        ),
                                                         new TextSpan(
                                                             text: course[
                                                                 "order id"]),
@@ -1626,16 +1615,17 @@ class WSPCompletedOrdersState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]

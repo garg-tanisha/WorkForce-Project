@@ -353,11 +353,13 @@ class OrderHomeState extends State {
                           ),
                           children: <TextSpan>[
                             new TextSpan(
-                                text: 'For any questions or enquires '),
+                                text: 'For any questions or enquires ',
+                                style: TextStyle(fontSize: 18.0)),
                             new TextSpan(
                                 text: 'contact us or whatsapp us',
-                                style:
-                                    new TextStyle(fontWeight: FontWeight.bold)),
+                                style: new TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0)),
                             new TextSpan(text: ' at 98xxxxxxxx'),
                           ],
                         ),

@@ -11,7 +11,7 @@ class OrderResponses extends StatefulWidget {
   State<StatefulWidget> createState() => OrderResponsesState(uid, orderId);
 }
 
-String noOrderImage = "images/customer_home/carpenter.jpg";
+String noOrderImage = "images/no_orders.jpg";
 
 class OrderResponsesState extends State {
   final _formKey = GlobalKey<FormState>();
@@ -126,7 +126,20 @@ class OrderResponsesState extends State {
   Widget build(BuildContext context) {
     if (filter == 'No Filter') {
       return Scaffold(
-          appBar: AppBar(title: Text("Responses Recieved")),
+          appBar: AppBar(
+            title: Text("Responses Recieved"),
+            // leading: IconButton(
+            //     icon: const Icon(
+            //       Icons.arrow_left_outlined,
+            //       color: Colors.white,
+            //       size: 30.0,
+            //       semanticLabel: 'Camera',
+            //     ),
+            //     tooltip: 'Click to go to previous page',
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     }),
+          ),
           body: StreamBuilder(
               stream: Firestore.instance
                   .collection('accepted responses')
@@ -412,7 +425,7 @@ class OrderResponsesState extends State {
                                                               "title": course[
                                                                   "title"],
                                                               "photos": course[
-                                                                  "photos"]
+                                                                  "photos"],
                                                             });
 
                                                             Navigator.of(
@@ -2448,7 +2461,20 @@ class OrderResponsesState extends State {
               }));
     } else if (filter == 'Response (Latest to Oldest)') {
       return Scaffold(
-          appBar: AppBar(title: Text("Responses Recieved")),
+          appBar: AppBar(
+            title: Text("Responses Recieved"),
+            leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_left_outlined,
+                  color: Colors.blue,
+                  size: 30.0,
+                  semanticLabel: 'Camera',
+                ),
+                tooltip: 'Click to go to previous page',
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ),
           body: StreamBuilder(
               stream: Firestore.instance
                   .collection('accepted responses')

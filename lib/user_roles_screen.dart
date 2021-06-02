@@ -53,9 +53,19 @@ class UserRoles extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0)),
                 ),
-                Card(
-                    color: Colors.white,
-                    elevation: 2.0,
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                    width: 0.98 *
+                        MediaQuery.of(context).size.width.roundToDouble(),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black12,
+                      ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(
+                              5.0) //                 <--- border radius here
+                          ),
+                    ),
                     child: ListTile(
                       leading: Icon(
                         Icons.person_outline,
@@ -80,9 +90,19 @@ class UserRoles extends StatelessWidget {
                             ));
                       },
                     )),
-                Card(
-                    color: Colors.white,
-                    elevation: 2.0,
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                    width: 0.98 *
+                        MediaQuery.of(context).size.width.roundToDouble(),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black12,
+                      ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(
+                              5.0) //                 <--- border radius here
+                          ),
+                    ),
                     child: ListTile(
                       leading: Icon(
                         Icons.person_outline,

@@ -35,208 +35,204 @@ class _EmailLogInState extends State<EmailLogIn> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text("Login")),
-        body: Stack(
-          children: <Widget>[
-            Center(
-              child: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                        // Padding(
-                        // padding: EdgeInsets.all(10.0),
-                        // child:
-                        Image.asset('images/workforce.png',
-                            height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
-                          child: Row(children: [
-                            Icon(
-                              Icons.email_outlined,
-                              color: Colors.blue,
-                              size: 30.0,
-                              semanticLabel: 'Email address',
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: TextFormField(
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                    labelText: "Email Address",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Enter Email Address';
-                                    } else if (!value.contains('@')) {
-                                      return 'Please enter a valid email address!';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ),
-                          ]),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
-                          child: Row(children: [
-                            Icon(
-                              Icons.lock_outlined,
-                              color: Colors.blue,
-                              size: 30.0,
-                              semanticLabel: 'Password',
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10.0,
-                                    bottom: 10.0,
-                                    left: 20.0,
-                                    right: 20.0),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  controller: passwordController,
-                                  decoration: InputDecoration(
-                                    labelText: "Password",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Enter Password';
-                                    } else if (value.length < 6) {
-                                      return 'Password must be atleast 6 characters!';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ),
-                          ]),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: GestureDetector(
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                onTap: () async {
-                                  await _asyncSimpleDialog(context);
-                                })),
-                        Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: isLoading
-                              ? CircularProgressIndicator()
-                              : RaisedButton(
-                                  color: Colors.lightBlueAccent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      side: BorderSide(
-                                          color: Colors.blue, width: 2)),
-                                  // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                  onPressed: () {
-                                    if (_formKey.currentState.validate()) {
-                                      if (verifyResult ==
-                                          "You've been verified successfully.") {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
-                                        logInToFb();
-                                      } else {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                content: Text(
-                                                    "Kindly verify if you are robot"),
-                                                actions: [
-                                                  FlatButton(
-                                                    child: Text("Ok"),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  )
-                                                ],
-                                              );
-                                            });
-                                      }
-                                    }
-                                  },
-                                  child: Text('Login'),
-                                ),
-                        ),
-                      ]))),
-            ),
-            !recaptchaCheck
-                ? Center(
+    return Scaffold(
+      appBar: AppBar(title: Text("Login")),
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
                     child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                      // Padding(
+                      // padding: EdgeInsets.all(10.0),
+                      // child:
+                      Image.asset('images/workforce.png',
+                          height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
+                      // ),
                       Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: RaisedButton(
-                            color: Colors.lightBlueAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Colors.blue, width: 2)),
-                            child: Text("Verify if you are robot"),
-                            onPressed: () {
-                              recaptchaV2Controller.show();
-                            },
-                          ))
-                    ],
-                  ))
-                : Container(width: 0.0, height: 0.0),
-            RecaptchaV2(
-              apiKey: "6LcDZNYaAAAAAJr47OaUnu6IBqJinP9lg6u68LnP",
-              apiSecret: "6LcDZNYaAAAAANufZSbn6pTHKh64kjODmUnyt-Kh",
-              controller: recaptchaV2Controller,
-              onVerifiedError: (err) {
-                print(err);
-              },
-              onVerifiedSuccessfully: (success) {
-                setState(() {
-                  if (success) {
-                    verifyResult = "You've been verified successfully.";
-                    recaptchaCheck = true;
-                    print(verifyResult);
-                    recaptchaV2Controller.hide();
-                  } else {
-                    verifyResult = "Failed to verify.";
-                    recaptchaCheck = false;
-                    print(verifyResult);
-                  }
-                });
-              },
-            ),
-            !recaptchaCheck
-                ? Container(width: 0.0, height: 0.0)
-                : Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 0.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.email_outlined,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Email address',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: TextFormField(
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                  labelText: "Email Address",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter Email Address';
+                                  } else if (!value.contains('@')) {
+                                    return 'Please enter a valid email address!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+                        child: Row(children: [
+                          Icon(
+                            Icons.lock_outlined,
+                            color: Colors.blue,
+                            size: 30.0,
+                            semanticLabel: 'Password',
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10.0,
+                                  bottom: 10.0,
+                                  left: 20.0,
+                                  right: 20.0),
+                              child: TextFormField(
+                                obscureText: true,
+                                controller: passwordController,
+                                decoration: InputDecoration(
+                                  labelText: "Password",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter Password';
+                                  } else if (value.length < 6) {
+                                    return 'Password must be atleast 6 characters!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: GestureDetector(
+                              child: Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                              onTap: () async {
+                                await _asyncSimpleDialog(context);
+                              })),
+                      Padding(
                         padding: EdgeInsets.all(20.0),
-                        child: Text(verifyResult))),
-          ],
-        ),
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : RaisedButton(
+                                color: Colors.lightBlueAccent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    side: BorderSide(
+                                        color: Colors.blue, width: 2)),
+                                // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    if (verifyResult ==
+                                        "You've been verified successfully.") {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      logInToFb();
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              content: Text(
+                                                  "Kindly verify if you are robot"),
+                                              actions: [
+                                                FlatButton(
+                                                  child: Text("Ok"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  }
+                                },
+                                child: Text('Login'),
+                              ),
+                      ),
+                    ]))),
+          ),
+          !recaptchaCheck
+              ? Center(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: RaisedButton(
+                          color: Colors.lightBlueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                              side: BorderSide(color: Colors.blue, width: 2)),
+                          child: Text("Verify if you are robot"),
+                          onPressed: () {
+                            recaptchaV2Controller.show();
+                          },
+                        ))
+                  ],
+                ))
+              : Container(width: 0.0, height: 0.0),
+          RecaptchaV2(
+            apiKey: "6LcDZNYaAAAAAJr47OaUnu6IBqJinP9lg6u68LnP",
+            apiSecret: "6LcDZNYaAAAAANufZSbn6pTHKh64kjODmUnyt-Kh",
+            controller: recaptchaV2Controller,
+            onVerifiedError: (err) {
+              print(err);
+            },
+            onVerifiedSuccessfully: (success) {
+              setState(() {
+                if (success) {
+                  verifyResult = "You've been verified successfully.";
+                  recaptchaCheck = true;
+                  print(verifyResult);
+                  recaptchaV2Controller.hide();
+                } else {
+                  verifyResult = "Failed to verify.";
+                  recaptchaCheck = false;
+                  print(verifyResult);
+                }
+              });
+            },
+          ),
+          !recaptchaCheck
+              ? Container(width: 0.0, height: 0.0)
+              : Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(verifyResult))),
+        ],
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 
