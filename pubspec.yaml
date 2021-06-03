@@ -100,21 +100,15 @@ flutter:
     - images/sales/5.jpg
     - images/sales/6.jpg
     - images/workforce.png
-    - images/send.png
-    - images/car.jpg
     - images/home_page_background_image.jpg
-    - images/
     - images/customer_home/carpenter.jpg
     - images/customer_home/electrician.jpg
     - images/customer_home/mechanic.jpg
     - images/customer_home/plumber.jpg
     - images/customer_home/sofa_cleaning.jpg
     - images/customer_home/women_hair_cut_and_styling.jpg
-    - images/customer_home/contact_us.jpg
-    - assets/
+    - images/contact_us.jpg
     - images/recommended.jpg
-    - assets/labels.txt
-    - assets/mobilenet_v1_1.0_224_quant.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,25 +1,8 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
-
-List<String> listPathsLabels = [
-  "Carpenter",
-  "Electrician",
-  "Mechanic",
-  "Plumber",
-  "Sofa Cleaning",
-  "Women's Hair Cut and Spa"
-];
 
 class CustomerCompletedOrderDetails extends StatefulWidget {
   CustomerCompletedOrderDetails({this.uid, this.wspId, this.orderId});

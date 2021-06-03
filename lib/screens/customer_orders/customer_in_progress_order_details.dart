@@ -5,23 +5,7 @@ import 'package:workforce/screens/chat/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
-
-List<String> listPathsLabels = [
-  "Carpenter",
-  "Electrician",
-  "Mechanic",
-  "Plumber",
-  "Sofa Cleaning",
-  "Women's Hair Cut and Spa"
-];
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class CustomerInProgressOrderDetails extends StatefulWidget {
   CustomerInProgressOrderDetails({this.uid, this.wspId, this.orderId});
@@ -53,7 +37,7 @@ class CustomerInProgressOrderDetailsState extends State {
     }
   }
 
-   Widget images(var _images) {
+  Widget images(var _images) {
     List<Widget> list = new List<Widget>();
 
     for (var i = 0; i < _images.length; i += 2) {

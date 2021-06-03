@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:workforce/customer_home.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class UserRoles extends StatelessWidget {
   UserRoles({this.uid});
@@ -44,7 +45,7 @@ class UserRoles extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Image.asset('images/workforce.png',
+                  child: Image.asset(workForceLogo,
                       height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
                 ),
                 Padding(

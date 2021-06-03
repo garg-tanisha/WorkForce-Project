@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math' show cos, sqrt, asin;
 
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
 
 class Orders extends StatefulWidget {
   Orders({this.uid, this.role, this.flag});
@@ -634,7 +627,7 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset("images/no_orders.jpg",
+                      Image.asset(noOrderImage,
                           width: 0.8 *
                               MediaQuery.of(context).size.width.roundToDouble(),
                           height: 0.3 *
@@ -1173,7 +1166,7 @@ class OrdersState extends State {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      Image.asset("images/no_orders.jpg",
+                      Image.asset(noOrderImage,
                           width: 0.8 *
                               MediaQuery.of(context).size.width.roundToDouble(),
                           height: 0.3 *
@@ -1712,7 +1705,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                       noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -2249,7 +2242,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                       noOrderImage,
                         fit: BoxFit.cover,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
@@ -2786,7 +2779,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                     noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -3323,7 +3316,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                       noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -3860,7 +3853,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                        noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -4397,7 +4390,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                        noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -4933,7 +4926,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                        noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *
@@ -5469,7 +5462,7 @@ class OrdersState extends State {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                       Image.asset(
-                        "images/no_orders.jpg",
+                        noOrderImage,
                         width: 0.8 *
                             MediaQuery.of(context).size.width.roundToDouble(),
                         height: 0.3 *

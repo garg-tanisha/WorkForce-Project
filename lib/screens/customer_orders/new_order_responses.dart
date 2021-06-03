@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:sentiment_dart/sentiment_dart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,6 @@ class OrderResponses extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => OrderResponsesState(uid, orderId);
 }
-
-String noOrderImage = "images/no_orders.jpg";
 
 class OrderResponsesState extends State {
   final _formKey = GlobalKey<FormState>();

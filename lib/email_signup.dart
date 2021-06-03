@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'email_verification.dart';
 import 'dart:async';
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -86,7 +87,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   // Padding(
                   //   padding: EdgeInsets.all(10.0),
                   // child:
-                  Image.asset('images/workforce.png',
+                  Image.asset(workForceLogo,
                       height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
                   // ),
                   Container(
@@ -657,7 +658,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
             .document(result.user.uid)
             .setData({
           "email": emailController.text,
-          "dob": dobController.text,
+          "dob": dobController.text != null ? dobController.text : "",
           "first name": firstNameController.text,
           "last name": lastNameController.text,
           "role": _role,
@@ -704,7 +705,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
             .document(result.user.uid)
             .setData({
               "email": emailController.text,
-              "dob": dobController.text,
+              "dob": dobController.text != null ? dobController.text : "",
               "first name": firstNameController.text,
               "last name": lastNameController.text,
               "role": _role,

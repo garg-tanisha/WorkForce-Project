@@ -4,8 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workforce/screens/wsp_orders/wsp_completed_order_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-final String noOrderImage = "images/no_orders.jpg";
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class WSPCompletedOrders extends StatefulWidget {
   WSPCompletedOrders({this.uid, this.role, this.flag});

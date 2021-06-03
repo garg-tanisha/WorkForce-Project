@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'email_verification.dart';
 import 'user_roles_screen.dart';
 import 'customer_home.dart';
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class EmailLogIn extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _EmailLogInState extends State<EmailLogIn> {
                       // Padding(
                       // padding: EdgeInsets.all(10.0),
                       // child:
-                      Image.asset('images/workforce.png',
+                      Image.asset(workForceLogo,
                           height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
                       // ),
                       Padding(

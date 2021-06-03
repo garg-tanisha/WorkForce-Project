@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -84,7 +85,7 @@ class _IntroScreenState extends State<IntroScreen> {
           'Welcome To WorkForce!',
           style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
-        image: Image.asset('images/workforce.png',
+        image: Image.asset(workForceLogo,
             height: 220.0, width: 220.0, fit: BoxFit.scaleDown),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: new TextStyle(),

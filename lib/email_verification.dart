@@ -1,3 +1,5 @@
+import 'package:workforce/utils/corousel_sliders.dart';
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'service_provider_homepage.dart';
@@ -13,69 +15,6 @@ class IsEmailVerified extends StatefulWidget {
   State<StatefulWidget> createState() =>
       IsEmailVerifiedState(email, password, role);
 }
-
-final List<String> imgList = [
-  "images/sales/1.jpg",
-  "images/sales/2.PNG",
-  "images/sales/3.jpg",
-  "images/sales/4.jpg",
-  "images/sales/5.jpg",
-  "images/sales/6.jpg",
-];
-
-List<String> listPathsLabels = [
-  "Avail service anywhere ",
-  "Cut a deal on charges",
-  "Nearby service providers available",
-  "Several services to avail from",
-  "Recommendations are provided",
-  "Advanced search filters",
-];
-final List<Widget> imageSliders = imgList
-    .map((item) => Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(item,
-                          width: 1000.0, height: 700.0, fit: BoxFit.fill),
-                    ),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          listPathsLabels[imgList.indexOf(item)],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ))
-    .toList();
 
 class IsEmailVerifiedState extends State {
   final _formKey = GlobalKey<FormState>();
@@ -131,7 +70,7 @@ class IsEmailVerifiedState extends State {
                   Align(
                     alignment: Alignment.topCenter,
                     child: CarouselSlider(
-                      items: imageSliders,
+                      items: salesImageSliders,
                       options: CarouselOptions(
                           viewportFraction: 1,
                           autoPlay: true,
@@ -146,8 +85,8 @@ class IsEmailVerifiedState extends State {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: imgList.map((url) {
-                      int index = imgList.indexOf(url);
+                    children: salesList.map((url) {
+                      int index = salesList.indexOf(url);
                       return Container(
                         width: 8.0,
                         height: 8.0,

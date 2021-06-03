@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -419,7 +420,7 @@ class OrderConfirmationsSentState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -844,7 +845,7 @@ class OrderConfirmationsSentState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -1269,7 +1270,7 @@ class OrderConfirmationsSentState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -1694,7 +1695,7 @@ class OrderConfirmationsSentState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -2119,7 +2120,7 @@ class OrderConfirmationsSentState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size

@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:workforce/screens/chat/chat.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,16 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'customer_completed_order_details.dart';
 import 'customer_in_progress_order_details.dart';
-
-// import 'package:synchronized/synchronized.dart';
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
 
 class CustomerInProgressOrCompletedOrders extends StatefulWidget {
   CustomerInProgressOrCompletedOrders({this.uid, this.status});
@@ -551,7 +542,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                            Image.asset("images/no_orders.jpg",
+                            Image.asset(noOrderImage,
                                 width: 0.8 *
                                     MediaQuery.of(context)
                                         .size
@@ -1058,7 +1049,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                            Image.asset("images/no_orders.jpg",
+                            Image.asset(noOrderImage,
                                 width: 0.8 *
                                     MediaQuery.of(context)
                                         .size
@@ -1565,7 +1556,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                            Image.asset("images/no_orders.jpg",
+                            Image.asset(noOrderImage,
                                 width: 0.8 *
                                     MediaQuery.of(context)
                                         .size
@@ -2702,7 +2693,7 @@ class CustomerInProgressOrCompletedOrdersState extends State {
                 Align(
                     alignment: Alignment.center,
                     child: Column(children: [
-                      Image.asset("images/no_orders.jpg",
+                      Image.asset(noOrderImage,
                           width: 0.8 *
                               MediaQuery.of(context).size.width.roundToDouble(),
                           height: 0.3 *

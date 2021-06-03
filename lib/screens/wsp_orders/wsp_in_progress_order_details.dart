@@ -1,3 +1,5 @@
+import 'package:workforce/utils/widgets/preventive_measures_for_covid_19.dart';
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/screens/chat/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +10,6 @@ import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:url_launcher/url_launcher.dart';
-
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-];
-final List<String> preventCorona = [
-  "images/preventive_measures/handwash_for_20_sec.jpg",
-  "images/preventive_measures/use_soap_or_sanitizers.PNG",
-  "images/preventive_measures/social_distancing.PNG",
-  "images/preventive_measures/donot_touch_face_eyes_nose_mouth_with_dirty_hands.jpg",
-  "images/preventive_measures/cover_nose_and_mouth_with_mask.PNG",
-  "images/preventive_measures/isolation.jpg",
-];
 
 class WSPInProgressOrderDetails extends StatefulWidget {
   WSPInProgressOrderDetails({this.wspId, this.orderId, this.flag});
@@ -456,6 +446,7 @@ class WSPInProgressOrderDetailsState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return new ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
@@ -495,6 +486,8 @@ class WSPInProgressOrderDetailsState extends State {
                                                 ),
                                           ),
                                           child: ListView(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               // physics:
                                               //     NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
@@ -909,7 +902,8 @@ class WSPInProgressOrderDetailsState extends State {
                                                                 });
                                                                 submitProofs(
                                                                     orderId,
-                                                                    placedOrderId,
+                                                                    course
+                                                                        .documentID,
                                                                     context);
                                                               }
                                                             },
@@ -928,173 +922,7 @@ class WSPInProgressOrderDetailsState extends State {
                   return Text("Invalid order id!");
                 }
               }),
-          Container(
-            width: MediaQuery.of(context).size.width.roundToDouble(),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white,
-              ),
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(
-                      5.0) //                 <--- border radius here
-                  ),
-            ),
-            child: Column(children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text("Preventive Measures To Fight Covid",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0)),
-                ),
-              ),
-              Container(
-                  width:
-                      0.98 * MediaQuery.of(context).size.width.roundToDouble(),
-                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black12,
-                    ),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: Column(children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Wash your hands timely for atleast 20 seconds.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Image.asset(preventCorona[0],
-                                      width: 40.0,
-                                      height: 40.0,
-                                      fit: BoxFit.cover),
-                                )),
-                          )),
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Use soaps or alcohol based sanitizers.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Image.asset(preventCorona[1],
-                                      width: 40.0,
-                                      height: 40.0,
-                                      fit: BoxFit.cover),
-                                )),
-                          ))
-                        ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Do social distancing. Avoid any close contact with sick people.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Image.asset(preventCorona[2],
-                                      width: 40.0,
-                                      height: 40.0,
-                                      fit: BoxFit.cover),
-                                )),
-                          )),
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Avoid touching your nose, eyes or face with unclean hands.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Image.asset(preventCorona[3],
-                                      width: 40.0,
-                                      height: 40.0,
-                                      fit: BoxFit.cover),
-                                )),
-                          ))
-                        ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Cover nose and mouth with mask. Sneeze/cough into your elbow.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2,
-                                      ),
-                                    ),
-                                    child: Image.asset(preventCorona[4],
-                                        width: 40.0,
-                                        height: 40.0,
-                                        fit: BoxFit.cover))),
-                          )),
-                          Expanded(
-                              child: Card(
-                            color: Colors.white,
-                            elevation: 2.0,
-                            child: ListTile(
-                                title: Text(
-                                    "Isolation and social distancing are very important to stay safe.",
-                                    style: TextStyle(fontSize: 13.0)),
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Image.asset(preventCorona[5],
-                                      width: 40.0,
-                                      height: 40.0,
-                                      fit: BoxFit.cover),
-                                )),
-                          ))
-                        ]),
-                  ]))
-            ]),
-          ),
+          PreventiveMeasuresForCovid19(),
         ]));
   }
 

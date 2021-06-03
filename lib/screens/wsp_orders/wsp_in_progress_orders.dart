@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:workforce/screens/chat/chat.dart';
@@ -11,15 +12,6 @@ import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:url_launcher/url_launcher.dart';
-
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
 
 class WSPInProgressOrders extends StatefulWidget {
   WSPInProgressOrders({this.uid, this.role, this.flag});
@@ -529,7 +521,7 @@ class WSPInProgressOrdersState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -1059,7 +1051,7 @@ class WSPInProgressOrdersState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size
@@ -1589,7 +1581,7 @@ class WSPInProgressOrdersState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          Image.asset("images/no_orders.jpg",
+                          Image.asset(noOrderImage,
                               width: 0.8 *
                                   MediaQuery.of(context)
                                       .size

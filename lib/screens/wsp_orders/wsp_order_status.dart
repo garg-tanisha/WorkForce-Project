@@ -5,7 +5,8 @@ import 'wsp_new_orders.dart';
 import 'package:workforce/screens/wsp_orders/order_confirmations.dart';
 import 'wsp_completed_orders.dart';
 import 'package:workforce/screens/wsp_orders/wsp_orders_home.dart';
-
+import 'package:workforce/utils/widgets/preventive_measures_for_covid_19.dart';
+import 'package:workforce/utils/widgets/contact_us.dart';
 class OrderHistory extends StatefulWidget {
   OrderHistory({this.uid, this.role});
   final String uid;

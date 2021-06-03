@@ -1,3 +1,4 @@
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,14 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'new_order_responses.dart';
 
-final List<String> imgList = [
-  "images/customer_home/carpenter.jpg",
-  "images/customer_home/electrician.jpg",
-  "images/customer_home/mechanic.jpg",
-  "images/customer_home/plumber.jpg",
-  "images/customer_home/sofa_cleaning.jpg",
-  "images/customer_home/women_hair_cut_and_styling.jpg",
-];
 
 class CustomerNewOrders extends StatefulWidget {
   CustomerNewOrders({this.uid});
@@ -316,7 +309,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -341,7 +334,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -510,7 +503,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -744,7 +737,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -769,7 +762,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -938,7 +931,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1172,7 +1165,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -1197,7 +1190,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -1366,7 +1359,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1600,7 +1593,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -1625,7 +1618,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -1794,7 +1787,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2028,7 +2021,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -2053,7 +2046,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -2222,7 +2215,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2456,7 +2449,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -2481,7 +2474,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -2650,7 +2643,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2868,7 +2861,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -2893,7 +2886,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -3062,7 +3055,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -3296,7 +3289,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -3321,7 +3314,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -3490,7 +3483,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -3724,7 +3717,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -3749,7 +3742,7 @@ class CustomerNewOrdersState extends State {
                                                           height: 100,
                                                           fit: BoxFit.fill)
                                                       : Image.asset(
-                                                          "images/no_orders.jpg",
+                                                          noOrderImage,
                                                           width: 0.2 *
                                                               MediaQuery.of(
                                                                       context)
@@ -3918,7 +3911,7 @@ class CustomerNewOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset("images/no_orders.jpg",
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size

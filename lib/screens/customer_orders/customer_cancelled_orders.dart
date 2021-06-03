@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-final String noOrdersImage = "images/no_orders.jpg";
+import 'package:workforce/utils/images_and_Labels.dart';
 
 class CustomerCancelledOrders extends StatefulWidget {
   CustomerCancelledOrders({this.uid});
@@ -346,7 +345,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -619,7 +618,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -892,7 +891,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1165,7 +1164,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1438,7 +1437,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1711,7 +1710,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -1984,7 +1983,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2257,7 +2256,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size
@@ -2530,7 +2529,7 @@ class CustomerCancelledOrdersState extends State {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        Image.asset(noOrdersImage,
+                        Image.asset(noOrderImage,
                             width: 0.8 *
                                 MediaQuery.of(context)
                                     .size

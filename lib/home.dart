@@ -1,77 +1,15 @@
+import 'package:workforce/utils/corousel_sliders.dart';
+import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter/material.dart';
 import 'email_signup.dart';
 import 'email_login.dart';
-// import 'package:workforce/screens/recommendations/recommendations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomeState();
 }
-
-final List<String> imgList = [
-  "images/sales/1.jpg",
-  "images/sales/2.PNG",
-  "images/sales/3.jpg",
-  "images/sales/4.jpg",
-  "images/sales/5.jpg",
-  "images/sales/6.jpg",
-];
-
-List<String> listPathsLabels = [
-  "Avail service anywhere ",
-  "Cut a deal on charges",
-  "Nearby service providers available",
-  "Several services to avail from",
-  "Recommendations are provided",
-  "Advanced search filters",
-];
-final List<Widget> imageSliders = imgList
-    .map((item) => Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(item,
-                          width: 1000.0, height: 700.0, fit: BoxFit.fill),
-                    ),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          listPathsLabels[imgList.indexOf(item)],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ))
-    .toList();
 
 class HomeState extends State {
   final String title = "Sign Up";
@@ -92,8 +30,7 @@ class HomeState extends State {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/home_page_background_image.jpg"),
-                fit: BoxFit.fill)),
+                image: AssetImage(homePageBackgroundImage), fit: BoxFit.fill)),
         child: Center(
           child: SingleChildScrollView(
             child: ConstrainedBox(
@@ -104,7 +41,7 @@ class HomeState extends State {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.all(10.0),
-                          child: Image.asset('images/workforce.png',
+                          child: Image.asset(workForceLogo,
                               height: 220.0,
                               width: 220.0,
                               fit: BoxFit.scaleDown),
@@ -125,7 +62,7 @@ class HomeState extends State {
                           padding: EdgeInsets.all(5.0),
                         ),
                         CarouselSlider(
-                          items: imageSliders,
+                          items: salesImageSliders,
                           options: CarouselOptions(
                               viewportFraction: 1,
                               autoPlay: true,
@@ -139,8 +76,8 @@ class HomeState extends State {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: imgList.map((url) {
-                            int index = imgList.indexOf(url);
+                          children: salesList.map((url) {
+                            int index = salesList.indexOf(url);
                             return Container(
                               width: 8.0,
                               height: 8.0,
