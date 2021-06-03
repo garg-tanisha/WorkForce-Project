@@ -150,40 +150,55 @@ class WSPInProgressOrderDetailsState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
-                  child: ClipRRect(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
                       child: Image.file(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fill,
-                  ))))
+                        _images[i],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
-                  child: ClipRRect(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
                       child: Image.file(
-                    _images[i],
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fill,
-                  )))),
+                        _images[i],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      )))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: 5.0, left: 5.0, right: 5.0, top: 5.0),
-                  child: ClipRRect(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
                       child: Image.file(
-                    _images[i + 1],
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fill,
-                  ))))
+                        _images[i + 1],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ))))
         ]));
       }
     }
@@ -200,22 +215,43 @@ class WSPInProgressOrderDetailsState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill))),
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i + 1],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       }
     }
@@ -339,27 +375,34 @@ class WSPInProgressOrderDetailsState extends State {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       ListTile(
+                        title: RichText(
+                            text: new TextSpan(
+                                style: new TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.black,
+                                ),
+                                children: <TextSpan>[
+                              new TextSpan(text: 'Title: '),
+                              new TextSpan(text: userDocument["title"]),
+                            ])),
                         subtitle: RichText(
                           text: new TextSpan(
                             style: new TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 18.0,
                               color: Colors.black,
                             ),
                             children: <TextSpan>[
                               new TextSpan(
-                                  text: 'Title: ',
+                                  text: 'Order #: ',
                                   style: new TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                              new TextSpan(text: userDocument["title"]),
-                              new TextSpan(
-                                  text: '\nOrder #: ',
-                                  style: new TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                                    color: Colors.black54,
+                                  )),
                               new TextSpan(text: orderId),
                               new TextSpan(
                                   text: '\nDate Of Ordering: ',
                                   style: new TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                                    color: Colors.black54,
+                                  )),
                               new TextSpan(
                                   text: DateTime.fromMicrosecondsSinceEpoch(
                                           userDocument["date time"]
@@ -368,7 +411,8 @@ class WSPInProgressOrderDetailsState extends State {
                               new TextSpan(
                                   text: "\nService Date and Time: ",
                                   style: new TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                                    color: Colors.black54,
+                                  )),
                               new TextSpan(
                                   text: DateTime.fromMicrosecondsSinceEpoch(
                                           userDocument["service date and time"]
@@ -377,7 +421,8 @@ class WSPInProgressOrderDetailsState extends State {
                               new TextSpan(
                                   text: "\nPrice: ",
                                   style: new TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                                    color: Colors.black54,
+                                  )),
                               new TextSpan(
                                   text: userDocument["price"].toString())
                             ],
@@ -458,17 +503,18 @@ class WSPInProgressOrderDetailsState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text:
                                                                 'Description: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -478,10 +524,11 @@ class WSPInProgressOrderDetailsState extends State {
                                                                 text: "N/A"),
                                                         new TextSpan(
                                                             text: '\nPrice: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
@@ -489,10 +536,11 @@ class WSPInProgressOrderDetailsState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -671,7 +719,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                             "Work Proofs",
                                                             style: TextStyle(
                                                                 fontSize:
-                                                                    15.0)),
+                                                                    14.0)),
                                                       ),
                                                     ),
                                                     Padding(
@@ -745,7 +793,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                       child: Text(
                                                           "Customer Signatures",
                                                           style: TextStyle(
-                                                              fontSize: 15.0)),
+                                                              fontSize: 14.0)),
                                                     )),
                                                     Padding(
                                                       padding: EdgeInsets.only(

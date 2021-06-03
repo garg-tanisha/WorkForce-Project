@@ -72,22 +72,43 @@ class WSPCompletedOrderDetailsState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill))),
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i + 1],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       }
     }
@@ -217,6 +238,7 @@ class WSPCompletedOrderDetailsState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return new ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {

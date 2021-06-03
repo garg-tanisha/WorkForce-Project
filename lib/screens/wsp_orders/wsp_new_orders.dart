@@ -1,16 +1,8 @@
+import 'package:workforce/main.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:workforce/screens/wsp_orders/wsp_in_progress_orders.dart';
-import 'wsp_new_orders.dart';
-import 'package:workforce/screens/wsp_orders/order_confirmations.dart';
-import 'wsp_completed_orders.dart';
-import 'package:workforce/screens/wsp_orders/wsp_orders_home.dart';
-
-import 'package:ff_navigation_bar/ff_navigation_bar.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 final List<String> imgList = [
@@ -45,7 +37,7 @@ class OrdersState extends State {
     'Service Date And Time (Asc)',
     'Service Date And Time (Dsc)',
     'Time Window (Min to Max)',
-    'Time Window (Max to Min'
+    'Time Window (Max to Min)'
   ];
   bool flag = false;
   String filter = 'No filter';
@@ -114,22 +106,43 @@ class OrdersState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill))),
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i + 1],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       }
     }
@@ -141,8 +154,27 @@ class OrdersState extends State {
   @override
   Widget build(BuildContext context) {
     if (filter == 'No filter') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -162,45 +194,55 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
+                    child: Center(
+                      child: Center(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 0.0),
+                              child: Text("Filter",
+                                  style: TextStyle(
+                                      fontSize: 16.0, color: Colors.white)),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    top: 0.0,
+                                    bottom: 0.0,
+                                    left: 10.0,
+                                    right: 10.0),
+                                child: Card(
+                                  child: DropdownButton<String>(
+                                    //create an array of strings
+                                    items: filters.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0.0,
+                                              bottom: 0.0,
+                                              left: 10.0,
+                                              right: 0.0),
+                                          child: Text(value,
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.black)),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    value: filter,
+                                    onChanged: (String value) {
+                                      _onDropDownChanged(value);
+                                    },
+                                  ),
+                                )),
+                          ]),
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -341,52 +383,52 @@ class OrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -403,7 +445,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -453,7 +495,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -651,11 +693,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Oldest Orders To Latest Orders') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -677,45 +738,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -856,52 +922,52 @@ class OrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -918,7 +984,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -968,7 +1034,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -1165,11 +1231,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Latest Orders To Oldest Orders') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -1191,45 +1276,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -1370,52 +1460,52 @@ class OrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -1432,7 +1522,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -1482,7 +1572,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -1678,11 +1768,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Price (Low To High)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -1704,45 +1813,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -1883,52 +1997,52 @@ class OrdersState extends State {
                                                         ),
                                                       ),
                                                       leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -1945,7 +2059,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -1995,7 +2109,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -2191,11 +2305,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Price (High To Low)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -2217,45 +2350,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -2395,53 +2533,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                    leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -2458,7 +2596,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -2508,7 +2646,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -2704,11 +2842,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Distance (Close To Far)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -2730,45 +2887,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -2908,53 +3070,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                    leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -2971,7 +3133,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -3021,7 +3183,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -3217,11 +3379,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Service Date And Time (Asc)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -3243,45 +3424,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -3421,53 +3607,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                     leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -3484,7 +3670,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -3534,7 +3720,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -3730,11 +3916,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Service Date And Time (Dsc)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -3756,45 +3961,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -3934,53 +4144,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                     leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -3997,7 +4207,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -4047,7 +4257,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -4243,11 +4453,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     } else if (filter == 'Time Window (Min to Max)') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+      return WillPopScope(
+        onWillPop: () async => false,
+        child:Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -4268,45 +4497,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -4446,53 +4680,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                    leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -4509,7 +4743,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -4559,7 +4793,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -4755,11 +4989,30 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
-    } else if (filter == 'Time Window (Max to Min') {
-      return Scaffold(
-        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )")),
+    } else if (filter == 'Time Window (Max to Min)') {
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+        appBar: AppBar(title: Text("Order Requests" + " ( " + role + " )"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  auth.signOut().then((res) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyApp()),
+                    );
+                  });
+                },
+              )
+            ],),
         body: StreamBuilder(
             stream: Firestore.instance
                 .collection('orders')
@@ -4780,45 +5033,50 @@ class OrdersState extends State {
                     margin: const EdgeInsets.all(20.0),
                     padding: EdgeInsets.only(
                         top: 5.0, bottom: 5.0, left: 0.0, right: 0.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
-                          child: Text("Filter",
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                        ),
-                        Padding(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          Padding(
                             padding: EdgeInsets.only(
-                                top: 0.0, bottom: 0.0, left: 10.0, right: 10.0),
-                            child: Card(
-                              child: DropdownButton<String>(
-                                //create an array of strings
-                                items: filters.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 0.0,
-                                          bottom: 0.0,
-                                          left: 10.0,
-                                          right: 0.0),
-                                      child: Text(value,
-                                          style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black)),
-                                    ),
-                                  );
-                                }).toList(),
-                                value: filter,
-                                onChanged: (String value) {
-                                  _onDropDownChanged(value);
-                                },
-                              ),
-                            )),
-                      ]),
+                                top: 0.0, bottom: 0.0, left: 10.0, right: 0.0),
+                            child: Text("Filter",
+                                style: TextStyle(
+                                    fontSize: 16.0, color: Colors.white)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 0.0,
+                                  bottom: 0.0,
+                                  left: 10.0,
+                                  right: 10.0),
+                              child: Card(
+                                child: DropdownButton<String>(
+                                  //create an array of strings
+                                  items: filters.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 0.0,
+                                            bottom: 0.0,
+                                            left: 10.0,
+                                            right: 0.0),
+                                        child: Text(value,
+                                            style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  value: filter,
+                                  onChanged: (String value) {
+                                    _onDropDownChanged(value);
+                                  },
+                                ),
+                              )),
+                        ]),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -4958,53 +5216,53 @@ class OrdersState extends State {
                                                           ],
                                                         ),
                                                       ),
-                                                    leading: course["photos"] !=
-                                                          null
-                                                      ? Image.network(
-                                                          course["photos"][0],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
-                                                  trailing: course["photos"] !=
-                                                              null &&
-                                                          course["photos"]
-                                                                  .length >
-                                                              1
-                                                      ? Image.network(
-                                                          course["photos"][1],
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill)
-                                                      : Image.asset(
-                                                          "images/no_orders.jpg",
-                                                          width: 0.2 *
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width
-                                                                  .roundToDouble(),
-                                                          height: 100,
-                                                          fit: BoxFit.fill),
+                                                      leading: course["photos"] !=
+                                                              null
+                                                          ? Image.network(
+                                                              course["photos"]
+                                                                  [0],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
+                                                      trailing: course["photos"] !=
+                                                                  null &&
+                                                              course["photos"]
+                                                                      .length >
+                                                                  1
+                                                          ? Image.network(
+                                                              course[
+                                                                  "photos"][1],
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill)
+                                                          : Image.asset(
+                                                              "images/no_orders.jpg",
+                                                              width: 0.2 *
+                                                                  MediaQuery.of(context)
+                                                                      .size
+                                                                      .width
+                                                                      .roundToDouble(),
+                                                              height: 100,
+                                                              fit: BoxFit.fill),
                                                     ),
                                                     Center(
                                                       child:
@@ -5021,7 +5279,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -5071,7 +5329,7 @@ class OrdersState extends State {
                                                                   .only(
                                                                       top: 10.0,
                                                                       bottom:
-                                                                          10.0,
+                                                                          0.0,
                                                                       left:
                                                                           20.0,
                                                                       right:
@@ -5267,7 +5525,7 @@ class OrdersState extends State {
                   label: 'Done',
                 ),
               ],
-            )),
+            )),)
       );
     }
   }
@@ -5288,10 +5546,10 @@ class OrdersState extends State {
                         child: Column(children: <Widget>[
                       Row(children: [
                         Icon(
-                          Icons.email_rounded,
+                          Icons.monetization_on,
                           color: Colors.blue,
                           size: 30.0,
-                          semanticLabel: 'Email address',
+                          semanticLabel: 'Price',
                         ),
                         Expanded(
                           child: Padding(
@@ -5323,10 +5581,10 @@ class OrdersState extends State {
                       ]),
                       Row(children: [
                         Icon(
-                          Icons.email_rounded,
+                          Icons.description_outlined,
                           color: Colors.blue,
                           size: 30.0,
-                          semanticLabel: 'Email address',
+                          semanticLabel: 'Description',
                         ),
                         Expanded(
                           child: Padding(

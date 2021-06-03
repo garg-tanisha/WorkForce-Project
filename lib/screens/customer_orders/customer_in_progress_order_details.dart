@@ -53,7 +53,7 @@ class CustomerInProgressOrderDetailsState extends State {
     }
   }
 
-  Widget images(var _images) {
+   Widget images(var _images) {
     List<Widget> list = new List<Widget>();
 
     for (var i = 0; i < _images.length; i += 2) {
@@ -61,22 +61,43 @@ class CustomerInProgressOrderDetailsState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill))),
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i + 1],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       }
     }
@@ -145,7 +166,7 @@ class CustomerInProgressOrderDetailsState extends State {
                           ),
                           children: <TextSpan>[
                             new TextSpan(
-                                text: '\nOrder #: ',
+                                text: 'Order #: ',
                                 style: new TextStyle(
                                   color: Colors.black54,
                                 )),
@@ -184,6 +205,7 @@ class CustomerInProgressOrderDetailsState extends State {
                     userDocument["photos"] != null
                         ? images(userDocument["photos"])
                         : Container(),
+                    Padding(padding: EdgeInsets.only(bottom: 5.0))
                   ],
                 ),
               );
@@ -258,12 +280,12 @@ class CustomerInProgressOrderDetailsState extends State {
                                           subtitle: RichText(
                                             text: new TextSpan(
                                               style: new TextStyle(
-                                                fontSize: 20.0,
+                                                fontSize: 18.0,
                                                 color: Colors.black,
                                               ),
                                               children: <TextSpan>[
                                                 new TextSpan(
-                                                    text: '\nDescription: ',
+                                                    text: 'Description: ',
                                                     style: new TextStyle(
                                                       color: Colors.black54,
                                                     )),

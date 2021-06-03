@@ -127,7 +127,8 @@ class ServiceProviderHomeState extends State {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.only(
+                        top: 15.0, bottom: 10.0, left: 10.0, right: 10.0),
                     child: Text("Services",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0)),
@@ -161,6 +162,7 @@ class ServiceProviderHomeState extends State {
 
                       return ListView.builder(
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: roles.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(

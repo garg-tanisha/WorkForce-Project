@@ -47,7 +47,6 @@ class CustomerCompletedOrderDetailsState extends State {
     this.wspId = wspId;
     this.orderId = orderId;
   }
-
   Widget images(var _images) {
     List<Widget> list = new List<Widget>();
 
@@ -56,22 +55,43 @@ class CustomerCompletedOrderDetailsState extends State {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       } else {
         list.add(Row(children: [
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i],
-                      width: 100, height: 100, fit: BoxFit.fill))),
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0),
-                  child: Image.network(_images[i + 1],
-                      width: 100, height: 100, fit: BoxFit.fill)))
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
         ]));
       }
     }
@@ -573,51 +593,75 @@ class CustomerCompletedOrderDetailsState extends State {
                                                                   ]),
                                                             ),
                                                             Center(
-                                                              child:
-                                                                  SingleChildScrollView(
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                                child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                          "Ratings",
-                                                                          style:
-                                                                              TextStyle(fontSize: 16.0)),
-                                                                      Padding(
-                                                                        padding: EdgeInsets.only(
-                                                                            left:
-                                                                                15.0,
-                                                                            top:
-                                                                                5.0,
-                                                                            bottom:
-                                                                                5.0),
-                                                                        child: DropdownButton<
-                                                                            String>(
-                                                                          //create an array of strings
-                                                                          items:
-                                                                              ratings.map((String value) {
-                                                                            return DropdownMenuItem<String>(
-                                                                              value: value,
-                                                                              child: Text(value),
-                                                                            );
-                                                                          }).toList(),
-                                                                          //value property
-                                                                          value:
-                                                                              rating,
-                                                                          //without it nothing will be updated
-                                                                          onChanged:
-                                                                              (String value) {
-                                                                            _onDropDownChanged(value);
-                                                                          },
-                                                                        ),
-                                                                      ),
-                                                                    ]),
-                                                              ),
-                                                            ),
+                                                                child:
+                                                                    Container(
+                                                                        margin: const EdgeInsets.all(
+                                                                            10.0),
+                                                                        padding: const EdgeInsets.symmetric(
+                                                                            horizontal:
+                                                                                10.0),
+                                                                        alignment: Alignment(
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child: Row(
+                                                                            children: [
+                                                                              Icon(
+                                                                                Icons.star_rounded,
+                                                                                color: Colors.blue,
+                                                                                size: 30.0,
+                                                                                semanticLabel: 'Confirm Password',
+                                                                              ),
+                                                                              Container(
+                                                                                  margin: const EdgeInsets.all(20.0),
+                                                                                  padding: EdgeInsets.only(
+                                                                                      // top: 5.0,
+                                                                                      // bottom: 5.0,
+                                                                                      left: 20.0,
+                                                                                      right: 20.0),
+                                                                                  decoration: BoxDecoration(
+                                                                                    border: Border.all(
+                                                                                      color: Colors.black,
+                                                                                    ),
+                                                                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                                                                  ),
+                                                                                  child: SingleChildScrollView(
+                                                                                    scrollDirection: Axis.horizontal,
+                                                                                    child: Center(
+                                                                                      child: SingleChildScrollView(
+                                                                                        scrollDirection: Axis.horizontal,
+                                                                                        child: Row(children: [
+                                                                                          Text("Ratings", style: TextStyle(fontSize: 16.0)),
+                                                                                          Padding(
+                                                                                            padding: EdgeInsets.only(left: 15.0, top: 5.0, bottom: 5.0),
+                                                                                            child: DropdownButton<String>(
+                                                                                              //create an array of strings
+                                                                                              items: ratings.map((String value) {
+                                                                                                return DropdownMenuItem<String>(
+                                                                                                  value: value,
+                                                                                                  child: Text(value),
+                                                                                                );
+                                                                                              }).toList(),
+                                                                                              //value property
+                                                                                              value: rating,
+                                                                                              //without it nothing will be updated
+                                                                                              onChanged: (String value) {
+                                                                                                _onDropDownChanged(value);
+                                                                                              },
+                                                                                            ),
+                                                                                          ),
+                                                                                        ]),
+                                                                                      ),
+                                                                                    ),
+                                                                                  )),
+                                                                            ]))),
                                                             Padding(
                                                               padding:
                                                                   EdgeInsets
-                                                                      .all(5.0),
+                                                                      .only(
+                                                                left: 5.0,
+                                                                right: 5.0,
+                                                                // top: 5.0
+                                                              ),
                                                               child: isLoading
                                                                   ? CircularProgressIndicator()
                                                                   : RaisedButton(

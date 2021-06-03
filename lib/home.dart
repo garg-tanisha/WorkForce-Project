@@ -80,8 +80,13 @@ class HomeState extends State {
   @override
   Widget build(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Color(0xFF64B5F6), Color(0xFF1976D2)],
-    ).createShader(new Rect.fromLTWH(0.0, 0.0, 70.0, 200.0));
+      colors: <Color>[Color(0xFF40C4FF), Color(0xFF1976D2)],
+    ).createShader(new Rect.fromLTWH(
+      0.0,
+      0.0,
+      200.0,
+      70.0,
+    ));
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -112,7 +117,7 @@ class HomeState extends State {
                               fontWeight: FontWeight.bold,
                               foreground: new Paint()..shader = linearGradient,
                               fontSize: 24.0,
-                              // color: Colors.blue.shade700
+                              // color: Colors.lightBlueAccent
                             ),
                           ),
                         ),
@@ -156,34 +161,108 @@ class HomeState extends State {
                               // Vertically center the widget inside the column
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: SignInButton(
-                                      Buttons.Email,
-                                      text: "Sign up with Email",
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EmailSignUp()),
-                                        );
-                                      },
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: SignInButton(
-                                      Buttons.Email,
-                                      text: "Log In Using Email",
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EmailLogIn()),
-                                        );
-                                      },
-                                    )),
+                                Center(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          // top: 20.0,
+                                          bottom: 10.0,
+                                          left: 20.0,
+                                          // right: 20.0
+                                        ),
+                                        child: Icon(
+                                          Icons.email,
+                                          color: Colors.blue,
+                                          size: 30.0,
+                                          semanticLabel: 'Email',
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            // top: 20.0,
+                                            bottom: 10.0,
+                                            left: 20.0,
+                                            right: 20.0),
+                                        child: RaisedButton(
+                                          onPressed: () async {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EmailSignUp()),
+                                            );
+                                          },
+                                          child: Expanded(
+                                            child: const Text(
+                                              "Sign up with Email",
+                                              style: TextStyle(fontSize: 15.0),
+                                            ),
+                                          ),
+                                          color: Colors.lightBlueAccent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              side: BorderSide(
+                                                  color: Colors.blue,
+                                                  width: 2)),
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ),
+                                Center(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          // top: 20.0,
+                                          bottom: 10.0,
+                                          left: 20.0,
+                                          // right: 20.0
+                                        ),
+                                        child: Icon(
+                                          Icons.email,
+                                          color: Colors.blue,
+                                          size: 30.0,
+                                          semanticLabel: 'Email',
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            // top: 20.0,
+                                            bottom: 10.0,
+                                            left: 20.0,
+                                            right: 20.0),
+                                        child: RaisedButton(
+                                          onPressed: () async {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EmailLogIn()),
+                                            );
+                                          },
+                                          child: Expanded(
+                                            child: const Text(
+                                              "Log In Using Email",
+                                              style: TextStyle(fontSize: 15.0),
+                                            ),
+                                          ),
+                                          color: Colors.lightBlueAccent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              side: BorderSide(
+                                                  color: Colors.blue,
+                                                  width: 2)),
+                                        ),
+                                      )
+                                    ]),
+                                  ),
+                                ),
                                 Padding(
                                     padding: EdgeInsets.all(10.0),
                                     child: GestureDetector(
