@@ -10,7 +10,6 @@ import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as Path;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:workforce/utils/methods/images.dart';
 
 class WSPInProgressOrderDetails extends StatefulWidget {
   WSPInProgressOrderDetails({this.wspId, this.orderId, this.flag});
@@ -131,6 +130,124 @@ class WSPInProgressOrderDetailsState extends State {
             ),
           );
         });
+  }
+
+  Widget images(List<File> _images) {
+    List<Widget> list = new List<Widget>();
+
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.file(
+                        _images[i],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ))))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.file(
+                        _images[i],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      )))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.file(
+                        _images[i + 1],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ))))
+        ]));
+      }
+    }
+    ;
+
+    return new Column(children: list);
+  }
+
+  Widget images_(var _images) {
+    List<Widget> list = new List<Widget>();
+
+    for (var i = 0; i < _images.length; i += 2) {
+      if (i + 1 >= _images.length) {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill))))
+        ]));
+      } else {
+        list.add(Row(children: [
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i],
+                          width: 100, height: 100, fit: BoxFit.fill)))),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.black12,
+                        ),
+                      ),
+                      child: Image.network(_images[i + 1],
+                          width: 100, height: 100, fit: BoxFit.fill))))
+        ]));
+      }
+    }
+    ;
+
+    return new Column(children: list);
   }
 
   Future getImage(bool gallery, List<File> _images) async {
@@ -304,7 +421,7 @@ class WSPInProgressOrderDetailsState extends State {
                       ),
                       Padding(padding: EdgeInsets.all(5.0)),
                       userDocument["photos"] != null
-                          ? images(userDocument["photos"])
+                          ? images_(userDocument["photos"])
                           : Container(),
                     ],
                   ),
@@ -329,7 +446,6 @@ class WSPInProgressOrderDetailsState extends State {
                 if (!(snapshot.data == null ||
                     snapshot.data.documents == null)) {
                   return new ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
@@ -369,8 +485,6 @@ class WSPInProgressOrderDetailsState extends State {
                                                 ),
                                           ),
                                           child: ListView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
                                               // physics:
                                               //     NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
@@ -642,7 +756,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                                             15.0)))
                                                             : Container(),
                                                         _proofImages.length != 0
-                                                            ? images__(
+                                                            ? images(
                                                                 _proofImages)
                                                             : Container(),
                                                       ])),
@@ -719,7 +833,7 @@ class WSPInProgressOrderDetailsState extends State {
                                                         _signaturesImages
                                                                     .length !=
                                                                 0
-                                                            ? images__(
+                                                            ? images(
                                                                 _signaturesImages)
                                                             : Container(),
                                                       ])),

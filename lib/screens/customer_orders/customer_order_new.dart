@@ -1,4 +1,4 @@
-import 'package:workforce/utils/images_and_Labels.dart';
+import 'package:workforce/utils/methods/images.dart';import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,60 +39,6 @@ class CustomerNewOrdersState extends State {
       this.filter = value;
     });
   }
-
-    Widget images(var _images) {
-    List<Widget> list = new List<Widget>();
-
-    for (var i = 0; i < _images.length; i += 2) {
-      if (i + 1 >= _images.length) {
-        list.add(Row(children: [
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1.5,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      child: Image.network(_images[i],
-                          width: 100, height: 100, fit: BoxFit.fill))))
-        ]));
-      } else {
-        list.add(Row(children: [
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1.5,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      child: Image.network(_images[i],
-                          width: 100, height: 100, fit: BoxFit.fill)))),
-          Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1.5,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      child: Image.network(_images[i + 1],
-                          width: 100, height: 100, fit: BoxFit.fill))))
-        ]));
-      }
-    }
-    ;
-
-    return new Column(children: list);
-  }
-
   @override
   Widget build(BuildContext context) {
     if (filter == 'No Filter') {

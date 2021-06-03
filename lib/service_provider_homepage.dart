@@ -1,4 +1,3 @@
-import 'package:workforce/utils/images_and_Labels.dart';
 import 'package:workforce/screens/wsp_orders/wsp_order_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +7,6 @@ import 'package:workforce/utils/widgets/preventive_measures_for_covid_19.dart';
 import 'package:workforce/utils/widgets/contact_us.dart';
 import 'package:workforce/utils/widgets/services.dart';
 import 'package:workforce/utils/widgets/wsp_drawer.dart';
-import 'package:workforce/utils/corousel_sliders.dart';
 
 class ServiceProviderHome extends StatefulWidget {
   ServiceProviderHome({this.uid});
@@ -20,8 +18,7 @@ class ServiceProviderHome extends StatefulWidget {
 class ServiceProviderHomeState extends State {
   String uid;
   final String title = "WSP HomePage";
-  List<dynamic> roles = [];
-  List<dynamic> rating = [];
+  List<dynamic> roles = [], rating = [];
   ServiceProviderHomeState(String uid) {
     this.uid = uid;
   }

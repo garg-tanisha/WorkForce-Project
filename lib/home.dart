@@ -131,11 +131,9 @@ class HomeState extends State {
                                                       EmailSignUp()),
                                             );
                                           },
-                                          child: Expanded(
-                                            child: const Text(
-                                              "Sign up with Email",
-                                              style: TextStyle(fontSize: 15.0),
-                                            ),
+                                          child: const Text(
+                                            "Sign up with Email",
+                                            style: TextStyle(fontSize: 15.0),
                                           ),
                                           color: Colors.lightBlueAccent,
                                           shape: RoundedRectangleBorder(
@@ -182,11 +180,9 @@ class HomeState extends State {
                                                       EmailLogIn()),
                                             );
                                           },
-                                          child: Expanded(
-                                            child: const Text(
-                                              "Log In Using Email",
-                                              style: TextStyle(fontSize: 15.0),
-                                            ),
+                                          child: Text(
+                                            "Log In Using Email",
+                                            style: TextStyle(fontSize: 15.0),
                                           ),
                                           color: Colors.lightBlueAccent,
                                           shape: RoundedRectangleBorder(

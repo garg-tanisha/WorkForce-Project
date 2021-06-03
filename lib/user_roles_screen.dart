@@ -1,9 +1,6 @@
 import 'package:workforce/screens/customer_orders/customer_order_status.dart';
 import 'package:workforce/service_provider_homepage.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:workforce/customer_home.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:workforce/utils/images_and_Labels.dart';
