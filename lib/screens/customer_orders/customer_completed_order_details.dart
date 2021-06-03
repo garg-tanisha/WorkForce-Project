@@ -338,7 +338,7 @@ class CustomerCompletedOrderDetailsState extends State {
                                                           child: Text(
                                                               "Want to reopen order? ( in 24 hours)",
                                                               style: TextStyle(
-                                                                fontSize: 14.0,
+                                                                fontSize: 16.0,
                                                                 // fontWeight:
                                                                 //     FontWeight
                                                                 //         .bold
@@ -435,7 +435,7 @@ class CustomerCompletedOrderDetailsState extends State {
                                                     child: Text(
                                                         "Want to place similar order?",
                                                         style: TextStyle(
-                                                          fontSize: 14.0,
+                                                          fontSize: 16.0,
                                                           // fontWeight:
                                                           //     FontWeight
                                                           //         .bold
@@ -756,7 +756,7 @@ class CustomerCompletedOrderDetailsState extends State {
                                                                               listPathsLabels[idx],
                                                                               style: TextStyle(
                                                                                 color: Colors.white,
-                                                                                fontSize: 14.0,
+                                                                                fontSize: 16.0,
                                                                                 fontWeight: FontWeight.bold,
                                                                               ),
                                                                             ),

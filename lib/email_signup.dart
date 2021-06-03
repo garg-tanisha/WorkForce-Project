@@ -427,6 +427,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
+                                          // ignore: deprecated_member_use
                                           child: FormBuilderCheckboxList(
                                             decoration: InputDecoration(
                                                 labelText:
@@ -435,15 +436,50 @@ class _EmailSignUpState extends State<EmailSignUp> {
                                             initialValue: options,
                                             options: [
                                               FormBuilderFieldOption(
-                                                  value: "Electrician"),
+                                                  value:
+                                                      "Ac install and repair"),
+                                              FormBuilderFieldOption(
+                                                  value: "Bakery"),
                                               FormBuilderFieldOption(
                                                   value: "Carpenter"),
                                               FormBuilderFieldOption(
-                                                  value: "Doctor"),
+                                                  value: "Carpet cleaning"),
+                                              FormBuilderFieldOption(
+                                                  value: "Electrician"),
+                                              FormBuilderFieldOption(
+                                                  value: "Food box delivery"),
+                                              FormBuilderFieldOption(
+                                                  value: "Makeup artist"),
+                                              FormBuilderFieldOption(
+                                                  value: "Massage for men"),
+                                              FormBuilderFieldOption(
+                                                  value: "Massage for women"),
+                                              FormBuilderFieldOption(
+                                                  value: "Mechanic"),
+                                              FormBuilderFieldOption(
+                                                  value:
+                                                      "Men's haircut and styling"),
                                               FormBuilderFieldOption(
                                                   value: "Plumber"),
                                               FormBuilderFieldOption(
-                                                  value: "Mechanic"),
+                                                  value: "Printing"),
+                                              FormBuilderFieldOption(
+                                                  value:
+                                                      "Professional photography"),
+                                              FormBuilderFieldOption(
+                                                  value:
+                                                      "Refrigerator install and repair"),
+                                              FormBuilderFieldOption(
+                                                  value: "Sofa cleaning"),
+                                              FormBuilderFieldOption(
+                                                  value: "Spa"),
+                                              FormBuilderFieldOption(
+                                                  value: "Stationary products"),
+                                              FormBuilderFieldOption(
+                                                  value: "Tv"),
+                                              FormBuilderFieldOption(
+                                                  value:
+                                                      "Women's haircut and styling"),
                                             ],
                                             onChanged: (values) {
                                               roleChoices.clear();

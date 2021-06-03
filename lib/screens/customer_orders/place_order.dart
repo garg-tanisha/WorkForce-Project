@@ -39,16 +39,33 @@ class PlaceOrderState extends State {
   String distanceUnit = "km";
   final ratings = ['>=0', '>=1', '>=2', '>=3', '>=4'];
   final _serviceTypes = [
-    'Electrician',
-    'Mechanic',
-    'Carpenter',
-    'Plumber',
-    'Doctor',
-    'Other'
+    "Ac install and repair",
+    "Bakery",
+    "Carpenter",
+    "Carpet cleaning",
+    "Cooking",
+    "Electrician",
+    "Food box delivery",
+    "Household works",
+    "Laundry",
+    "Makeup artist",
+    "Massage for men",
+    "Massage for women",
+    "Mechanic",
+    "Men's haircut and styling",
+    "Plumber",
+    "Printing",
+    "Professional photography",
+    "Refrigerator install and repair",
+    "Sofa cleaning",
+    "Spa",
+    "Stationary products",
+    "Tv",
+    "Women's haircut and styling",
   ];
   final timeFormat = DateFormat("HH:mm");
   final _formKey = GlobalKey<FormState>();
-  String _serviceType = 'Electrician';
+  String _serviceType = 'Ac install and repair';
   List<String> options = [];
   String rating = '>=0';
   String ratingValue = '0';
@@ -272,61 +289,66 @@ class PlaceOrderState extends State {
                       Container(
                         margin: const EdgeInsets.all(10.0),
                         padding: const EdgeInsets.all(2.0),
-                        child: Row(children: [
-                          Icon(
-                            Icons.category_outlined,
-                            color: Colors.blue,
-                            size: 30.0,
-                            semanticLabel: 'Service Type',
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(2.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0)),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(children: [
+                            Icon(
+                              Icons.category_outlined,
+                              color: Colors.blue,
+                              size: 30.0,
+                              semanticLabel: 'Service Type',
                             ),
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 20.0,
-                                        right: 20.0),
-                                    child: Text("Service Type",
-                                        style: TextStyle(fontSize: 16.0)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 0.0,
-                                        bottom: 0.0,
-                                        left: 20.0,
-                                        right: 20.0),
-                                    child: DropdownButton<String>(
-                                      items: _serviceTypes.map((String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      value: _serviceType,
-                                      onChanged: (String value) {
-                                        _onDropDownChanged(value);
-                                      },
+                            Container(
+                              margin: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(2.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0)),
+                              ),
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 0.0,
+                                          bottom: 0.0,
+                                          left: 20.0,
+                                          right: 20.0),
+                                      child: Text("Service Type",
+                                          style: TextStyle(fontSize: 16.0)),
                                     ),
-                                  ),
-                                ]),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 0.0,
+                                          bottom: 0.0,
+                                          left: 20.0,
+                                          right: 20.0),
+                                      child: DropdownButton<String>(
+                                        items:
+                                            _serviceTypes.map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        value: _serviceType,
+                                        onChanged: (String value) {
+                                          _onDropDownChanged(value);
+                                        },
+                                      ),
+                                    ),
+                                  ]),
+                                ),
                               ),
                             ),
-                          ),
-                        ]),
+                          ]),
+                        ),
                       ),
 
                       Padding(
@@ -618,7 +640,8 @@ class PlaceOrderState extends State {
                                   "Upload at least 2 pictures of the device etc."),
                             ),
                             Padding(
-                                padding: EdgeInsets.all(20.0),
+                                padding: EdgeInsets.only(
+                                    left: 15.0, right: 15.0, bottom: 15.0),
                                 child: Column(children: [
                                   RawMaterialButton(
                                     fillColor: Theme.of(context).accentColor,
@@ -744,17 +767,16 @@ class PlaceOrderState extends State {
       print(res.documentID);
       uploadFilesToFirestore(res.documentID).whenComplete(() {
         isLoading = false;
-        // Navigator.pop(context, true);
-        titleController.text = "";
-        //null;
-        priceController.text = "";
-        distanceController.text = "";
-        timeWindowController.text = "";
-        ratingValue = "0";
-        _images = [];
-        timeWindow = DateTime.now();
-        serviceDateTime = DateTime.now();
-        setState(() {});
+        setState(() {
+          titleController.text = "";
+          priceController.text = "";
+          distanceController.text = "";
+          timeWindowController.text = "";
+          ratingValue = "0";
+          rating = ">=0";
+          _images = [];
+          _serviceType = "Ac install and repair";
+        });
         showDialog(
             context: context,
             builder: (BuildContext context) {

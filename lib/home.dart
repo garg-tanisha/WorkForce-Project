@@ -2,7 +2,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutter/material.dart';
 import 'email_signup.dart';
 import 'email_login.dart';
-import 'package:workforce/screens/recommendations/recommendations.dart';
+// import 'package:workforce/screens/recommendations/recommendations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {

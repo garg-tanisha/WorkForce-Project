@@ -281,26 +281,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -311,10 +313,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -324,10 +327,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -669,26 +673,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -699,10 +705,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -712,10 +719,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -1056,26 +1064,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -1086,10 +1096,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -1099,10 +1110,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -1444,26 +1456,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -1474,10 +1488,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -1487,10 +1502,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -1832,26 +1848,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -1862,10 +1880,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -1875,10 +1894,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -2214,26 +2234,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -2244,10 +2266,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -2257,10 +2280,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(
@@ -2615,26 +2639,28 @@ class OrderResponsesState extends State {
                                                   subtitle: RichText(
                                                     text: new TextSpan(
                                                       style: new TextStyle(
-                                                        fontSize: 20.0,
+                                                        fontSize: 18.0,
                                                         color: Colors.black,
                                                       ),
                                                       children: <TextSpan>[
                                                         new TextSpan(
                                                             text: 'Price: ',
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                     "price"]
                                                                 .toString()),
                                                         new TextSpan(
                                                             text: "\nRatings: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["ratings"] !=
                                                                 null
                                                             ? new TextSpan(
@@ -2645,10 +2671,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDistance: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         new TextSpan(
                                                             text: course[
                                                                         "distance"]
@@ -2658,10 +2685,11 @@ class OrderResponsesState extends State {
                                                         new TextSpan(
                                                             text:
                                                                 "\nDescription: ",
-                                                            style: new TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold)),
+                                                            style:
+                                                                new TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                            )),
                                                         course["description"] !=
                                                                 ""
                                                             ? new TextSpan(

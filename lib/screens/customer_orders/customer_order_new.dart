@@ -673,24 +673,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1054,24 +1083,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                  leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1435,24 +1493,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                 leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -1816,24 +1903,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                 leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -2197,24 +2313,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                  leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -2578,24 +2723,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                  leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -2959,24 +3133,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                               leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
@@ -3340,24 +3543,53 @@ class CustomerNewOrdersState extends State {
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: Image.network(
-                                                      course["photos"][0],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
-                                                  trailing: Image.network(
-                                                      course["photos"][1],
-                                                      width: 0.2 *
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width
-                                                              .roundToDouble(),
-                                                      height: 100,
-                                                      fit: BoxFit.fill),
+                                                 leading: course["photos"] !=
+                                                          null
+                                                      ? Image.network(
+                                                          course["photos"][0],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
+                                                  trailing: course["photos"] !=
+                                                              null &&
+                                                          course["photos"]
+                                                                  .length >
+                                                              1
+                                                      ? Image.network(
+                                                          course["photos"][1],
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill)
+                                                      : Image.asset(
+                                                          "images/no_orders.jpg",
+                                                          width: 0.2 *
+                                                              MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width
+                                                                  .roundToDouble(),
+                                                          height: 100,
+                                                          fit: BoxFit.fill),
                                                 ),
                                                 SingleChildScrollView(
                                                   scrollDirection:
