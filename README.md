@@ -21,9 +21,7 @@ Some of the features added are:
 ## Demo
 
 ### Customer
-
-https://user-images.githubusercontent.com/47742244/124347377-111b9e00-dc02-11eb-8ca5-84dbe4fe95ed.mp4
+https://drive.google.com/file/d/1g420zijRxQcyVKykC_C2D8zJsEktKdJR/view?usp=sharing
 
 ### Service Provider
-
-https://user-images.githubusercontent.com/47742244/124347788-0104be00-dc04-11eb-8e47-736c6e3ac363.mp4
+https://drive.google.com/file/d/1ub99lNPx6O3J-QIA7d_S3pRov-uHPf-B/view?usp=sharing
