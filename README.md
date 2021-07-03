@@ -24,5 +24,9 @@ Some of the features added are:
 ### Customer
 https://drive.google.com/file/d/1g420zijRxQcyVKykC_C2D8zJsEktKdJR/view?usp=sharing
 
+https://user-images.githubusercontent.com/47742244/124351427-d886bf00-dc17-11eb-8475-a5c4ca892c5c.mp4
+
 ### Service Provider
 https://drive.google.com/file/d/1ub99lNPx6O3J-QIA7d_S3pRov-uHPf-B/view?usp=sharing
+
+https://user-images.githubusercontent.com/47742244/124351422-d290de00-dc17-11eb-9879-224e0cfab341.mp4
