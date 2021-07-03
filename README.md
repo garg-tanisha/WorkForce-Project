@@ -4,7 +4,10 @@ A Flutter project.
 
 ## Introduction
 
-A system is needed to be developed in which the customers that are in need for certain types of services (be it electronics related or electricity related and many more) can get it in a single place, that too as per their needs. Also, the people who will provide the services sometimes can offer more than one service, such a feature in the system will also help the service providers to provide all the services (as per preference of service provider) through a single system. Like this people will have the system available with them at their fingertips and they can request for service or provide service all through the single system.
+A system is required in which the customers that are in need for certain  types of services can get it in a single place, that too as per their needs.  Also, the people who will provide the services sometimes can offer more  than one service; such a feature in the system will also help the service  providers to provide all the services through a single system. Like this  people will have the system available with them at their fingertips and they  can request for service or provide service all through the single system. 
+The objective of this project is to build an application which is based on a  two roles system i.e. customer and service providers. Customers, who will  be in need of certain types of services (e.g. electronics related etc.) can get  through the single application that too as per their needs. Service providers  who will provide one or more services to the customer along with all the  interactions and formalities happening in the single application. 
+Person can choose to be either a customer or service provider or both.  Customers can place orders for the different services with the deadline and  with the minimum price they can afford to pay, can choose from all the  responses of the service providers and can give ratings to the service 
+providers. Service Providers can choose if they will work for the customer  within his/her budget, or can negotiate with the customer after putting  forward the price they can afford and can give ratings to the customers.
 
 ## Overview
 Created an application working in a two role system. Also, users can request or provide service all through this single system. Two role system includes :
