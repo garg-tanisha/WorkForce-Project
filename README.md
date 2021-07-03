@@ -8,15 +8,15 @@ A system is needed to be developed in which the customers that are in need for c
 
 ## Overview
 Created an application working in a two role system. Also, users can request or provide service all through this single system. Two role system includes :
-  a. The customers can get services as per their needs
-  b. The service providers can offer the service as per their preference
-  
+- The customers can get services as per their needs
+- The service providers can offer the service as per their preference
+ 
 ## Features  
 Some of the features added are:
-  a. negotiation of price, ratings, distance for customers and service providers
-  b. google maps functionality for location tracking,
-  c. reCAPTCHA check to verify if person is robot
-  d. interactive UI for making it user friendly
+- negotiation of price, ratings, distance for customers and service providers
+- google maps functionality for location tracking,
+- reCAPTCHA check to verify if person is robot
+- interactive UI for making it user friendly
 
 ## Demo
 
