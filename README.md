@@ -1,7 +1,5 @@
 # WorkForce
 
-A Flutter project.
-
 ## Introduction
 
 A system is required in which the customers that are in need for certain  types of services can get it in a single place, that too as per their needs.  Also, the people who will provide the services sometimes can offer more  than one service; such a feature in the system will also help the service  providers to provide all the services through a single system. Like this  people will have the system available with them at their fingertips and they  can request for service or provide service all through the single system. 
